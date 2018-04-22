@@ -1,0 +1,8 @@
+Resources[
+    Version[1],
+    ExecutionBuildCommand["<<Utilities`"],
+    Paclet[
+        PacletFolder["Utilities"],
+        FunctionPaclet[False]
+    ]
+]
