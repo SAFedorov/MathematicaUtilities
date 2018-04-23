@@ -1,7 +1,7 @@
 (* ::Package:: *)
 (* ::Section::Closed:: *)
 (*Begin package*)
-BeginPackage["Utilities`Compatibility"]
+BeginPackage["Utilities`Compatibility`"]
 
 (* ::Section::Closed:: *)
 (*Old versions log*)

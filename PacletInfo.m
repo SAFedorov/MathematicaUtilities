@@ -4,7 +4,7 @@
 
 Paclet[
     Name -> "Utilities",
-    Version -> "0.0.1",
+    Version -> "3.0.1",
     MathematicaVersion -> "6+",
     Creator -> "S. A. Fedorov",
     Extensions -> 

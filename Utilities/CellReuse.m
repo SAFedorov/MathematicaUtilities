@@ -1,7 +1,7 @@
 (* ::Package:: *)
 (* ::Section::Closed:: *)
 (*Begin package*)
-BeginPackage["Utilities`CellReuse"]
+BeginPackage["Utilities`CellReuse`"]
 
 
 (* ::Section:: *)

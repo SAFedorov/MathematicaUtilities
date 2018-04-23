@@ -1,7 +1,7 @@
 (* ::Package:: *)
 (* ::Section::Closed:: *)
 (*Begin package*)
-BeginPackage["Utilities`Fourier"]
+BeginPackage["Utilities`Fourier`"]
 
 
 (* ::Section:: *)

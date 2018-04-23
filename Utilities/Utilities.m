@@ -12,7 +12,7 @@
 (*BeginPackage[], set directory and list data directories, import other packages*)
 
 
-BeginPackage["Utilities`"]
+BeginPackage["Utilities`",{"Utilities`DataAnalysis`","Utilities`Fourier`"}]
 
 (* adds current notebook path to mathematica $PATH, if not already present *)
 (* in general, this should be executed once from a notebook, from inside the directory that

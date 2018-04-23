@@ -1,7 +1,7 @@
 (* ::Package:: *)
 (* ::Section::Closed:: *)
 (*Begin package*)
-BeginPackage["Utilities`Plotting"]
+BeginPackage["Utilities`Plotting`"]
 
 
 (* ::Section:: *)

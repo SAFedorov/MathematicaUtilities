@@ -1,7 +1,7 @@
 (* ::Package:: *)
 (* ::Section::Closed:: *)
 (*Begin package*)
-BeginPackage["Utilities`DataAnalysis"]
+BeginPackage["Utilities`DataAnalysis`"]
 
 
 (* ::Section:: *)
