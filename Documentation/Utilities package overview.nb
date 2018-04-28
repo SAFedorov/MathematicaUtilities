@@ -1,0 +1,183 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      5824,        175]
+NotebookOptionsPosition[      5473,        158]
+NotebookOutlinePosition[      5816,        173]
+CellTagsIndexPosition[      5773,        170]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "Naming conventions:\n\n- Function names start from capital letters and \
+named CamelCase\n- Variable names start with small letters and named \
+camelCase \n- xylist is a list of the form ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"{", 
+    RowBox[{"{", 
+     SubscriptBox["x", "1"]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["y", "1"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "}, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"{", 
+    SubscriptBox["x", "2"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["y", "2"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "}, ..., ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"{", 
+    SubscriptBox["x", "n"]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["y", "n"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "}}\n- xylistdm is a m-dimensional list of {x, y} pairs. Correspondingly, \
+xylistd1 is the same as just xylist "
+}], "Text",
+ CellChangeTimes->{{3.733919337386199*^9, 3.7339194994782133`*^9}, {
+  3.733919540016696*^9, 3.7339196211517096`*^9}, {3.7339196538484263`*^9, 
+  3.733919662552335*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Old versions log", "Section"],
+
+Cell["\<\
+1.3: 
+\t1. added function YNormalize[]
+\t2. added options XOffset and YOffsed added to  YScale[]
+\t3. added finction InRangeQ[]
+\t
+1.4: 
+\t1. Fourier Transform section is included
+\t2. FitRangeSelector[] function is added
+\t3. FitQualityCheck[] function added
+\t4. FringesFit[] function added
+1.5:
+\t1. FindFitSeries[] added
+\t2. LogPlot[] option is added to FitRangeSelector and FitQualityCheck
+\t3. YScale[] option YSHift is modified to be able to work with lists of \
+traces (intended application: individual non-constant backgrounds)
+\t4. In ReEvaluateCells[] function an option to print the command text is \
+added (PrintCommands->True).
+\t5. Average[] function is added
+\t6. _PlotJ functions are modified to properly treat user-defined PlotStyle
+\t7. OneFromTwoSidedSpectrum[] function is added to Fourier section
+1.6:
+\t1. Fourier transform section is modified. 
+\t\t1.1 \[Nu],\[Omega]FourierD2 now return complex fourier transform, not \
+modulus squared.
+\t\t1.2 Corresponding changes in \[Nu],\[Omega]FourierD and \
+\[Nu],\[Omega]Fourier
+\t2. AreaTable[] is modified to use InRangeQ[] 
+1.7:
+\t1. ReEvaluateCells[] is changed to only print text by default without \
+evaluating it
+\t2. In ReEvaluateCells[] the option PrintCommands is renamed to Print \
+Expression.
+\t3. In ReEvaluateCells[] the option EvaluateExpressions is added
+\t4. XYPeakDetectp[] function is added
+\t5. In the Fourier transform section SymmetrizeSpectrum[] function is added
+\t6. Interval Operations section is created (copied from \
+http://mathematica.stackexchange.com/questions/11345/can-mathematica-handle-\t\
+open-intervals-interval-complements).
+\t\t6.1 IntervalInverse[] function added
+\t\t6.2 IntervalComplement[] function added
+\t7. Function FindPeakCenter[] is added
+\t8. Function DefaultHeaderPrint[] is added
+\t9. SweepPlot function family is added
+\t10. FindLogFit[] function is added
+\t11. ListNIntegrate[] function is added
+\t12. FunctionQ[] is added
+\t13. NumericVecorQ[] and NumericArrayQ functions are added
+1.8:
+\t1. XYPeakDetect[] is replaced with XYFIndPeak[]
+\t2. XReflect[] function is added
+\t3. Added color lists
+\t4. Color definitions are excluded from the DefaultHeaderPring[] 
+\t5. In YScale[] the argument a is made optional
+\t6. AreaTable[] is replaced with XYArea
+\t7. GaussianAverage[] function is added
+1.9:
+\t1. Function PlotGrid[] is copypasted
+2.0:
+\t1. Transition to package form
+\t2. Naming convention change: xylist introduced
+\t3. CellReuseSequencePrint[] is introduced
+\t4. LoadDataSeries[] is updated to be able to handle names name patters with \
+several variables 
+\t5. GenerateGridLines[] is introduced
+2.1:
+\t1. A  number of functions is adopted from the Vivishek Sudhir's He3Analysis \
+package, including
+\tMapX,XY,Z
+\t2. XYListQ[] and XYZListQ[] function introduced to differentiate between 2D \
+and 3D datasets
+3.0: 
+\t1. ListOfXYListsQ[] introduced
+\t2. ScaleY is introduced as a replacement to the YScale, slightly different \
+in behavior and implementation
+\t3. \[Nu]FourierXY introduced to replace \[Nu]FourierD
+\t4. \"Old\" subsection is introduce to store the replaced functions for \
+compatibility
+\t5. Naming for an umber of functions changed. Old definitions are kept for \
+compatibility.
+\t6. LoadSpeParameters[] function is introduced
+\t7. FitRangeSelector[] is cleaned up and re-introduced
+\t8. TFromAreaList[] is introduced in the Heating processing section
+\t9. Section Experiment-specific functions is introduced
+\t10. GetAsymmetrySpectrum[] function is introduced
+
+log last modified: 2017, Sergey Fedorov\
+\>", "Text"]
+}, Closed]]
+},
+WindowSize->{775, 657},
+WindowMargins->{{102, Automatic}, {47, Automatic}},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1263, 42, 125, "Text"],
+Cell[CellGroupData[{
+Cell[1846, 66, 35, 0, 70, "Section"],
+Cell[1884, 68, 3573, 87, 1474, "Text"]
+}, Closed]]
+}
+]
+*)
+
