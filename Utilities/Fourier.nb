@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     18165,        481]
-NotebookOptionsPosition[     17750,        463]
-NotebookOutlinePosition[     18126,        479]
-CellTagsIndexPosition[     18083,        476]
+NotebookDataLength[     19220,        496]
+NotebookOptionsPosition[     18805,        478]
+NotebookOutlinePosition[     19181,        494]
+CellTagsIndexPosition[     19138,        491]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -50,8 +50,12 @@ UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \(n - \
 the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, (n-1)/2]\n\tIn the \
 case of odd n the spectrum contains equal number of positive and negative \
 frequency components, \n\tin the case of even n there is n/2 positive \
-frequency components and n/2-1 negative frequency components\>\""}], 
-  "\n"}], "\n", 
+frequency components and n/2-1 negative frequency components\n\n\tIf applied \
+to a function of one variable f[x_] on the interval \
+[\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)], \
+the function is disretized first with the step \
+dx\[TildeTilde]\!\(\*FractionBox[\(2\), SubscriptBox[\(\[Nu]\), \(max\)]]\)\>\
+\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"\[Nu]FourierXY", "[", 
@@ -206,11 +210,17 @@ frequency components and n/2-1 negative frequency components\>\""}],
       RowBox[{"\[Nu]FourierXY", "[", "xylist", "]"}]}]}], "\n", "]"}]}], 
   "\n"}], "\n", 
  RowBox[{
+  RowBox[{
+   RowBox[{"\[Omega]FourierXY", "::", "usage"}], " ", "=", " ", 
+   "\"\<\[Omega]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\n\
+\tAnalog of \[Nu]FourierXY that returns result with the x-axis in angular \
+frequency units \[Omega]=2\[Pi]\[Times]\[Nu]\>\""}], "\n"}], "\n", 
+ RowBox[{
   RowBox[{"\[Omega]FourierXY", "[", "args__", "]"}], ":=", 
   RowBox[{"ScaleY", "[", 
    RowBox[{
     RowBox[{"\[Nu]FourierXY", "[", "args", "]"}], ",", 
-    RowBox[{"ScaleX", "->", 
+    RowBox[{"ScaleX", "\[Rule]", 
      RowBox[{"2", "\[Pi]"}]}]}], "]"}]}]}], "Code",
  CellChangeTimes->{{3.733913592978373*^9, 3.7339136833471007`*^9}, {
    3.7339139030908623`*^9, 3.733913936961627*^9}, 3.733914384355116*^9, 
@@ -218,7 +228,8 @@ frequency components and n/2-1 negative frequency components\>\""}],
    3.7339148118694167`*^9, 3.7339148131561337`*^9}, {3.7339148433202333`*^9, 
    3.7339148642400713`*^9}, {3.733914922200014*^9, 3.7339149277377777`*^9}, {
    3.733914970174095*^9, 3.733914986249914*^9}, {3.7339150513002996`*^9, 
-   3.7339150531464453`*^9}, 3.733915193037817*^9}],
+   3.7339150531464453`*^9}, 3.733915193037817*^9, {3.7339170428570504`*^9, 
+   3.7339172557098246`*^9}, {3.733917302151745*^9, 3.7339173353175926`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -236,7 +247,9 @@ input {{-\!\(\*SubscriptBox[\(\[Nu]\), \
 \!\(\*SubscriptBox[\(f\), \(0\)]\)'=\!\(\*SubscriptBox[\(f\), \(0\)]\), \
 \!\(\*SubscriptBox[\(f\), \(n\)]\)'=2\!\(\*SubscriptBox[\(f\), \(n\)]\) \n\t\
 Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\
-\[Nu]\), \(n\)]\).\n\n\tOptions:\n\t\[Epsilon]Zero->10^-5\>\""}], 
+\[Nu]\), \(n\)]\).\n\nOptions:\n\t\
+\[Epsilon]Zero\[Rule]\!\(\*SuperscriptBox[\(10\), \(-5\)]\) \[Dash] small \
+number, characterizing the acceptable deviation from zero frequency\>\""}], 
   "\n"}], "\n", 
  RowBox[{
   RowBox[{"OneFromTwoSidedSpectrum", "[", 
@@ -324,14 +337,13 @@ Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\
    3.733913719352153*^9, 3.7339137898289366`*^9}, {3.7339138997675548`*^9, 
    3.733913943354235*^9}, 3.733914381338974*^9, {3.733914551988661*^9, 
    3.733914552915612*^9}, 3.733914671422436*^9, {3.7339151671405983`*^9, 
-   3.7339151826998844`*^9}}],
+   3.7339151826998844`*^9}, {3.7339174019425135`*^9, 3.733917449710492*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{
-    RowBox[{"SymmetrizeSpectrum", "::", "usage"}], " ", "=", " ", 
-    "\"\<SymmetrizeSpectrum[sp_]\n\tConvert a two-sided spectrum at the input \
+   RowBox[{"SymmetrizeSpectrum", "::", "usage"}], " ", "=", " ", 
+   "\"\<SymmetrizeSpectrum[sp_]\n\tConvert a two-sided spectrum at the input \
 {{-\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\),\!\(\*SubscriptBox[\(f\), \
 \(-n\)]\)},{-\!\(\*SubscriptBox[\(\[Nu]\), \
 \(n\)]\)+d\[Nu],\!\(\*SubscriptBox[\(f\), \(-n\)]\)},...,{\!\(\*SubscriptBox[\
@@ -346,7 +358,9 @@ to two-sided symmetrized spectrum {{-\!\(\*SubscriptBox[\(\[Nu]\), \
 \!\(\*SubscriptBox[\(f\), \(n\)]\)'=(\!\(\*SubscriptBox[\(f\), \
 \(n\)]\)+\!\(\*SubscriptBox[\(f\), \(-n\)]\))/2\[IndentingNewLine]\tWorks \
 only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\[Nu]\), \
-\(n\)]\)\>\""}], ";"}], "\n"}], "\n", 
+\(n\)]\)\n\nOptions:\n\t\[Epsilon]Zero\[Rule]\!\(\*SuperscriptBox[\(10\), \
+\(-5\)]\) \[Dash] small number, characterizing the acceptable deviation from \
+zero frequency\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"SymmetrizeSpectrum", "[", 
    RowBox[{"sp_", ",", 
@@ -459,7 +473,8 @@ only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\[Nu]\), \
  CellChangeTimes->{{3.7339135084590797`*^9, 3.733913510836813*^9}, {
    3.7339135720229387`*^9, 3.7339135744622993`*^9}, {3.7339138115648518`*^9, 
    3.73391384159404*^9}, {3.7339138977721395`*^9, 3.7339139505469384`*^9}, 
-   3.733914378523381*^9, {3.7339145145654554`*^9, 3.733914523032524*^9}}]
+   3.733914378523381*^9, {3.7339145145654554`*^9, 3.733914523032524*^9}, {
+   3.733917468855554*^9, 3.7339174782080326`*^9}}]
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1282, 657},
@@ -480,9 +495,9 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 618, 15, 50, "Input",
  CellID->484687852],
-Cell[1179, 37, 7127, 183, 569, "Code"],
-Cell[8309, 222, 4092, 104, 357, "Code"],
-Cell[12404, 328, 5342, 133, 340, "Code"]
+Cell[1179, 37, 7820, 194, 679, "Code"],
+Cell[9002, 233, 4262, 106, 358, "Code"],
+Cell[13267, 341, 5534, 135, 395, "Code"]
 }
 ]
 *)
