@@ -1,0 +1,601 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     23033,        593]
+NotebookOptionsPosition[     20716,        512]
+NotebookOutlinePosition[     21692,        545]
+CellTagsIndexPosition[     21476,        537]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"<<", "\"\<Packages\\\\Fourier.m\>\""}], ";"}]], "Input",
+ CellChangeTimes->{{3.733907665459097*^9, 3.7339076723001704`*^9}, 
+   3.7339077098945923`*^9, {3.733914062184119*^9, 3.7339140786566057`*^9}, {
+   3.733914177291089*^9, 3.7339141774894347`*^9}, {3.7339142087018003`*^9, 
+   3.733914236753543*^9}, {3.733914301624716*^9, 3.7339143185693035`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.733907678443141*^9, 3.7339076946683526`*^9}}],
+
+Cell[BoxData["\<\"D:\\\\Sergey\\\\Git\\\\MathematicaUtilities\"\>"], "Output",
+ CellChangeTimes->{
+  3.733907695287506*^9, 3.7339079612693667`*^9, 3.7339088643249826`*^9, 
+   3.7339089381817675`*^9, {3.733909314203533*^9, 3.7339093400586596`*^9}, 
+   3.733914081957839*^9, 3.733914174313229*^9, {3.733914232514022*^9, 
+   3.73391425931927*^9}, 3.7339143091470723`*^9, 3.733914436929098*^9, 
+   3.7339144685349464`*^9, 3.7339145321796446`*^9, 3.7339146068726373`*^9, 
+   3.73391495366675*^9, 3.7339149982957754`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["String"], "Input",
+ CellChangeTimes->{{3.7339141923220186`*^9, 3.7339142008636084`*^9}, {
+  3.7339148853207464`*^9, 3.73391488628759*^9}}],
+
+Cell[BoxData["String"], "Output",
+ CellChangeTimes->{3.7339149992001176`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "OneFromTwoSidedSpectrum"}]], "Input",
+ CellChangeTimes->{{3.733907712791645*^9, 3.733907725160138*^9}, {
+   3.733909082063069*^9, 3.733909083707755*^9}, {3.733909270353839*^9, 
+   3.7339092734840603`*^9}, 3.733909324320139*^9, {3.733909557407493*^9, 
+   3.733909559937211*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"OneFromTwoSidedSpectrum[sp_]\\n\tConvert a two-sided spectrum \
+at the input {{-\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubsuperscriptBox[\(f\), \(n\), \
+\(*\)]\)},{-\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\)+d\[Nu],\!\(\*SubsuperscriptBox[\(f\), \(n\), \
+\(*\)]\)},...,{\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubscriptBox[\(f\), \(n\)]\)}} to one-sided spectrum \
+{{0,\!\(\*SubscriptBox[\(f\), \(0\)]\)'},...,{\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubscriptBox[\(f\), \(n\)]\)'}}, where \
+\!\(\*SubscriptBox[\(f\), \(0\)]\)'=\!\(\*SubscriptBox[\(f\), \(0\)]\), \
+\!\(\*SubscriptBox[\(f\), \(n\)]\)'=2\!\(\*SubscriptBox[\(f\), \(n\)]\) \\n\t\
+Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\
+\[Nu]\), \(n\)]\).\\n\\n\tOptions:\\n\t\[Epsilon]Zero->10^-5\"\>", 
+  "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.733915201954771*^9},
+ CellTags->"Info183733922401-9508045"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[Nu]FourierXY", "::", "usage"}]], "Input",
+ CellChangeTimes->{{3.7339141092174053`*^9, 3.7339141146812515`*^9}, {
+  3.733915016277495*^9, 3.733915029316141*^9}}],
+
+Cell[BoxData["\<\"\[Nu]FourierXY[xylist_], \
+\[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\\n\\tCompute in numerical \
+approximation of the Fourier transform in linear units \
+y[\[Nu]]=1/Sqrt[L]\\!\\(\\*SubsuperscriptBox[\\(\[Integral]\\), SubscriptBox[\
+\\(x\\), \\(0\\)], \\(\\*SubscriptBox[\\(x\\), \\(0\\)] + L\\)]\\)y(x)Exp[\
+\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=dx/Sqrt[L]\\!\\(\\*\
+UnderoverscriptBox[\\(\[Sum]\\), \\(r = 1\\), \\(n - \
+1\\)]\\)y(\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\))Exp[\[ImaginaryI](2\[Pi]\
+\[Nu])\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\)]\\n\\tFrequency is defined \
+in linear units on the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, \
+(n-1)/2]\\n\\tIn the case of odd n the spectrum contains equal number of \
+positive and negative frequency components, \\n\\tin the case of even n there \
+is n/2 positive frequency components and n/2-1 negative frequency \
+components\"\>"], "Output",
+ CellChangeTimes->{3.733915030538727*^9, 3.733915424866728*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[Nu]FourierXY", "::", "usage"}]], "Input"],
+
+Cell[BoxData["\<\"\[Nu]FourierXY[xylist_], \
+\[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\\n\\tCompute in numerical \
+approximation of the Fourier transform in linear units \
+y[\[Nu]]=1/Sqrt[L]\\!\\(\\*SubsuperscriptBox[\\(\[Integral]\\), SubscriptBox[\
+\\(x\\), \\(0\\)], \\(\\*SubscriptBox[\\(x\\), \\(0\\)] + L\\)]\\)y(x)Exp[\
+\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=dx/Sqrt[L]\\!\\(\\*\
+UnderoverscriptBox[\\(\[Sum]\\), \\(r = 1\\), \\(n - \
+1\\)]\\)y(\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\))Exp[\[ImaginaryI](2\[Pi]\
+\[Nu])\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\)]\\n\\tFrequency is defined \
+in linear units on the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, \
+(n-1)/2]\\n\\tIn the case of odd n the spectrum contains equal number of \
+positive and negative frequency components, \\n\\tin the case of even n there \
+is n/2 positive frequency components and n/2-1 negative frequency \
+components\"\>"], "Output",
+ CellChangeTimes->{3.7339150661932116`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Help", "[", "OneFromTwoSidedSpectrum", "]"}]], "Input",
+ CellChangeTimes->{{3.733909566751294*^9, 3.7339095721704245`*^9}}],
+
+Cell[BoxData[
+ TagBox["\<\"OneFromTwoSidedSpectrum[sp_,OptionsPattern[\[Epsilon]Zero->10^-5]\
+]\\n\\tFunction converts a two-sided spectrum at the input \
+{{-\\!\\(\\*SubscriptBox[\\(\[Nu]\\), \\(n\\)]\\),\\!\\(\\*SubsuperscriptBox[\
+\\(f\\), \\(n\\), \\(*\\)]\\)},{-Subscript[\[Nu], n]+d\[Nu],Subsuperscript[f, \
+n, *]},...,{Subscript[\[Nu], n],Subscript[f, n]}};\\n\\tto one-sided spectrum \
+{{0,Subscript[f, 0]'},...,{Subscript[\[Nu], n],Subscript[f, n]'}}, where \
+Subscript[f, 0]'=Subscript[f, 0], Subscript[f, n]'=2Subscript[f, \
+n];\\n\\tWorks only with uniformly-spaced frequency components \
+Subscript[\[Nu], n].]\"\>",
+  DisplayForm]], "Output",
+ CellChangeTimes->{3.7339095732091494`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "\[Nu]FourierXY"}]], "Input"],
+
+Cell[BoxData[
+ StyleBox["\<\"\[Nu]FourierXY[xylist_], \
+\[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\\n\tCompute in numerical \
+approximation of the Fourier transform in linear units y[\[Nu]]=1/Sqrt[L]\!\(\
+\*SubsuperscriptBox[\(\[Integral]\), SubscriptBox[\(x\), \(0\)], \
+\(\*SubscriptBox[\(x\), \(0\)] + L\)]\)y(x)Exp[\[ImaginaryI](2\[Pi]\[Nu])x]\
+\[DifferentialD]x=dx/Sqrt[L]\!\(\*UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \
+\(n - 1\)]\)y(\!\(\*SubscriptBox[\(x\), \
+\(r\)]\))Exp[\[ImaginaryI](2\[Pi]\[Nu])\!\(\*SubscriptBox[\(x\), \(r\)]\)]\\n\
+\tFrequency is defined in linear units on the two-sided interval \[Nu]=s/dx, \
+s\[Element][-(n-1)/2, (n-1)/2]\\n\tIn the case of odd n the spectrum contains \
+equal number of positive and negative frequency components, \\n\tin the case \
+of even n there is n/2 positive frequency components and n/2-1 negative \
+frequency components\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.7339152134028053`*^9},
+ CellTags->"Info193733922413-9508045"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Remove", "[", "\[Nu]FourierXY", "]"}]], "Input",
+ CellChangeTimes->{{3.7339090485925407`*^9, 3.733909056670024*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Help", "[", "\[Nu]FourierXY", "]"}]], "Input",
+ CellChangeTimes->{{3.733908873175887*^9, 3.733908889847371*^9}, {
+   3.7339090112865424`*^9, 3.7339090355649877`*^9}, {3.733909074931529*^9, 
+   3.7339090755155544`*^9}, 3.7339092828454723`*^9}],
+
+Cell[BoxData[
+ TagBox["\<\"computes in numerical approximation of the Fourier transform in \
+linear units y[\[Nu]]=1/Sqrt[L]\\!\\(\\*SubsuperscriptBox[\\(\[Integral]\\), \
+SubscriptBox[\\(x\\), \\(0\\)], \\(\\*SubscriptBox[\\(x\\), \\(0\\)] + \
+L\\)]\\)y(x)Exp[\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=dx/Sqrt[L]\\!\\(\
+\\*UnderoverscriptBox[\\(\[Sum]\\), \\(r = 1\\), \\(n - \
+1\\)]\\)y(\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\))Exp[\[ImaginaryI](2\[Pi]\
+\[Nu])\\!\\(\\*SubscriptBox[\\(x\\), \\(r\\)]\\)];\\nFrequency is defined in \
+linear units on the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, \
+(n-1)/2];\\nIn the case of odd n the spectrum contains equal number of \
+positive and negative frequency components, in the case of even n there is \
+n/2 positive \"\>",
+  DisplayForm]], "Output",
+ CellChangeTimes->{
+  3.7339088913156805`*^9, {3.733908959319231*^9, 3.7339089609412146`*^9}, {
+   3.733909015845046*^9, 3.733909036112093*^9}, 3.733909077992638*^9, 
+   3.733909283419918*^9, 3.7339093433574724`*^9}]
+}, Open  ]],
+
+Cell[BoxData["Begin"], "Input",
+ CellChangeTimes->{{3.7339077601642694`*^9, 3.7339077610690584`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "OneFromTwoSidedSpectrum"}]], "Input",
+ CellChangeTimes->{{3.7339081137863636`*^9, 3.733908122909477*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"OneFromTwoSidedSpectrum[sp_]\\n\tConvert a two-sided spectrum \
+at the input {{-\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubsuperscriptBox[\(f\), \(n\), \
+\(*\)]\)},{-\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\)+d\[Nu],\!\(\*SubsuperscriptBox[\(f\), \(n\), \
+\(*\)]\)},...,{\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubscriptBox[\(f\), \(n\)]\)}} to one-sided spectrum \
+{{0,\!\(\*SubscriptBox[\(f\), \(0\)]\)'},...,{\!\(\*SubscriptBox[\(\[Nu]\), \
+\(n\)]\),\!\(\*SubscriptBox[\(f\), \(n\)]\)'}}, where \
+\!\(\*SubscriptBox[\(f\), \(0\)]\)'=\!\(\*SubscriptBox[\(f\), \(0\)]\), \
+\!\(\*SubscriptBox[\(f\), \(n\)]\)'=2\!\(\*SubscriptBox[\(f\), \(n\)]\) \\n\t\
+Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\
+\[Nu]\), \(n\)]\).\\n\\n\tOptions:\\n\t\[Epsilon]Zero->10^-5\"\>", 
+  "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.7339152161840324`*^9},
+ CellTags->"Info203733922416-9508045"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "Fourier`Private`*"}]], "Input",
+ CellChangeTimes->{{3.7339077746326675`*^9, 3.7339077975023813`*^9}, {
+  3.7339079779664745`*^9, 3.733908024496127*^9}}],
+
+Cell[BoxData[
+ DynamicModuleBox[{Typeset`open$$ = True}, 
+  PaneSelectorBox[{False->
+   RowBox[{
+    OpenerBox[Dynamic[Typeset`open$$],
+     ImageSize->Small], 
+    StyleBox["Fourier`Private`", "InfoHeading"]}], True->GridBox[{
+     {
+      RowBox[{
+       OpenerBox[Dynamic[Typeset`open$$],
+        ImageSize->Small], 
+       StyleBox["Fourier`Private`", "InfoHeading"]}]},
+     {GridBox[{
+        {
+         ButtonBox["args",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"args", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ftyList",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"ftyList", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["L",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"L", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["n$",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"n$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["tmpSp",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"tmpSp", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["xylist$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"xylist$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Epsilon]Zero",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Epsilon]Zero", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Nu]max",
+          BaseStyle->"InformationLink",
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Nu]max", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"]},
+        {
+         ButtonBox["dx",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"dx", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ftyList$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"ftyList$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["l$",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"l$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ret",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"ret", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["tmpSp$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"tmpSp$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["zero\[Nu]Element",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {
+            "zero\[Nu]Element", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Epsilon]$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Epsilon]$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], ""},
+        {
+         ButtonBox["dx$",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"dx$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["FunctionQ",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"FunctionQ", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["L$",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"L$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ret$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"ret$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["xmax",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"xmax", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["zero\[Nu]ElementI",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {
+            "zero\[Nu]ElementI", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Nu]0",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Nu]0", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], ""},
+        {
+         ButtonBox["d\[Nu]",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"d\[Nu]", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["i",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"i", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["n",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"n", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ScaleX",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"ScaleX", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["xmin",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"xmin", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["zero\[Nu]ElementI$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {
+            "zero\[Nu]ElementI$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Nu]0$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Nu]0$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], ""},
+        {
+         ButtonBox["d\[Nu]$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"d\[Nu]$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["k",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"k", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["nOS",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"nOS", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["ScaleY",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"ScaleY", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["xylist",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"xylist", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["zero\[Nu]Element$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {
+            "zero\[Nu]Element$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Nu]List",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Nu]List", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], ""},
+        {
+         ButtonBox["f",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"f", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["l",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"l", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["nOS$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"nOS$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["sp",
+          BaseStyle->"InformationLink",
+          ButtonData:>{"Info93733915225-8627039", {"sp", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["XYListQ",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"XYListQ", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Epsilon]",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Epsilon]", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], 
+         ButtonBox["\[Nu]List$",
+          BaseStyle->"InformationLink",
+          
+          ButtonData:>{
+           "Info93733915225-8627039", {"\[Nu]List$", "Fourier`Private`"}},
+          ButtonNote->"Fourier`Private`"], ""}
+       },
+       DefaultBaseStyle->"InfoGrid",
+       GridBoxItemSize->{"Columns" -> {{
+            Scaled[0.11875]}}}]}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}}]}, 
+   Dynamic[Typeset`open$$],
+   ImageSize->Automatic]]], "Print", "InfoCell",
+ CellChangeTimes->{3.7339080250473127`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "Global`Private`xmax"}]], "Input",
+ CellChangeTimes->{{3.733907816074123*^9, 3.7339078325384665`*^9}}],
+
+Cell["Global`Private`xmax", "Print", "PrintUsage",
+ CellChangeTimes->{3.7339078331164246`*^9},
+ CellTags->"Info353733915033-9256295"]
+}, Open  ]]
+},
+WindowSize->{1344, 658},
+WindowMargins->{{Automatic, -7}, {-17, Automatic}},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info183733922401-9508045"->{
+  Cell[2275, 64, 953, 16, 129, "Print",
+   CellTags->"Info183733922401-9508045"]},
+ "Info193733922413-9508045"->{
+  Cell[6518, 154, 999, 15, 142, "Print",
+   CellTags->"Info193733922413-9508045"]},
+ "Info203733922416-9508045"->{
+  Cell[9273, 212, 955, 16, 129, "Print",
+   CellTags->"Info203733922416-9508045"]},
+ "Info353733915033-9256295"->{
+  Cell[20567, 507, 133, 2, 41, "Print",
+   CellTags->"Info353733915033-9256295"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info183733922401-9508045", 21026, 522},
+ {"Info193733922413-9508045", 21140, 525},
+ {"Info203733922416-9508045", 21255, 528},
+ {"Info353733915033-9256295", 21370, 531}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 387, 6, 30, "Input"],
+Cell[CellGroupData[{
+Cell[970, 30, 172, 3, 30, "Input"],
+Cell[1145, 35, 515, 7, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1697, 47, 152, 2, 30, "Input"],
+Cell[1852, 51, 77, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1966, 57, 306, 5, 30, "Input"],
+Cell[2275, 64, 953, 16, 129, "Print",
+ CellTags->"Info183733922401-9508045"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3265, 85, 186, 3, 30, "Input"],
+Cell[3454, 90, 997, 14, 139, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4488, 109, 67, 1, 30, "Input"],
+Cell[4558, 112, 977, 14, 139, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5572, 131, 147, 2, 30, "Input"],
+Cell[5722, 135, 699, 11, 88, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6458, 151, 57, 1, 30, "Input"],
+Cell[6518, 154, 999, 15, 142, "Print",
+ CellTags->"Info193733922413-9508045"]
+}, Open  ]],
+Cell[7532, 172, 140, 2, 30, "Input"],
+Cell[CellGroupData[{
+Cell[7697, 178, 266, 4, 30, "Input"],
+Cell[7966, 184, 1029, 16, 99, "Output"]
+}, Open  ]],
+Cell[9010, 203, 101, 1, 30, "Input"],
+Cell[CellGroupData[{
+Cell[9136, 208, 134, 2, 30, "Input"],
+Cell[9273, 212, 955, 16, 129, "Print",
+ CellTags->"Info203733922416-9508045"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10265, 233, 181, 3, 30, "Input"],
+Cell[10449, 238, 9948, 260, 171, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20434, 503, 130, 2, 30, "Input"],
+Cell[20567, 507, 133, 2, 41, "Print",
+ CellTags->"Info353733915033-9256295"]
+}, Open  ]]
+}
+]
+*)
+
