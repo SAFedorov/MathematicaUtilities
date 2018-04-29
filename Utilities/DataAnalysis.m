@@ -19,6 +19,147 @@
 
 
 
+FunctionQ::usage="FunctionQ[expr_] tests if expression is a Function, CompiledFunction or InterpolatingFunction."
+	
+(*Adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
+FunctionQ[_Function|_InterpolatingFunction|_CompiledFunction]=True
+FunctionQ[f_Symbol]:=Or[DownValues[f]=!={},MemberQ[Attributes[f],NumericFunction]]
+FunctionQ[_]=False
+
+
+(*Tests if the argument is a vector or array of numbers*)
+NumericVectorQ[expr_]:=VectorQ[expr,NumericQ]
+NumericArrayQ[expr_]:=ArrayQ[expr,_,NumericQ]
+
+
+notOptPatt::usage="Except[_?OptionQ]
+	A pattern to test if the expression is NOT an option. 
+	Typical usage is to define optional arguments in functions, which at the same time can accept options. 
+
+Example:
+	Definition of function with an optional argument y having the default value of 1 and at the same time an option Option1 with default value 2	
+	f[x_, y:notOptPatt:1, OptionsPattern[{Option1->2}]]:=\!\(\*SuperscriptBox[\(x\), \(2\)]\)+y+OptionValue[Option1]"
+
+notOptPatt=Except[_?OptionQ]
+
+
+(*differentiate between 2D and 3D datasets*)
+XYListQ::usage="XYListQ[list_], XYListQ[list_,d_]
+	Test if list is a xylist of dimension d, d=1 if omitted."
+	
+XYListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==2)
+XYListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYListQ,d-1]
+
+
+(* ::Code::Initialization:: *)
+XYZListQ::usage="XYZListQ[list_], XYZListQ[list_,d_]
+	Test if list is and xyzlist of the dimension d, d=1 if omitted."
+	
+XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3)
+XYZListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYZListQ,d-1]
+
+
+(*Useful functions adopted with slight extension from the V.Sudhir's He3Analysis package;
+The function names are self-explanatory, the two instances are different in the argument type.*)
+
+
+MapX::usage="MapX[f_,list_] applies function f to X elements in xy- or xyz- list"
+MapX[f_,list_?XYListQ]:=Map[{f[#[[1]]],#[[2]]}&,list]
+MapX[f_,list_?XYZListQ]:=Map[{f[#[[1]]],#[[2]],#[[3]]}&,list]
+
+MapY::usage="MapY[f_,list_] applies function f to Y elements in xy- or xyz- list"
+MapY[f_,list_?XYListQ]:=Map[{#[[1]],f[#[[2]]]}&,list]
+MapY[f_,list_?XYZListQ]:=Map[{#[[1]],f[#[[2]]],#[[2]]}&,list]
+
+MapXY::usage="MapX[fx_,fy_,list_] applies functions fx and fy correspondingly to X and Y elements in xy- or xyz- list"
+MapXY[fx_,fy_,list_?XYListQ]:=Map[{fx[#[[1]]],fy[#[[2]]]}&,list]
+MapXY[fx_,fy_,list_?XYZListQ]:=Map[{fx[#[[1]]],fy[#[[2]]],#[[3]]}&,list]
+
+MapZ::usage="MapZ[f_,list_] applies function f to Z elements in xyzlist"
+MapZ[f_,xyzlist_]:=Map[{#[[1]],#[[2]],f[#[[3]]]}&,xyzlist]
+
+
+ScaleY::usage="Function rescales data along the y coordinate by the factor of a_
+	Also, a shift in y-dimension, or scaling and shift in x dimension can be specified by options ShiftY, ScaleX and ShiftX
+	Output is calculated as: {x,y}\[Rule]{ScaleX\[Times](x+ShiftX),a\[Times](y+ShiftY)}
+
+	Input list_ can be either xylist of a set of xylist's 
+
+	a_ is a constant for single-list input, or may be a list of constants in the case of multiple list input.
+	In the latter case Subscript[y, i]^j is scaled by Subscript[a, j]
+
+	ScaleX and ShiftX can be constant only
+
+	ShiftY can be a constant, a list or a xylist.
+	In the case of list Subscript[ShiftY, i] is added to the Subscript[y, i] of the data
+	In the case of a xylist, the y-values of this list are added to the y-values of the data."
+ScaleX::usage=ScaleY::usage
+ShiftY::usage=ScaleY::usage
+ShiftX::usage=ScaleY::usage
+
+SSXY::usage="SSXY[xylist_,xSc_,ySc_,xSh_,ySh_] generic rescaling function"
+		
+SSXY[xylist_,xSc_,ySc_,xSh_,ySh_]:=Module[{},
+	Which[
+		ArrayQ[ySh,2]&&(Length[ySh]==Length[xylist]),
+			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh[[;;,2]])}],
+		True,
+			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh)}]
+	]
+]
+		
+ScaleY[xylist_?XYListQ, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+	xSc=OptionValue[ScaleX];
+	ySc=a;
+	xSh=OptionValue[ShiftX];
+	ySh=OptionValue[ShiftY];	
+	SSXY[xylist,xSc,ySc,xSh,ySh]
+]
+
+ScaleY[list_?(XYListQ[#,2]&),a:Except[_?OptionQ]:1,opts:OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{},
+	If[ListQ[a],
+		Table[ScaleY[list[[i]],a[[i]],opts],{i,Length[list]}],
+		Table[ScaleY[xylist,a,opts],{xylist,list}]
+	]
+]
+
+ScaleX[xylist_?XYListQ, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleY->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+	xSc=a;
+	ySc=OptionValue[ScaleY];
+	xSh=OptionValue[ShiftX];
+	ySh=OptionValue[ShiftY];	
+	SSXY[xylist,xSc,ySc,xSh,ySh]
+]
+ShiftY[xylist_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftX->0}]]:=Module[{xSc,ySc,xSh,ySh},
+	xSc=OptionValue[ScaleX];
+	ySc=OptionValue[ScaleY];
+	xSh=OptionValue[ShiftX];
+	ySh=a;	
+	SSXY[xylist,xSc,ySc,xSh,ySh]
+]
+ShiftX[xylist_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+	xSc=OptionValue[ScaleX];
+	ySc=OptionValue[ScaleY];
+	xSh=a;
+	ySh=OptionValue[ShiftY];	
+	SSXY[xylist,xSc,ySc,xSh,ySh]
+]
+
+
+(*From http://mathematica.stackexchange.com/questions/11345/can-mathematica-handle-open-intervals-interval-complements*)
+
+
+IntervalInverse::usage="IntervalInverse[a_] returns complement (\[Minus]\[Infinity],\[Infinity])/a"
+
+IntervalInverse[Interval[int___]]:=Interval@@Partition[
+	Flatten@{int}/.{{-\[Infinity],mid___,\[Infinity]}:>{mid},{-\[Infinity],mid__}:>{mid,\[Infinity]},{mid__,\[Infinity]}:>{-\[Infinity],mid},{mid___}:>{-\[Infinity],mid,\[Infinity]}},2]
+
+
+IntervalComplement::usage="IntervalComplement[a_,b_,c_,..] returnes a\[Backslash](b\:222ac\:222a\[Ellipsis])"
+
+IntervalComplement[a_Interval,b__Interval]:=IntervalIntersection[a,IntervalInverse@IntervalUnion[b]]
+
+
 FindLogFit::usage="FindLogFit[data_, expr_, rest__]. The function is equivalent to FindFit, but works in log Y scale."
 
 FindLogFit[data_,expr_,rest__]:=Module[{logData},

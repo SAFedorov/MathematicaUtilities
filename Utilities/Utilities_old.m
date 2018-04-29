@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Description*)
 
 
@@ -39,11 +39,11 @@ System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 compilationOptionsC::usage=""
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Patterns*)
 
 
-(*Tests if object is a function, taken from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
+(*Tests if object is a function, adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
 FunctionQ[_Function|_InterpolatingFunction|_CompiledFunction]=True;
 FunctionQ[f_Symbol]:=Or[DownValues[f]=!={},MemberQ[Attributes[f],NumericFunction]]
 FunctionQ[_]=False;
@@ -69,7 +69,7 @@ XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3);
 (*List of all functions in the package*)
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*General*)
 
 
@@ -146,7 +146,7 @@ AverageXYLists::usage="AverageXYLists[xylists_]
 	Computes average of multiple lists"
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*Interval manipulations*)
 
 
@@ -180,10 +180,6 @@ SelectSeries::usage="[xylist_,xRange_]"
 
 
 (* ::Subsubsection::Closed:: *)
-(*Plots*)
-
-
-(* ::Subsubsection::Closed:: *)
 (*Experiment-specific*)
 
 
@@ -205,7 +201,7 @@ where \[Eta] is detection efficiency, is the optomechanical multi-photon coopera
 "
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*List of options to functions*)
 
 
@@ -447,10 +443,6 @@ AverageXYLists[xylists_]:=Module[{nMin,nLists,ylist},
 
 
 (* ::Subsection::Closed:: *)
-(*Plotting*)
-
-
-(* ::Subsection::Closed:: *)
 (*Interval manipulations*)
 
 
@@ -521,7 +513,6 @@ LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Glo
 
 (* ::Subsubsection::Closed:: *)
 (*Fitting*)
-
 
 
 (* ::Input::Initialization:: *)
@@ -600,7 +591,7 @@ Usin the option IncludeBoundary one can regulate if the boundary points are incl
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Experiment-specific functions*)
 
 
@@ -660,5 +651,7 @@ GetAsymmetrySpectrum[spectrum_,peakRange_,nAvg_:1]:=Module[{\[Nu]Peak,spectrumSe
 
 (* ::Section::Closed:: *)
 (*End*)
+
+
 End[]
 EndPackage[]
