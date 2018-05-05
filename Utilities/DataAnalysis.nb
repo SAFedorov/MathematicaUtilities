@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     53571,       1424]
-NotebookOptionsPosition[     52280,       1378]
-NotebookOutlinePosition[     52655,       1394]
-CellTagsIndexPosition[     52612,       1391]
+NotebookDataLength[     58792,       1545]
+NotebookOptionsPosition[     57421,       1496]
+NotebookOutlinePosition[     57797,       1512]
+CellTagsIndexPosition[     57754,       1509]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -188,6 +188,11 @@ Cell[CellGroupData[{
 Cell["Manipulations with xy- and xyz- lists", "Section",
  CellChangeTimes->{{3.7339959576736984`*^9, 3.7339959724799905`*^9}}],
 
+Cell[CellGroupData[{
+
+Cell["Mapping over specific dimension", "Subsection",
+ CellChangeTimes->{{3.733998804516633*^9, 3.7339988140165777`*^9}}],
+
 Cell[BoxData[
  RowBox[{"(*", 
   RowBox[{
@@ -342,7 +347,8 @@ and Y elements in xy- or xyz- list\>\""}], "\n",
     "xyzlist"}], "]"}]}]}], "Code",
  CellChangeTimes->{{3.733995983435758*^9, 3.733996047818942*^9}, {
   3.7339960862113943`*^9, 3.733996313181395*^9}, {3.733996700815343*^9, 
-  3.7339967284947357`*^9}}],
+  3.7339967284947357`*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -351,18 +357,20 @@ Cell["Rescaling xylist along x and y axes ", "Subsection",
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"ScaleY", "::", "usage"}], "=", 
-  "\"\<Function rescales data along the y coordinate by the factor of a_\n\t\
-Also, a shift in y-dimension, or scaling and shift in x dimension can be \
-specified by options ShiftY, ScaleX and ShiftX\n\tOutput is calculated as: \
-{x,y}\[Rule]{ScaleX\[Times](x+ShiftX),a\[Times](y+ShiftY)}\n\n\tInput list_ \
-can be either xylist of a set of xylist's \n\n\ta_ is a constant for \
-single-list input, or may be a list of constants in the case of multiple list \
-input.\n\tIn the latter case Subscript[y, i]^j is scaled by Subscript[a, j]\n\
-\n\tScaleX and ShiftX can be constant only\n\n\tShiftY can be a constant, a \
-list or a xylist.\n\tIn the case of list Subscript[ShiftY, i] is added to the \
-Subscript[y, i] of the data\n\tIn the case of a xylist, the y-values of this \
-list are added to the y-values of the data.\>\""}], "\n", 
+  RowBox[{
+   RowBox[{"ScaleY", "::", "usage"}], "=", 
+   "\"\<ScaleX[list_,a_], ScaleY[list_,a_], ShiftX[list_,a_], \
+ShiftY[list_,a_]\n\trescale or offset data along the x and y coordinates by \
+the amount a_\n\tEach of the function names can be used as an option in \
+another. E.g. simultaneus shift along x axis by a and rescaling along \n\ty \
+by b can be equivalently written as ScaleY[list,b,ShiftX\[Rule]a] or \
+ShiftX[list,b,ScaleY\[Rule]a].\n\nInput:\n\tlist_ is either xylist or \
+xylistd2. a is a constant if list_ is xylist or if list_ is xylistd2, can be \
+a vector of constants\n\tfor each element in xylistd2. Specifically for \
+ShiftY, a_ can be a xylist or a list of xylists, in which case the y-values \n\
+\tof this xylist are added to the y- values of list_.\n\nOutput: \n\t\
+{{x,y},...}\[Rule]{{ScaleX\[Times](x+ShiftX),ScaleY\[Times](y+ShiftY)},...}\>\
+\""}], "\n", "\t"}], "\n", 
  RowBox[{
   RowBox[{"ScaleX", "::", "usage"}], "=", 
   RowBox[{"ScaleY", "::", "usage"}]}], "\n", 
@@ -375,143 +383,222 @@ list are added to the y-values of the data.\>\""}], "\n",
    RowBox[{"ScaleY", "::", "usage"}]}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"SSXY", "::", "usage"}], "=", 
-   "\"\<SSXY[xylist_,xSc_,ySc_,xSh_,ySh_] generic rescaling function\>\""}], 
-  "\n", "\t\t"}], "\n", 
+   RowBox[{
+    RowBox[{"SSXY", "::", "usage"}], "=", 
+    "\"\<SSXY[list_,xSc_,ySc_,xSh_,ySh_] low level generic rescaling function \
+used by ScaleY, ScaleX, ShiftY and ShiftX\>\""}], ";"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Versions", " ", "for", " ", "various", " ", "inputs"}], "*)"}], 
+  "\t\t\t\t"}], "\n", 
+ RowBox[{
+  RowBox[{"SSXY", "[", 
+   RowBox[{
+    RowBox[{"xylist_", "?", "XYListQ"}], ",", "xSc_", ",", "ySc_", ",", 
+    "xSh_", ",", "ySh_"}], "]"}], ":=", 
+  RowBox[{"Which", "[", "\n", "\t", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"XYListQ", "[", "ySh", "]"}], "&&", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Length", "[", "ySh", "]"}], "==", 
+       RowBox[{"Length", "[", "xylist", "]"}]}], ")"}]}], ",", "\n", "\t\t", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"xSc", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"xylist", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "1"}], "]"}], "]"}], "+", "xSh"}], ")"}]}], 
+       ",", 
+       RowBox[{"ySc", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"xylist", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "2"}], "]"}], "]"}], "+", 
+          RowBox[{"ySh", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ")"}]}]}], "}"}], "]"}],
+     ",", "\n", "\t", "True", ",", "\n", "\t\t", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"xSc", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"xylist", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "1"}], "]"}], "]"}], "+", "xSh"}], ")"}]}], 
+       ",", 
+       RowBox[{"ySc", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"xylist", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "2"}], "]"}], "]"}], "+", "ySh"}], ")"}]}]}], 
+      "}"}], "]"}]}], "\n", "]"}]}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"SSXY", "[", 
-    RowBox[{"xylist_", ",", "xSc_", ",", "ySc_", ",", "xSh_", ",", "ySh_"}], 
-    "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", "}"}], ",", "\n", "\t", 
-     RowBox[{"Which", "[", "\n", "\t\t", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"ArrayQ", "[", 
-         RowBox[{"ySh", ",", "2"}], "]"}], "&&", 
-        RowBox[{"(", 
-         RowBox[{
-          RowBox[{"Length", "[", "ySh", "]"}], "==", 
-          RowBox[{"Length", "[", "xylist", "]"}]}], ")"}]}], ",", "\n", 
-       "\t\t\t", 
-       RowBox[{"Transpose", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"xSc", " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{"xylist", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "1"}], "]"}], "]"}], "+", "xSh"}], ")"}]}], 
-          ",", 
-          RowBox[{"ySc", " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{"xylist", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "2"}], "]"}], "]"}], "+", 
-             RowBox[{"ySh", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ")"}]}]}], "}"}], 
-        "]"}], ",", "\n", "\t\t", "True", ",", "\n", "\t\t\t", 
-       RowBox[{"Transpose", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"xSc", " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{"xylist", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "1"}], "]"}], "]"}], "+", "xSh"}], ")"}]}], 
-          ",", 
-          RowBox[{"ySc", " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{"xylist", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "2"}], "]"}], "]"}], "+", "ySh"}], 
-            ")"}]}]}], "}"}], "]"}]}], "\n", "\t", "]"}]}], "\n", "]"}]}], 
-  "\n", "\t\t"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"ScaleY", "[", 
-    RowBox[{
-     RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
-     RowBox[{"a", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "1"}], ",", " ", 
-     RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", 
-       RowBox[{
-        RowBox[{"ScaleX", "->", "1"}], ",", 
-        RowBox[{"ShiftX", "->", "0"}], ",", 
-        RowBox[{"ShiftY", "->", "0"}]}], "}"}], "]"}]}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], "}"}], ",", "\n", 
-     "\t", 
-     RowBox[{
-      RowBox[{"xSc", "=", 
-       RowBox[{"OptionValue", "[", "ScaleX", "]"}]}], ";", "\n", "\t", 
-      RowBox[{"ySc", "=", "a"}], ";", "\n", "\t", 
-      RowBox[{"xSh", "=", 
-       RowBox[{"OptionValue", "[", "ShiftX", "]"}]}], ";", "\n", "\t", 
-      RowBox[{"ySh", "=", 
-       RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
-      RowBox[{"SSXY", "[", 
-       RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
-       "]"}]}]}], "\n", "]"}]}], "\n"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"ScaleY", "[", 
     RowBox[{
      RowBox[{"list_", "?", 
       RowBox[{"(", 
        RowBox[{
         RowBox[{"XYListQ", "[", 
-         RowBox[{"#", ",", "2"}], "]"}], "&"}], ")"}]}], ",", 
-     RowBox[{"a", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "1"}], ",", 
-     RowBox[{"opts", ":", 
-      RowBox[{"OptionsPattern", "[", 
-       RowBox[{"{", 
-        RowBox[{
-         RowBox[{"ScaleX", "->", "1"}], ",", 
-         RowBox[{"ShiftX", "->", "0"}], ",", 
-         RowBox[{"ShiftY", "->", "0"}]}], "}"}], "]"}]}]}], "]"}], ":=", 
+         RowBox[{"#", ",", "2"}], "]"}], "&"}], ")"}]}], ",", "xSc_", ",", 
+     "ySc_", ",", "xSh_", ",", "ySh_"}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
-     RowBox[{"{", "}"}], ",", "\n", "\t", 
-     RowBox[{"If", "[", 
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"ListQ", "[", "a", "]"}], ",", "\n", "\t\t", 
-       RowBox[{"Table", "[", 
+      "xScListQ", ",", "yScListQ", ",", "xShListQ", ",", "yShListQ", ",", 
+       "xScTmp", ",", "yScTmp", ",", "xShTmp", ",", "yShTmp"}], "}"}], ",", 
+     "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+      "Check", " ", "if", " ", "need", " ", "to", " ", "iterate", " ", "over",
+        " ", "the", " ", "variables"}], "*)"}], "\n", "\t", 
+     RowBox[{
+      RowBox[{"xScListQ", "=", 
+       RowBox[{"(", 
         RowBox[{
-         RowBox[{"ScaleY", "[", 
+         RowBox[{"VectorQ", "[", "xSc", "]"}], "&&", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Length", "[", "xSc", "]"}], "\[Equal]", 
+           RowBox[{"Length", "[", "list", "]"}]}], ")"}]}], ")"}]}], ";", 
+      "\n", "\t", 
+      RowBox[{"yScListQ", "=", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"VectorQ", "[", "ySc", "]"}], "&&", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Length", "[", "ySc", "]"}], "\[Equal]", 
+           RowBox[{"Length", "[", "list", "]"}]}], ")"}]}], ")"}]}], ";", 
+      "\n", "\t", 
+      RowBox[{"xShListQ", "=", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"VectorQ", "[", "xSh", "]"}], "&&", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Length", "[", "xSh", "]"}], "\[Equal]", 
+           RowBox[{"Length", "[", "list", "]"}]}], ")"}]}], ")"}]}], ";", 
+      "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+       "The", " ", "case", " ", "of", " ", "shift", " ", "in", " ", "y", " ", 
+        "direction", " ", "is", " ", "special", " ", "as", " ", "here", " ", 
+        "multiple", " ", "xylists", " ", "can", " ", "be", " ", "supplied"}], 
+       "*)"}], "\n", "\t", 
+      RowBox[{"yShListQ", "=", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"VectorQ", "[", "ySh", "]"}], "||", 
+           RowBox[{"XYListQ", "[", 
+            RowBox[{"ySh", ",", "2"}], "]"}]}], ")"}], "&&", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Length", "[", "ySh", "]"}], "\[Equal]", 
+           RowBox[{"Length", "[", "list", "]"}]}], ")"}]}], ")"}]}], ";", 
+      "\t", "\n", "\t", 
+      RowBox[{"Table", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"xScTmp", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{"xScListQ", ",", " ", 
+            RowBox[{"xSc", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", " ", "xSc"}], "]"}]}], ";", 
+         "\n", "\t\t", 
+         RowBox[{"yScTmp", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{"yScListQ", ",", " ", 
+            RowBox[{"ySc", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", " ", "ySc"}], "]"}]}], ";", 
+         "\n", "\t\t", 
+         RowBox[{"xShTmp", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{"xShListQ", ",", " ", 
+            RowBox[{"xSh", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", " ", "xSh"}], "]"}]}], ";", 
+         "\n", "\t\t", 
+         RowBox[{"yShTmp", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{"yShListQ", ",", " ", 
+            RowBox[{"ySh", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", " ", "ySh"}], "]"}]}], ";", 
+         "\n", "\t\t", 
+         RowBox[{"SSXY", "[", 
           RowBox[{
            RowBox[{"list", "[", 
-            RowBox[{"[", "i", "]"}], "]"}], ",", 
-           RowBox[{"a", "[", 
-            RowBox[{"[", "i", "]"}], "]"}], ",", "opts"}], "]"}], ",", 
-         RowBox[{"{", 
-          RowBox[{"i", ",", 
-           RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "]"}], ",", "\n", 
-       "\t\t", 
-       RowBox[{"Table", "[", 
-        RowBox[{
-         RowBox[{"ScaleY", "[", 
-          RowBox[{"xylist", ",", "a", ",", "opts"}], "]"}], ",", 
-         RowBox[{"{", 
-          RowBox[{"xylist", ",", "list"}], "}"}]}], "]"}]}], "\n", "\t", 
-      "]"}]}], "\n", "]"}]}], "\n"}], "\n", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", "xScTmp", ",", "yScTmp", ",",
+            "xShTmp", ",", "yShTmp"}], "]"}]}], "\n", "\t\t", ",", "\n", 
+        "\t\t", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", 
+          RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "\n", "\t", "]"}], 
+      ";", "\n", "\t", "\n", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"ListQ", "[", "a", "]"}], ",", "\n", "\t\t", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"ScaleY", "[", 
+           RowBox[{
+            RowBox[{"list", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", 
+            RowBox[{"a", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", "opts"}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "]"}], ",", "\n",
+         "\t\t", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"SSXY", "[", 
+           RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}],
+            "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"xylist", ",", "list"}], "}"}]}], "]"}]}], "\n", "\t", 
+       "]"}]}]}], "\n", "]"}]}], "\n", "\t\t"}], "\n", 
+ RowBox[{
+  RowBox[{"ScaleY", "[", 
+   RowBox[{"list_", ",", " ", 
+    RowBox[{"a", ":", 
+     RowBox[{"Except", "[", 
+      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "1"}], ",", " ", 
+    RowBox[{"OptionsPattern", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"ScaleX", "->", "1"}], ",", 
+       RowBox[{"ShiftX", "->", "0"}], ",", 
+       RowBox[{"ShiftY", "->", "0"}]}], "}"}], "]"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], "}"}], ",", "\n", 
+    "\t", 
+    RowBox[{
+     RowBox[{"xSc", "=", 
+      RowBox[{"OptionValue", "[", "ScaleX", "]"}]}], ";", "\n", "\t", 
+     RowBox[{"ySc", "=", "a"}], ";", "\n", "\t", 
+     RowBox[{"xSh", "=", 
+      RowBox[{"OptionValue", "[", "ShiftX", "]"}]}], ";", "\n", "\t", 
+     RowBox[{"ySh", "=", 
+      RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
+     RowBox[{"SSXY", "[", 
+      RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
+      "]"}]}]}], "\n", "]"}]}], "\n", 
  RowBox[{
   RowBox[{"ScaleX", "[", 
-   RowBox[{
-    RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
+   RowBox[{"list_", ",", " ", 
     RowBox[{"a", ":", 
      RowBox[{"Except", "[", 
       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "1"}], ",", " ", 
@@ -535,12 +622,11 @@ list are added to the y-values of the data.\>\""}], "\n",
      RowBox[{"ySh", "=", 
       RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
      RowBox[{"SSXY", "[", 
-      RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
+      RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
       "]"}]}]}], "\n", "]"}]}], "\n", 
  RowBox[{
   RowBox[{"ShiftY", "[", 
-   RowBox[{
-    RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
+   RowBox[{"list_", ",", " ", 
     RowBox[{"a", ":", 
      RowBox[{"Except", "[", 
       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", " ", 
@@ -564,12 +650,12 @@ list are added to the y-values of the data.\>\""}], "\n",
       RowBox[{"OptionValue", "[", "ShiftX", "]"}]}], ";", "\n", "\t", 
      RowBox[{"ySh", "=", "a"}], ";", "\t", "\n", "\t", 
      RowBox[{"SSXY", "[", 
-      RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
+      RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
       "]"}]}]}], "\n", "]"}]}], "\n", 
  RowBox[{
   RowBox[{"ShiftX", "[", 
    RowBox[{
-    RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
+    RowBox[{"list_", "?", "XYListQ"}], ",", " ", 
     RowBox[{"a", ":", 
      RowBox[{"Except", "[", 
       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", " ", 
@@ -593,14 +679,19 @@ list are added to the y-values of the data.\>\""}], "\n",
      RowBox[{"ySh", "=", 
       RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
      RowBox[{"SSXY", "[", 
-      RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
+      RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
       "]"}]}]}], "\n", "]"}]}]}], "Code",
- CellChangeTimes->{{3.7339971759379606`*^9, 3.7339972503603563`*^9}, {
-  3.7339974571205206`*^9, 3.733997484379327*^9}, {3.733997594952799*^9, 
-  3.73399776058792*^9}, {3.7339978324248095`*^9, 3.7339978325408993`*^9}, {
-  3.7339980942059655`*^9, 3.7339981040226226`*^9}, {3.7339981571957717`*^9, 
-  3.7339982746373596`*^9}, {3.733998382574481*^9, 3.733998543089834*^9}, {
-  3.733998617852439*^9, 3.7339986229858503`*^9}}]
+ CellChangeTimes->CompressedData["
+1:eJwdzV0oQwEABeDbeGC72zIbotTaLOT3RWprrLW0JjJTS0hrGw/KCJkahbTZ
+npQsoyX5iZKQmPwUW6RGtCwexJK08SCTpOWe+3D6Hk6nIzR0a00MgiByqcBA
+UiKYchNVMO2aMKx7EH3CXpErDnW2tqRUSvk1Lwsy3WwhJOvTaFUzAQVs3CeU
+8FS5rIbVJp0eSgw3Jhh7fLbCkhrpGMxwPdL+TP9McCh/ZRYH5BV1BbmUk60j
+YdhZIFCwbqMKvl+sgs51jR32qqYc8ExNeiCxfeWFnSGWgKQU97/nwL2PSiFc
+SM8rh6vGBi3dH0sbIb/ishnm18Za4HnPoQHe+y864HD2hAWSicJBePJ2NArN
+IzIPDDP3vPRuM7IIffqVNTjOtmxA7cDsDjQm3+/Sf3dNB7B0S/wEd8tCL7Bv
+df4VfsvIGPQybLRfQ1V/0J2pppXEiwk25dqcngudbr8ctvkiZuhrJ6yQM9yw
+BP8B2RntFg==
+  "]]
 }, Open  ]]
 }, Open  ]],
 
@@ -694,7 +785,7 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"FindLogFit", "::", "usage"}], "=", 
    "\"\<FindLogFit[data_, expr_, rest__]. The function is equivalent to \
-FindFit, but works in log Y scale.\>\""}], "\n"}], "\n", 
+FindFit, but minimizes error on log Y scale.\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"FindLogFit", "[", 
    RowBox[{"data_", ",", "expr_", ",", "rest__"}], "]"}], ":=", 
@@ -738,19 +829,27 @@ FindFit, but works in log Y scale.\>\""}], "\n"}], "\n",
       RowBox[{"logData", ",", 
        RowBox[{"Log", "[", "expr", "]"}], ",", "rest"}], "]"}]}]}], "\n", 
    "]"}]}]}], "Code",
- CellChangeTimes->{{3.733917815068692*^9, 3.733917821169559*^9}}],
+ CellChangeTimes->{{3.733917815068692*^9, 3.733917821169559*^9}, {
+  3.734534456720999*^9, 3.7345344760129175`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"FitRangeSelector", "::", "usage"}], "=", 
-   "\"\<FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{logYPlot->\
-False,logXPlot-> False}]]\n\tFunction allows to select ranges for each \
-element of the list of traces (presumably for future use in fitting)\n\tLeft \
-click - set lower x interval boundary at current mouse position; right click \
-- set upper x interval boundary at current mouse position.\n\tfitRanges is an \
-empty variable to which the list of ranges will be assigned.\>\""}], 
-  "\n"}], "\n", 
+   "\"\<FitRangeSelector[fitRanges_, traceList_]\n\tCreate an interactive \
+plot to select intervals for each element in the traceList_ (presumably for \
+future use in fitting)\n\nInteractive operation:\n\tLeft mouse click - set \
+lower x interval boundary at current mouse cursor position\n\tRight mouse \
+click - set upper x interval boundary at current mouse cursor position\n\t\n\
+Output:\n\tThe list of ranges is assigned to fitRanges_\n\nOptions:\n\t\
+LogYPlot\[Rule]False\n\tLogXPlot\[Rule]False\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "FitRangeSelector", "]"}], "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"LogYPlot", "\[Rule]", "False"}], ",", 
+     RowBox[{"LogXPlot", "\[Rule]", "False"}]}], "}"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{"SetAttributes", "[", 
    RowBox[{"FitRangeSelector", ",", "HoldFirst"}], "]"}], ";", 
@@ -764,10 +863,7 @@ empty variable to which the list of ranges will be assigned.\>\""}],
    RowBox[{"FitRangeSelector", "[", 
     RowBox[{"fitRanges_", ",", "traceList_", ",", 
      RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", 
-       RowBox[{
-        RowBox[{"logYPlot", "->", "False"}], ",", 
-        RowBox[{"logXPlot", "->", " ", "False"}]}], "}"}], "]"}]}], "]"}], ":=", 
+      RowBox[{"{", "FitRangeSelector", "}"}], "]"}]}], "]"}], ":=", 
    RowBox[{"DynamicModule", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -842,28 +938,28 @@ empty variable to which the list of ranges will be assigned.\>\""}],
        RowBox[{"Which", "[", "\n", "\t\t", 
         RowBox[{
          RowBox[{
-          RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
-          RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", 
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
          "ListLogLogPlot", ",", "\n", "\t\t", 
          RowBox[{
-          RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
           RowBox[{"(", 
            RowBox[{"!", 
-            RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
          "ListLogPlot", ",", "\n", "\t\t", 
          RowBox[{
           RowBox[{"(", 
            RowBox[{"!", 
-            RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
-          RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
          "ListLogLinearPlot", ",", "\n", "\t\t", 
          RowBox[{
           RowBox[{"(", 
            RowBox[{"!", 
-            RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
           RowBox[{"(", 
            RowBox[{"!", 
-            RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
          "ListPlot"}], "\n", "\t", "]"}]}], ";", "\n", "\n", "\t", 
       RowBox[{"(*", " ", 
        RowBox[{
@@ -871,7 +967,7 @@ empty variable to which the list of ranges will be assigned.\>\""}],
         "cursors", " ", "to", " ", "display", " ", "the", " ", "chosen", " ", 
         "boundaries"}], "*)"}], "\n", "\t", 
       RowBox[{"epList", "=", 
-       RowBox[{"Table", "[", "\n", "\t", 
+       RowBox[{"Table", "[", "\n", "\t\t", 
         RowBox[{
          RowBox[{"{", 
           RowBox[{
@@ -886,11 +982,11 @@ empty variable to which the list of ranges will be assigned.\>\""}],
               RowBox[{"[", 
                RowBox[{"i", ",", 
                 RowBox[{"-", "1"}], ",", "1"}], "]"}], "]"}]}], "]"}]}], 
-          "}"}], "\n", "\t", ",", 
+          "}"}], ",", "\n", "\t", 
          RowBox[{"{", 
           RowBox[{"i", ",", 
            RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], ";",
-       "\n", "\t", 
+       "\n", "\t", "\n", "\t", 
       RowBox[{"Clear", "[", "fitRanges", "]"}], ";", "\n", "\t", 
       RowBox[{"fitRanges", "=", 
        RowBox[{"Table", "[", 
@@ -901,7 +997,7 @@ empty variable to which the list of ranges will be assigned.\>\""}],
           RowBox[{"i", ",", 
            RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], ";",
        "\n", "\n", "\t", 
-      RowBox[{"Manipulate", "[", "\n", "\t", 
+      RowBox[{"Manipulate", "[", "\n", "\t\t", 
        RowBox[{
         RowBox[{"EventHandler", "[", 
          RowBox[{
@@ -909,17 +1005,17 @@ empty variable to which the list of ranges will be assigned.\>\""}],
            RowBox[{
             RowBox[{"traceList", "[", 
              RowBox[{"[", "i", "]"}], "]"}], ",", 
-            RowBox[{"Joined", "->", " ", "True"}], ",", 
-            RowBox[{"ImageSize", "->", "Large"}], ",", 
-            RowBox[{"PlotRange", "->", "Full"}], ",", 
-            RowBox[{"Epilog", "->", " ", 
+            RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+            RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", 
+            RowBox[{"PlotRange", "\[Rule]", "Full"}], ",", 
+            RowBox[{"Epilog", "\[Rule]", 
              RowBox[{"epList", "[", 
-              RowBox[{"[", "i", "]"}], "]"}]}]}], "]"}], ",", "\n", "\t", 
+              RowBox[{"[", "i", "]"}], "]"}]}]}], "]"}], ",", "\n", "\t\t\t", 
           RowBox[{"{", 
            RowBox[{
             RowBox[{"{", 
              RowBox[{"\"\<MouseClicked\>\"", ",", "1"}], "}"}], ":>", 
-            RowBox[{"(", "\n", "\t\t", 
+            RowBox[{"(", "\n", "\t\t\t\t", 
              RowBox[{
               RowBox[{
                RowBox[{"fitRanges", "[", 
@@ -927,7 +1023,7 @@ empty variable to which the list of ranges will be assigned.\>\""}],
                  RowBox[{"i", ",", "1"}], "]"}], "]"}], "=", 
                RowBox[{
                 RowBox[{"MousePosition", "[", "\"\<Graphics\>\"", "]"}], "[", 
-                RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "\t\t", 
+                RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "\t\t\t\t", 
               RowBox[{
                RowBox[{"epList", "[", 
                 RowBox[{"[", "i", "]"}], "]"}], "=", 
@@ -941,12 +1037,13 @@ empty variable to which the list of ranges will be assigned.\>\""}],
                  RowBox[{"epList", "[", 
                   RowBox[{"[", 
                    RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "}"}]}], ";"}], 
-             "\n", "\t\t", ")"}]}], "}"}], ",", "\n", "\t", 
+             "\n", "\t\t\t\t", ")"}]}], "\n", "\t\t\t", "}"}], ",", "\n", 
+          "\t\t\t", 
           RowBox[{"{", 
            RowBox[{
             RowBox[{"{", 
              RowBox[{"\"\<MouseClicked\>\"", ",", "2"}], "}"}], ":>", 
-            RowBox[{"(", "\n", "\t\t", 
+            RowBox[{"(", "\n", "\t\t\t\t", 
              RowBox[{
               RowBox[{
                RowBox[{"fitRanges", "[", 
@@ -954,7 +1051,7 @@ empty variable to which the list of ranges will be assigned.\>\""}],
                  RowBox[{"i", ",", "2"}], "]"}], "]"}], "=", 
                RowBox[{
                 RowBox[{"MousePosition", "[", "\"\<Graphics\>\"", "]"}], "[", 
-                RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "\t\t", 
+                RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "\t\t\t\t", 
               RowBox[{
                RowBox[{"epList", "[", 
                 RowBox[{"[", "i", "]"}], "]"}], "=", 
@@ -968,16 +1065,22 @@ empty variable to which the list of ranges will be assigned.\>\""}],
                    RowBox[{"fitRanges", "[", 
                     RowBox[{"[", 
                     RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "]"}]}], "}"}]}],
-               ";"}], "\n", "\t\t", ")"}]}], "}"}]}], "\n", "\t", "]"}], ",", 
-        "\n", "\t", 
+               ";"}], "\n", "\t\t\t\t", ")"}]}], "\n", "\t\t\t", "}"}]}], 
+         "\n", "\t\t", "]"}], ",", "\n", "\t\t", 
         RowBox[{"{", 
          RowBox[{"i", ",", "1", ",", 
           RowBox[{"Length", "[", "traceList", "]"}], ",", "1"}], "}"}]}], 
-       "]"}]}], ",", "\n", 
-     RowBox[{"SaveDefinitions", "->", "True"}]}], "]"}]}]}]}], "Code",
+       "\n", "\t", "]"}]}], ",", "\n", 
+     RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]}]}]}], "Code",
  CellChangeTimes->{{3.7339178387628145`*^9, 3.7339178414528418`*^9}, {
   3.7339182639670424`*^9, 3.73391826830243*^9}, {3.733918500368207*^9, 
-  3.733918500792617*^9}}],
+  3.733918500792617*^9}, {3.7345335624034114`*^9, 3.734533566823221*^9}, {
+  3.7345336679254*^9, 3.734533698569162*^9}, {3.7345337407899036`*^9, 
+  3.734533746395157*^9}, {3.7345338025229607`*^9, 3.7345338152339487`*^9}, {
+  3.734534003755744*^9, 3.7345341891978064`*^9}, {3.7345342202960467`*^9, 
+  3.734534352966386*^9}, {3.734534385598068*^9, 3.7345344302903857`*^9}, {
+  3.7345345061404667`*^9, 3.7345346192457333`*^9}, {3.734539821170328*^9, 
+  3.734539839144967*^9}, {3.734539933051652*^9, 3.7345399382268367`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -985,17 +1088,23 @@ Cell[BoxData[{
    RowBox[{"FindFitSeries", "::", "usage"}], "=", 
    "\"\<FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]\n\t\
 Function applies FindFit[] to each element in the list of 2D data traces \
-traceList.\n\nInput:\n\tfitModel, pars and vars are the corresponding \
-elements for FindFit[]. fitModel and pars can be either a single element, or \
-a list of corresponding elements for each trace in traceList.\n\tfitRanges is \
-an optional argument, alowing pre-selection of the data to be fitted. It can \
-be\n\t1. single range {Subscript[x, min],Subscript[x, max]}\n\t2. a list of \
-ranges {\\!\\(\\*SubsuperscriptBox[\\(x\\), \\(i\\), \
-\\(min\\)]\\),\\!\\(\\*SubsuperscriptBox[\\(x\\), \\(i\\), \\(max\\)]\\)} for \
-every traceList[[i]]\n\t3. a single Interval\n\t4. a list of Interval's for \
-every traceList[[i]]\n\nOutput:\n\tlist of the fit replacement rules \n\n\
-Options: \n\tFitFunction can be either FindFit (by default) of \
-FindLogFit\>\""}], "\n", "\n"}], "\n", 
+traceList.\n\nInput:\n\tfitModel_, pars_ and vars_ correspond to inputs for \
+FindFit[]. fitModel_ and pars_ can be either a single element, \n\tor a list \
+of corresponding elements for each trace in traceList.\n\tfitRanges_ is an \
+optional argument, if not specified then the entire data set is fitted. \
+fitRanges_ can be\n\t1. single range {\!\(\*SubscriptBox[\(x\), \(min\)]\),\!\
+\(\*SubscriptBox[\(x\), \(max\)]\)}\n\t2. a list of ranges \
+{\!\(\*SubsuperscriptBox[\(x\), \(i\), \(min\)]\),\!\(\*SubsuperscriptBox[\(x\
+\), \(i\), \(max\)]\)} for every traceList[[i]]\n\t3. a single Interval\n\t4. \
+a list of Interval's for every traceList[[i]]\n\nOutput:\n\tlist of the fit \
+replacement rules for each trace in traceList_\n\nOptions: \n\tFitFunction\
+\[Rule]FindFit can be either FindFit (by default) of FindLogFit\>\""}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "FindFitSeries", "]"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"FitFunction", "\[Rule]", "FindFit"}], "}"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"FindFitSeries", "[", 
@@ -1004,8 +1113,7 @@ FindLogFit\>\""}], "\n", "\n"}], "\n",
       RowBox[{"Except", "[", 
        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "Full"}], ",", 
      RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", 
-       RowBox[{"FitFunction", "->", "FindFit"}], "}"}], "]"}]}], "]"}], ":=", 
+      RowBox[{"{", "FindFitSeries", "}"}], "]"}]}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -1201,7 +1309,11 @@ FindLogFit\>\""}], "\n", "\n"}], "\n",
          RowBox[{"i", ",", 
           RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}]}], 
     "\n", "]"}]}], ";"}], "\n"}], "Code",
- CellChangeTimes->{{3.7339178705336475`*^9, 3.733917913339658*^9}}],
+ CellChangeTimes->{{3.7339178705336475`*^9, 3.733917913339658*^9}, {
+  3.7345373464141545`*^9, 3.7345373513228006`*^9}, {3.7345374935210767`*^9, 
+  3.7345375173398075`*^9}, {3.7345376080581307`*^9, 3.7345377423062515`*^9}, {
+  3.734539808709217*^9, 3.7345398177540193`*^9}, {3.734539850856926*^9, 
+  3.7345399161963816`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -1211,22 +1323,22 @@ Cell[BoxData[{
 :x]\n\tPlots fits on top of the orifinal data.\n\nInput:\n\tfitModel needs to \
 have fitVar as the free variable\n\tfitRanges should be either a single \
 fitting interval for all the traces in traceList, or the list of individual \
-fitting intervals for traceList[[i]]\n\nOptions:\n\tlogYPlot->False,\n\t\
-logXPlot->False\>\""}], "\n"}], "\n", 
+fitting intervals for traceList[[i]]\n\nOptions:\n\tLogYPlot\[Rule]False,\n\t\
+LogXPlot\[Rule]False\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "FitQualityCheck", "]"}], "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"LogYPlot", "->", "False"}], ",", 
+     RowBox[{"LogXPlot", "->", " ", "False"}]}], "}"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{"FitQualityCheck", "[", 
    RowBox[{
    "traceList_", ",", "fitRanges_", ",", "fitModel_", ",", "fitParameters_", 
-    ",", 
-    RowBox[{"fitVar", ":", 
-     RowBox[{"Except", "[", 
-      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "Global`x"}], ",", 
+    ",", "fitVar_", ",", 
     RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"logYPlot", "->", "False"}], ",", 
-       RowBox[{"logXPlot", "->", " ", "False"}]}], "}"}], "]"}]}], "]"}], ":=",
-   "\n", 
+     RowBox[{"{", "FitQualityCheck", "}"}], "]"}]}], "]"}], ":=", "\n", 
   RowBox[{"Module", "[", 
    RowBox[{
     RowBox[{"{", 
@@ -1278,28 +1390,28 @@ logXPlot->False\>\""}], "\n"}], "\n",
         "*)"}], "\n", "\t\t\t", 
        RowBox[{
         RowBox[{
-         RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
-         RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", "LogLogPlot", 
+         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", "LogLogPlot", 
         ",", "\n", "\t\t\t", 
         RowBox[{
-         RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
         "LogPlot", ",", "\n", "\t\t\t", 
         RowBox[{
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
         "LogLinearPlot", ",", "\n", "\t\t\t", 
         RowBox[{
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
+           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
         "Plot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\t\t", 
      RowBox[{"dPlotF", "=", 
       RowBox[{"Which", "[", " ", 
@@ -1308,28 +1420,28 @@ logXPlot->False\>\""}], "\n"}], "\n",
         "*)"}], "\n", "\t\t\t", 
        RowBox[{
         RowBox[{
-         RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
-         RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", 
+         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
         "ListLogLogPlot", ",", "\n", "\t\t\t", 
         RowBox[{
-         RowBox[{"OptionValue", "[", "logYPlot", "]"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
         "ListLogPlot", ",", "\n", "\t\t\t", 
         RowBox[{
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
         "ListLogLinearPlot", ",", "\n", "\t\t\t", 
         RowBox[{
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logYPlot", "]"}]}], ")"}], "&&", 
+           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
          RowBox[{"(", 
           RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "logXPlot", "]"}]}], ")"}]}], ",", 
+           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
         "ListPlot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\n", "\t\t", 
      RowBox[{"Do", "[", "\n", "\t\t\t", 
       RowBox[{
@@ -1373,12 +1485,18 @@ logXPlot->False\>\""}], "\n"}], "\n",
    "\n", "]"}]}]}], "Code",
  CellChangeTimes->{{3.733917931615965*^9, 3.7339179675239677`*^9}, {
   3.7339180576504264`*^9, 3.733918236197213*^9}, {3.733918727317361*^9, 
-  3.733918762591159*^9}, {3.7339188058385124`*^9, 3.7339188440587387`*^9}}]
-}, Closed]]
+  3.733918762591159*^9}, {3.7339188058385124`*^9, 3.7339188440587387`*^9}, {
+  3.7345336679514303`*^9, 3.7345336781558027`*^9}, {3.7345337702243547`*^9, 
+  3.7345337739129915`*^9}, {3.7345391406094456`*^9, 3.734539150722803*^9}, {
+  3.734539216142032*^9, 3.7345392265377836`*^9}, {3.734539314258649*^9, 
+  3.734539314833763*^9}, {3.7345393595407877`*^9, 3.7345393763688483`*^9}, {
+  3.7345394340843024`*^9, 3.734539454541932*^9}, {3.73453952479661*^9, 
+  3.7345395462154975`*^9}, {3.7345395807278595`*^9, 3.734539733632825*^9}}]
+}, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1282, 772},
-WindowMargins->{{43, Automatic}, {Automatic, 0}},
+WindowMargins->{{Automatic, 113}, {Automatic, 3}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -1406,26 +1524,29 @@ Cell[5727, 155, 1007, 27, 123, "Code",
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[6771, 187, 126, 1, 70, "Section"],
-Cell[6900, 190, 626, 16, 69, "Code"],
-Cell[7529, 208, 4186, 136, 285, "Code"],
 Cell[CellGroupData[{
-Cell[11740, 348, 124, 1, 49, "Subsection"],
-Cell[11867, 351, 9645, 251, 1203, "Code"]
+Cell[6922, 192, 121, 1, 49, "Subsection"],
+Cell[7046, 195, 626, 16, 69, "Code"],
+Cell[7675, 213, 4186, 136, 285, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11898, 354, 124, 1, 49, "Subsection"],
+Cell[12025, 357, 12813, 336, 1419, "Code"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21561, 608, 113, 1, 70, "Section"],
-Cell[21677, 611, 455, 13, 50, "Code"],
-Cell[22135, 626, 1458, 41, 105, "Code"],
-Cell[23596, 669, 600, 14, 87, "Code"]
+Cell[24887, 699, 113, 1, 70, "Section"],
+Cell[25003, 702, 455, 13, 50, "Code"],
+Cell[25461, 717, 1458, 41, 105, "Code"],
+Cell[26922, 760, 600, 14, 87, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[24233, 688, 96, 1, 70, "Section"],
-Cell[24332, 691, 1880, 49, 231, "Code"],
-Cell[26215, 742, 9676, 237, 735, "Code"],
-Cell[35894, 981, 9369, 222, 1005, "Code"],
-Cell[45266, 1205, 6998, 170, 825, "Code"]
-}, Closed]]
+Cell[27559, 779, 96, 1, 70, "Section"],
+Cell[27658, 782, 1941, 50, 231, "Code"],
+Cell[29602, 834, 10484, 248, 987, "Code"],
+Cell[40089, 1084, 9833, 231, 1024, "Code"],
+Cell[49925, 1317, 7480, 176, 843, "Code"]
+}, Open  ]]
 }
 ]
 *)

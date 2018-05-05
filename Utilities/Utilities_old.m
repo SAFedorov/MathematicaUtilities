@@ -39,32 +39,6 @@ System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 compilationOptionsC::usage=""
 
 
-(* ::Subsubsection:: *)
-(*Patterns*)
-
-
-(*Tests if object is a function, adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
-FunctionQ[_Function|_InterpolatingFunction|_CompiledFunction]=True;
-FunctionQ[f_Symbol]:=Or[DownValues[f]=!={},MemberQ[Attributes[f],NumericFunction]]
-FunctionQ[_]=False;
-
-
-(*Tests if the argument is a vector or array of numbers*)
-NumericVectorQ[expr_]:=VectorQ[expr,NumericQ];
-NumericArrayQ[expr_]:=ArrayQ[expr,_,NumericQ];
-
-
-notOptPatt=Except[_?OptionQ]
-
-
-(*differentiate between 2D and 3D datasets*)
-XYListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==2);
-
-ListOfXYListsQ[list_]:=ListQ[list]&& AllTrue[list,XYListQ];
-
-XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3);
-
-
 (* ::Subsection:: *)
 (*List of all functions in the package*)
 
@@ -94,30 +68,6 @@ PhaseUnwrap::usage="PhaseUnwrap[list_, jumpThreshold\[Rule]1.8\[Pi]]"
 (*Manipulation with multi-dimensional lists *)
 
 
-(*Useful functions adopted from the V.Sudhir's He3Analysis package;
-The function names are self-explanatory, the two instances are different in the argument type.*)
-MapX::usage="MapX[f_, list_] applies f to the x coordinate of the list. list_ can be either 2D of 3D, {{x,y},...} or {{x,y,z},...}"
-MapY::usage="MapY[f_, list_] applies f to the y coordinate of the list. list_ can be either 2D of 3D, {{x,y},...} or {{x,y,z},...}"
-MapXY::usage="MapXY[fx_,fy_,list_] applies fx to the x coordinate and fy to the y coordinate of the list. 
-	list_ can be either 2D of 3D, {{x,y},...} or {{x,y,z},...}"
-MapZ::usage="MapZ[f_, list_] applies f to the z coordinate of the list"
-
-ScaleY::usage="Function rescales data along the y coordinate by the factor of a_
-	Also, a shift in y-dimension, or scaling and shift in x dimension can be specified by options ShiftY, ScaleX and ShiftX
-	Output is calculated as: {x,y}\[Rule]{ScaleX\[Times](x+ShiftX),a\[Times](y+ShiftY)}
-
-	Input list_ can be either xylist of a set of xylist's 
-
-	a_ is a constant for single-list input, or may be a list of constants in the case of multiple list input.
-	In the latter case Subscript[y, i]^j is scaled by Subscript[a, j]
-
-	ScaleX and ShiftX can be constant only
-
-	ShiftY can be a constant, a list or a xylist.
-	In the case of list Subscript[ShiftY, i] is added to the Subscript[y, i] of the data
-	In the case of a xylist, the y-values of this list are added to the y-values of the data.
-"
-	
 NormalizeY::usage="NormalizeY[xylist_]
 	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to be within [0,1]"
 
@@ -144,15 +94,6 @@ ListIntegrate::usage="ListIntegrate[xylist_, intRange_]"
 
 AverageXYLists::usage="AverageXYLists[xylists_]
 	Computes average of multiple lists"
-
-
-(* ::Subsubsection:: *)
-(*Interval manipulations*)
-
-
-IntervalComplement::usage="IntervalComplement[a_,b_,c_,..]  computes a\[Backslash](b\:222ac\:222a\[Ellipsis])"
-
-IntervalInverse::usage="IntervalInverse[a_] computes the complement (\[Minus]\[Infinity],\[Infinity])/a"
 
 
 (* ::Subsubsection::Closed:: *)
@@ -199,15 +140,6 @@ Returns the the list {{\[CapitalDelta]\[Nu],\!\(\*FractionBox[\(S[\*SubscriptBox
 Peak-to-peak variation of the ratio defined above is 2\!\(\*SqrtBox[\(\[Eta]\\\ C/\*SubscriptBox[\(n\), \(phon\)]\)]\), 
 where \[Eta] is detection efficiency, is the optomechanical multi-photon cooperativity and \!\(\*SubscriptBox[\(n\), \(phon\)]\) is the phonon number \!\(\*SubscriptBox[\(n\), \(phon\)]\)=\!\(\*SubscriptBox[\(n\), \(th\)]\)+C+\!\(\*SubscriptBox[\(n\), \(classical\\\ heating\)]\)
 "
-
-
-(* ::Subsection:: *)
-(*List of options to functions*)
-
-
-ScaleX::usage=""
-ShiftX::usage=""
-ShiftY::usage=""
 
 
 (* ::Section:: *)
@@ -257,58 +189,6 @@ DefaultHeaderPrint[]:=CellPrint[
 
 (* ::Subsection:: *)
 (*Manipulations with multi-dimensional lists*)
-
-
-(*Useful functions adopted from the V.Sudhir's He3Analysis package;
-The function names are self-explanatory, the two instances are different in the argument type.*)
-MapX[f_,list_?XYListQ]:=Map[{f[#[[1]]],#[[2]]}&,list];
-MapX[f_,list_?XYZListQ]:=Map[{f[#[[1]]],#[[2]],#[[3]]}&,list];
-
-MapY[f_,list_?XYListQ]:=Map[{#[[1]],f[#[[2]]]}&,list];
-MapY[f_,list_?XYZListQ]:=Map[{#[[1]],f[#[[2]]],#[[2]]}&,list];
-
-MapXY[fx_,fy_,list_?XYListQ]:=Map[{fx[#[[1]]],fy[#[[2]]]}&,list];
-MapXY[fx_,fy_,list_?XYZListQ]:=Map[{fx[#[[1]]],fy[#[[2]]],#[[3]]}&,list];
-
-MapZ[f_,xyzlist_]:=Map[{#[[1]],#[[2]],f[#[[3]]]}&,xyzlist];
-
-
-(**;
-Function rescales data along the y coordinate by the factor of a_;
-Also, a shift in y-dimension, or scaling and shift in x dimension can be specified by options ShiftY, ScaleX and ShiftX;
-Output is calculated as: {x,y}\[Rule]{ScaleX\[Times](x+ShiftX),a\[Times](y+ShiftY)};
-
-Input list_ can be either xylist of a set of xylist's 
-
-a_ is a constant for single-list input, or may be a list of constants in the case of multiple list input.;
-In the latter case Subscript[y, i]^j is scaled by Subscript[a, j];
-
-ScaleX and ShiftX can be constant only;
-
-ShiftY can be a constant, a list or a xylist.;
-In the case of list Subscript[ShiftY, i] is added to the Subscript[y, i] of the data;
-In the case of a xylist, the y-values of this list are added to the y-values of the data.;
-**)
-ScaleY[xylist_?XYListQ, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
-	xSc=OptionValue[ScaleX];
-	ySc=a;
-	xSh=OptionValue[ShiftX];
-	ySh=OptionValue[ShiftY];
-	
-	Which[
-		ArrayQ[ySh,2]&&(Length[ySh]==Length[xylist]),
-			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh[[;;,2]])}],
-		True,
-			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh)}]
-	]
-]
-
-ScaleY[list_?ListOfXYListsQ,a:Except[_?OptionQ]:1,opts:OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{},
-	If[ListQ[a],
-		Table[ScaleY[list[[i]],a[[i]],opts],{i,Length[list]}],
-		Table[ScaleY[xylist,a,opts],{xylist,list}]
-	]
-]
 
 
 (**
@@ -440,24 +320,6 @@ AverageXYLists[xylists_]:=Module[{nMin,nLists,ylist},
 	ylist=Total[xylists[[;;,;;nMin,2]],{1}]/nLists;
 	Transpose[{xylists[[1,;;nMin,1]],ylist}]
 ]
-
-
-(* ::Subsection::Closed:: *)
-(*Interval manipulations*)
-
-
-(* ::Input:: *)
-(*(*taken from http://mathematica.stackexchange.com/questions/11345/can-mathematica-handle-open-intervals-interval-complements*)*)
-
-
-(*computes the complement (\[Minus]\[Infinity],\[Infinity])/a.*)
-IntervalInverse[Interval[int___]]:=Interval@@Partition[
-	Flatten@{int}/.{{-\[Infinity],mid___,\[Infinity]}:>{mid},{-\[Infinity],mid__}:>{mid,\[Infinity]},{mid__,\[Infinity]}:>{-\[Infinity],mid},{mid___}:>{-\[Infinity],mid,\[Infinity]}},2]
-
-
-(*IntervalComplement[a,b,c,..] computes a\[Backslash](b\:222ac\:222a\[Ellipsis])*)
-IntervalComplement[a_Interval,b__Interval]:=IntervalIntersection[a,IntervalInverse@IntervalUnion[b]]
-
 
 
 (* ::Subsection:: *)

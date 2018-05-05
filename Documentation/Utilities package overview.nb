@@ -10,57 +10,63 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      5824,        175]
-NotebookOptionsPosition[      5473,        158]
-NotebookOutlinePosition[      5816,        173]
-CellTagsIndexPosition[      5773,        170]
+NotebookDataLength[      6205,        186]
+NotebookOptionsPosition[      5698,        164]
+NotebookOutlinePosition[      6041,        179]
+CellTagsIndexPosition[      5998,        176]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell[TextData[{
- "Naming conventions:\n\n- Function names start from capital letters and \
-named CamelCase\n- Variable names start with small letters and named \
-camelCase \n- xylist is a list of the form ",
+ "Naming conventions:\n\n- Function and option names start from capital \
+letters and named CamelCase\n- Variable names start with small letters and \
+named camelCase \n- xylist is a list of the form ",
  Cell[BoxData[
   FormBox[
    RowBox[{"{", 
     RowBox[{"{", 
-     SubscriptBox["x", "1"]}]}], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+     SubscriptBox["x", "1"]}]}], TraditionalForm]]],
  ", ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["y", "1"], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+   SubscriptBox["y", "1"], TraditionalForm]]],
  "}, ",
  Cell[BoxData[
   FormBox[
    RowBox[{"{", 
-    SubscriptBox["x", "2"]}], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+    SubscriptBox["x", "2"]}], TraditionalForm]]],
  ", ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["y", "2"], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+   SubscriptBox["y", "2"], TraditionalForm]]],
  "}, ..., ",
  Cell[BoxData[
   FormBox[
    RowBox[{"{", 
-    SubscriptBox["x", "n"]}], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+    SubscriptBox["x", "n"]}], TraditionalForm]]],
  ", ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["y", "n"], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+   SubscriptBox["y", "n"], TraditionalForm]]],
  "}}\n- xylistdm is a m-dimensional list of {x, y} pairs. Correspondingly, \
 xylistd1 is the same as just xylist "
 }], "Text",
  CellChangeTimes->{{3.733919337386199*^9, 3.7339194994782133`*^9}, {
   3.733919540016696*^9, 3.7339196211517096`*^9}, {3.7339196538484263`*^9, 
-  3.733919662552335*^9}}],
+  3.733919662552335*^9}, {3.7345317378301835`*^9, 3.734531742092455*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Data analysis", "Section",
+ CellChangeTimes->{{3.7345315434517913`*^9, 3.734531548466603*^9}}],
+
+Cell["Rescaling traces", "Subsection",
+ CellChangeTimes->{{3.734531590941986*^9, 3.7345316110392714`*^9}}],
+
+Cell["Fitting and checking fits", "Subsection",
+ CellChangeTimes->{{3.734531617456689*^9, 3.7345316379919243`*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -172,10 +178,15 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 1263, 42, 125, "Text"],
+Cell[558, 20, 1124, 36, 125, "Text"],
 Cell[CellGroupData[{
-Cell[1846, 66, 35, 0, 70, "Section"],
-Cell[1884, 68, 3573, 87, 1474, "Text"]
+Cell[1707, 60, 100, 1, 70, "Section"],
+Cell[1810, 63, 106, 1, 49, "Subsection"],
+Cell[1919, 66, 115, 1, 41, "Subsection"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2071, 72, 35, 0, 70, "Section"],
+Cell[2109, 74, 3573, 87, 1474, "Text"]
 }, Closed]]
 }
 ]

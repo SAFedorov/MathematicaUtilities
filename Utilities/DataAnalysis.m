@@ -79,70 +79,82 @@ MapZ::usage="MapZ[f_,list_] applies function f to Z elements in xyzlist"
 MapZ[f_,xyzlist_]:=Map[{#[[1]],#[[2]],f[#[[3]]]}&,xyzlist]
 
 
-ScaleY::usage="Function rescales data along the y coordinate by the factor of a_
-	Also, a shift in y-dimension, or scaling and shift in x dimension can be specified by options ShiftY, ScaleX and ShiftX
-	Output is calculated as: {x,y}\[Rule]{ScaleX\[Times](x+ShiftX),a\[Times](y+ShiftY)}
+ScaleY::usage="ScaleX[list_,a_], ScaleY[list_,a_], ShiftX[list_,a_], ShiftY[list_,a_]
+	rescale or offset data along the x and y coordinates by the amount a_
+	Each of the function names can be used as an option in another. E.g. simultaneus shift along x axis by a and rescaling along 
+	y by b can be equivalently written as ScaleY[list,b,ShiftX\[Rule]a] or ShiftX[list,b,ScaleY\[Rule]a].
 
-	Input list_ can be either xylist of a set of xylist's 
+Input:
+	list_ is either xylist or xylistd2. a is a constant if list_ is xylist or if list_ is xylistd2, can be a vector of constants
+	for each element in xylistd2. Specifically for ShiftY, a_ can be a xylist or a list of xylists, in which case the y-values 
+	of this xylist are added to the y- values of list_.
 
-	a_ is a constant for single-list input, or may be a list of constants in the case of multiple list input.
-	In the latter case Subscript[y, i]^j is scaled by Subscript[a, j]
-
-	ScaleX and ShiftX can be constant only
-
-	ShiftY can be a constant, a list or a xylist.
-	In the case of list Subscript[ShiftY, i] is added to the Subscript[y, i] of the data
-	In the case of a xylist, the y-values of this list are added to the y-values of the data."
+Output: 
+	{{x,y},...}\[Rule]{{ScaleX\[Times](x+ShiftX),ScaleY\[Times](y+ShiftY)},...}"
+	
 ScaleX::usage=ScaleY::usage
 ShiftY::usage=ScaleY::usage
 ShiftX::usage=ScaleY::usage
 
-SSXY::usage="SSXY[xylist_,xSc_,ySc_,xSh_,ySh_] generic rescaling function"
-		
-SSXY[xylist_,xSc_,ySc_,xSh_,ySh_]:=Module[{},
-	Which[
-		ArrayQ[ySh,2]&&(Length[ySh]==Length[xylist]),
-			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh[[;;,2]])}],
-		True,
-			Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh)}]
+SSXY::usage="SSXY[list_,xSc_,ySc_,xSh_,ySh_] low level generic rescaling function used by ScaleY, ScaleX, ShiftY and ShiftX";
+
+(*Versions for various inputs*)				
+SSXY[xylist_?XYListQ,xSc_,ySc_,xSh_,ySh_]:=Which[
+	XYListQ[ySh]&&(Length[ySh]==Length[xylist]),
+		Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh[[;;,2]])}],
+	True,
+		Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh)}]
+]
+SSXY[list_?(XYListQ[#,2]&),xSc_,ySc_,xSh_,ySh_]:=Module[{xScListQ,yScListQ,xShListQ,yShListQ,xScTmp,yScTmp,xShTmp,yShTmp},
+	(*Check if need to iterate over the variables*)
+	xScListQ=(VectorQ[xSc]&&(Length[xSc]==Length[list]));
+	yScListQ=(VectorQ[ySc]&&(Length[ySc]==Length[list]));
+	xShListQ=(VectorQ[xSh]&&(Length[xSh]==Length[list]));
+	(*The case of shift in y direction is special as here multiple xylists can be supplied*)
+	yShListQ=((VectorQ[ySh]||XYListQ[ySh,2])&&(Length[ySh]==Length[list]));	
+	Table[
+		xScTmp=If[xScListQ, xSc[[i]], xSc];
+		yScTmp=If[yScListQ, ySc[[i]], ySc];
+		xShTmp=If[xShListQ, xSh[[i]], xSh];
+		yShTmp=If[yShListQ, ySh[[i]], ySh];
+		SSXY[list[[i]],xScTmp,yScTmp,xShTmp,yShTmp]
+		,
+		{i,Length[list]}
+	];
+	
+	If[ListQ[a],
+		Table[ScaleY[list[[i]],a[[i]],opts],{i,Length[list]}],
+		Table[SSXY[xylist,xSc,ySc,xSh,ySh],{xylist,list}]
 	]
 ]
 		
-ScaleY[xylist_?XYListQ, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+ScaleY[list_, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
 	xSc=OptionValue[ScaleX];
 	ySc=a;
 	xSh=OptionValue[ShiftX];
 	ySh=OptionValue[ShiftY];	
-	SSXY[xylist,xSc,ySc,xSh,ySh]
+	SSXY[list,xSc,ySc,xSh,ySh]
 ]
-
-ScaleY[list_?(XYListQ[#,2]&),a:Except[_?OptionQ]:1,opts:OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{},
-	If[ListQ[a],
-		Table[ScaleY[list[[i]],a[[i]],opts],{i,Length[list]}],
-		Table[ScaleY[xylist,a,opts],{xylist,list}]
-	]
-]
-
-ScaleX[xylist_?XYListQ, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleY->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+ScaleX[list_, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleY->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
 	xSc=a;
 	ySc=OptionValue[ScaleY];
 	xSh=OptionValue[ShiftX];
 	ySh=OptionValue[ShiftY];	
-	SSXY[xylist,xSc,ySc,xSh,ySh]
+	SSXY[list,xSc,ySc,xSh,ySh]
 ]
-ShiftY[xylist_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftX->0}]]:=Module[{xSc,ySc,xSh,ySh},
+ShiftY[list_, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftX->0}]]:=Module[{xSc,ySc,xSh,ySh},
 	xSc=OptionValue[ScaleX];
 	ySc=OptionValue[ScaleY];
 	xSh=OptionValue[ShiftX];
 	ySh=a;	
-	SSXY[xylist,xSc,ySc,xSh,ySh]
+	SSXY[list,xSc,ySc,xSh,ySh]
 ]
-ShiftX[xylist_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
+ShiftX[list_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
 	xSc=OptionValue[ScaleX];
 	ySc=OptionValue[ScaleY];
 	xSh=a;
 	ySh=OptionValue[ShiftY];	
-	SSXY[xylist,xSc,ySc,xSh,ySh]
+	SSXY[list,xSc,ySc,xSh,ySh]
 ]
 
 
@@ -160,7 +172,7 @@ IntervalComplement::usage="IntervalComplement[a_,b_,c_,..] returnes a\[Backslash
 IntervalComplement[a_Interval,b__Interval]:=IntervalIntersection[a,IntervalInverse@IntervalUnion[b]]
 
 
-FindLogFit::usage="FindLogFit[data_, expr_, rest__]. The function is equivalent to FindFit, but works in log Y scale."
+FindLogFit::usage="FindLogFit[data_, expr_, rest__]. The function is equivalent to FindFit, but minimizes error on log Y scale."
 
 FindLogFit[data_,expr_,rest__]:=Module[{logData},
 (*The function is equivalent to FindFit, but works in log Y scale*)
@@ -173,44 +185,58 @@ FindLogFit[data_,expr_,rest__]:=Module[{logData},
 ]
 
 
-FitRangeSelector::usage="FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{logYPlot->False,logXPlot-> False}]]
-	Function allows to select ranges for each element of the list of traces (presumably for future use in fitting)
-	Left click - set lower x interval boundary at current mouse position; right click - set upper x interval boundary at current mouse position.
-	fitRanges is an empty variable to which the list of ranges will be assigned."
+FitRangeSelector::usage="FitRangeSelector[fitRanges_, traceList_]
+	Create an interactive plot to select intervals for each element in the traceList_ (presumably for future use in fitting)
 
+Interactive operation:
+	Left mouse click - set lower x interval boundary at current mouse cursor position
+	Right mouse click - set upper x interval boundary at current mouse cursor position
+	
+Output:
+	The list of ranges is assigned to fitRanges_
+
+Options:
+	LogYPlot\[Rule]False
+	LogXPlot\[Rule]False"
+
+Options[FitRangeSelector]={LogYPlot->False,LogXPlot->False};
 SetAttributes[FitRangeSelector,HoldFirst];(*Hold attribute for the "fitRanges" variable is needed for being able to clear the variable if it was already defined*)
-FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{logYPlot->False,logXPlot-> False}]]:=DynamicModule[{epList, LowerLine,UpperLine,minList,maxList,plotF},
+FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{FitRangeSelector}]]:=DynamicModule[{epList, LowerLine,UpperLine,minList,maxList,plotF},
 	(*right and left cursor lines*)
 	minList=Table[Min[tr[[;;,2]]],{tr,traceList}];
 	maxList=Table[Max[tr[[;;,2]]],{tr,traceList}];
 	LowerLine[i_,x_]:={CMYKColor[1.,0,0,.4],Line[{{x,2minList[[i]]},{x,2maxList[[i]]}}]};
 	UpperLine[i_,x_]:={CMYKColor[0.,0.2,0.5,.1],Line[{{x,2minList[[i]]},{x,2maxList[[i]]}}]};
 	plotF=Which[
-		OptionValue[logYPlot]&&OptionValue[logXPlot],ListLogLogPlot,
-		OptionValue[logYPlot]&&(!OptionValue[logXPlot]),ListLogPlot,
-		(!OptionValue[logYPlot])&&OptionValue[logXPlot],ListLogLinearPlot,
-		(!OptionValue[logYPlot])&&(!OptionValue[logXPlot]),ListPlot
+		OptionValue[LogYPlot]&&OptionValue[LogXPlot],ListLogLogPlot,
+		OptionValue[LogYPlot]&&(!OptionValue[LogXPlot]),ListLogPlot,
+		(!OptionValue[LogYPlot])&&OptionValue[LogXPlot],ListLogLinearPlot,
+		(!OptionValue[LogYPlot])&&(!OptionValue[LogXPlot]),ListPlot
 	];
 
 	(* epList is the list of cursors to display the chosen boundaries*)
 	epList=Table[
-	{LowerLine[i,traceList[[i,1,1]]],UpperLine[i,traceList[[i,-1,1]]]}
-	,{i,Length[traceList]}];
+		{LowerLine[i,traceList[[i,1,1]]],UpperLine[i,traceList[[i,-1,1]]]},
+	{i,Length[traceList]}];
+	
 	Clear[fitRanges];
 	fitRanges=Table[{0,0},{i,Length[traceList]}];
 
 	Manipulate[
-	EventHandler[plotF[traceList[[i]],Joined-> True,ImageSize->Large,PlotRange->Full,Epilog-> epList[[i]]],
-	{{"MouseClicked",1}:>(
-		fitRanges[[i,1]]=MousePosition["Graphics"][[1]];
-		epList[[i]]={LowerLine[i,fitRanges[[i,1]]], epList[[i,2]]};
-		)},
-	{{"MouseClicked",2}:>(
-		fitRanges[[i,2]]=MousePosition["Graphics"][[1]];
-		epList[[i]]={ epList[[i,1]],UpperLine[i,fitRanges[[i,2]]]};
-		)}
+		EventHandler[plotF[traceList[[i]],Joined->True,ImageSize->Large,PlotRange->Full,Epilog->epList[[i]]],
+			{{"MouseClicked",1}:>(
+				fitRanges[[i,1]]=MousePosition["Graphics"][[1]];
+				epList[[i]]={LowerLine[i,fitRanges[[i,1]]], epList[[i,2]]};
+				)
+			},
+			{{"MouseClicked",2}:>(
+				fitRanges[[i,2]]=MousePosition["Graphics"][[1]];
+				epList[[i]]={ epList[[i,1]],UpperLine[i,fitRanges[[i,2]]]};
+				)
+			}
+		],
+		{i,1,Length[traceList],1}
 	],
-	{i,1,Length[traceList],1}],
 SaveDefinitions->True]
 
 
@@ -218,21 +244,22 @@ FindFitSeries::usage="FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges_:
 	Function applies FindFit[] to each element in the list of 2D data traces traceList.
 
 Input:
-	fitModel, pars and vars are the corresponding elements for FindFit[]. fitModel and pars can be either a single element, or a list of corresponding elements for each trace in traceList.
-	fitRanges is an optional argument, alowing pre-selection of the data to be fitted. It can be
-	1. single range {Subscript[x, min],Subscript[x, max]}
+	fitModel_, pars_ and vars_ correspond to inputs for FindFit[]. fitModel_ and pars_ can be either a single element, 
+	or a list of corresponding elements for each trace in traceList.
+	fitRanges_ is an optional argument, if not specified then the entire data set is fitted. fitRanges_ can be
+	1. single range {\!\(\*SubscriptBox[\(x\), \(min\)]\),\!\(\*SubscriptBox[\(x\), \(max\)]\)}
 	2. a list of ranges {\!\(\*SubsuperscriptBox[\(x\), \(i\), \(min\)]\),\!\(\*SubsuperscriptBox[\(x\), \(i\), \(max\)]\)} for every traceList[[i]]
 	3. a single Interval
 	4. a list of Interval's for every traceList[[i]]
 
 Output:
-	list of the fit replacement rules 
+	list of the fit replacement rules for each trace in traceList_
 
 Options: 
-	FitFunction can be either FindFit (by default) of FindLogFit"
+	FitFunction\[Rule]FindFit can be either FindFit (by default) of FindLogFit"
 
-
-FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,OptionsPattern[{FitFunction->FindFit}]]:=Module[{dataList,fitModelsList,parsList,frIntervalsList},
+Options[FindFitSeries]={FitFunction->FindFit};
+FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,OptionsPattern[{FindFitSeries}]]:=Module[{dataList,fitModelsList,parsList,frIntervalsList},
 	(*reduce the input parameters from all the various acceptable forms to a single one \[Dash] lists*)
 	If[fitRanges===Full,
 		(*if the entire traces are to be fitted*)
@@ -278,10 +305,11 @@ Input:
 	fitRanges should be either a single fitting interval for all the traces in traceList, or the list of individual fitting intervals for traceList[[i]]
 
 Options:
-	logYPlot->False,
-	logXPlot->False"
+	LogYPlot\[Rule]False,
+	LogXPlot\[Rule]False"
 
-FitQualityCheck[traceList_,fitRanges_,fitModel_,fitParameters_,fitVar:Except[_?OptionQ]:Global`x,OptionsPattern[{logYPlot->False,logXPlot-> False}]]:=
+Options[FitQualityCheck]={LogYPlot->False,LogXPlot-> False};
+FitQualityCheck[traceList_,fitRanges_,fitModel_,fitParameters_,fitVar_,OptionsPattern[{FitQualityCheck}]]:=
 Module[{xPlotRanges,cPlotF,dPlotF},
 	If[Head[fitRanges]=!=List, Print["Fit ranges is not a list"];Return[]];
 		xPlotRanges=Which[
@@ -292,16 +320,16 @@ Module[{xPlotRanges,cPlotF,dPlotF},
 		];
 
 		cPlotF=Which[ (*chose continuous plotting function*)
-			OptionValue[logYPlot]&&OptionValue[logXPlot],LogLogPlot,
-			OptionValue[logYPlot]&&(!OptionValue[logXPlot]),LogPlot,
-			(!OptionValue[logYPlot])&&OptionValue[logXPlot],LogLinearPlot,
-			(!OptionValue[logYPlot])&&(!OptionValue[logXPlot]),Plot
+			OptionValue[LogYPlot]&&OptionValue[LogXPlot],LogLogPlot,
+			OptionValue[LogYPlot]&&(!OptionValue[LogXPlot]),LogPlot,
+			(!OptionValue[LogYPlot])&&OptionValue[LogXPlot],LogLinearPlot,
+			(!OptionValue[LogYPlot])&&(!OptionValue[LogXPlot]),Plot
 		];
 		dPlotF=Which[ (*chose discrete plotting function*)
-			OptionValue[logYPlot]&&OptionValue[logXPlot],ListLogLogPlot,
-			OptionValue[logYPlot]&&(!OptionValue[logXPlot]),ListLogPlot,
-			(!OptionValue[logYPlot])&&OptionValue[logXPlot],ListLogLinearPlot,
-			(!OptionValue[logYPlot])&&(!OptionValue[logXPlot]),ListPlot
+			OptionValue[LogYPlot]&&OptionValue[LogXPlot],ListLogLogPlot,
+			OptionValue[LogYPlot]&&(!OptionValue[LogXPlot]),ListLogPlot,
+			(!OptionValue[LogYPlot])&&OptionValue[LogXPlot],ListLogLinearPlot,
+			(!OptionValue[LogYPlot])&&(!OptionValue[LogXPlot]),ListPlot
 		];
 
 		Do[
