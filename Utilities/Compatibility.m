@@ -173,3 +173,9 @@ Module[{peakIndexList,peakValList,xInterp},
 ListOfXYListsQ::usage="ListOfXYListsQ[list_]
 	Obsolete equivalent of XYListQ[list,2]. Use XYListQ latter instead"
 ListOfXYListsQ[list_]:=ListQ[list]&& AllTrue[list,XYListQ]
+
+
+FindFitSeries[x__]:=ThreadFindFit[x]
+
+
+SelectSeries[list_,xRange_]:=Table[Select[x,((#[[1]]>=xRange[[1]])&&(#[[1]]<=xRange[[2]]))&],{x,list}];

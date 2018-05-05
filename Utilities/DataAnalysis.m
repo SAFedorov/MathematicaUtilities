@@ -59,6 +59,29 @@ XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3)
 XYZListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYZListQ,d-1]
 
 
+InRangeQ::usage="InRangeQ[x_, range_, IncludeBoundary\[Rule]True]
+	Check if x_ belongs to the interval range_={\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}.
+
+Options:
+	IncludeBoundary\[Rule]True - regulate if the boundary points are included in the interval. 
+	The option can be a single logical value or a list of 2 logical values (e.g. {True,False}), related to the low and high boundary correspondingly."
+
+Options[InRangeQ]={IncludeBoundary->True}
+InRangeQ[x_,range_,OptionsPattern[{InRangeQ}]]:=Module[{upCompFunc,lowCompFunc,ibOpt},
+	ibOpt=OptionValue[IncludeBoundary];
+	Which[
+		Head[ibOpt]===Symbol,
+		lowCompFunc=If[ibOpt===True,GreaterEqual,Greater];
+		upCompFunc=If[ibOpt===True,LessEqual,Less];
+	,
+		Head[ibOpt]===List,
+		lowCompFunc=If[ibOpt[[1]]===True,GreaterEqual,Greater];
+		upCompFunc=If[ibOpt[[2]]===True,LessEqual,Less];
+	];
+	lowCompFunc[x,range[[1]]]&&upCompFunc[x,range[[2]]]
+];
+
+
 (*Useful functions adopted with slight extension from the V.Sudhir's He3Analysis package;
 The function names are self-explanatory, the two instances are different in the argument type.*)
 
@@ -240,7 +263,7 @@ FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{FitRangeSelector}]]:=Dyna
 SaveDefinitions->True]
 
 
-FindFitSeries::usage="FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]
+ThreadFindFit::usage="ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]
 	Function applies FindFit[] to each element in the list of 2D data traces traceList.
 
 Input:
@@ -258,8 +281,8 @@ Output:
 Options: 
 	FitFunction\[Rule]FindFit can be either FindFit (by default) of FindLogFit"
 
-Options[FindFitSeries]={FitFunction->FindFit};
-FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,OptionsPattern[{FindFitSeries}]]:=Module[{dataList,fitModelsList,parsList,frIntervalsList},
+Options[ThreadFindFit]={FitFunction->FindFit};
+ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,OptionsPattern[{ThreadFindFit}]]:=Module[{dataList,fitModelsList,parsList,frIntervalsList},
 	(*reduce the input parameters from all the various acceptable forms to a single one \[Dash] lists*)
 	If[fitRanges===Full,
 		(*if the entire traces are to be fitted*)
@@ -342,3 +365,74 @@ Module[{xPlotRanges,cPlotF,dPlotF},
 			],
 		{i,Length[traceList]}]
 ]
+
+
+LoadDataSeries::usage="LoadDataSeries[namePattern_,parNamesList_:{x}]
+	Input: namePattern, containing varibles which values are being swept and parNamesList that lists the variables.
+	In the case of single variable named x parNamesList may be omitted.  
+	Example: LoadDataSeries[x__~~\" nW pickoff.txt\"]
+
+	Output: {parList, dataList}, where dataList[[i]] corresponds to the content of the file with name including parList[[i]]
+	parList={\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(x\), \(2\)]\), ... } in the case of single parameter and {{\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(y\), \(1\)]\),\!\(\*SubscriptBox[\(z\), \(1\)]\)},..} in the case of multiple
+	
+	Options:
+	By default the measurement files are loaded as Import[fileName,\"Table\"], custom loading function can be specified using FileLoadingFunction option, 
+	which should return data if applied to file name
+	By default the parameters are interpreted as numbers, if they should remain in text format, the InterpretParameter option should be set to False. "
+
+
+LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True,FileLoadingFunction->Automatic,BaseDirectory->Directory[]}]]:=Module[{fileNamesList,dir,FLF,parList,dataList,ret},
+	dir=OptionValue[BaseDirectory];
+	fileNamesList=FileNames[namePattern,dir,Infinity](*read file names and extract parameters from them*);
+	(*parList=Flatten[ToExpression@StringCases[fileNamesList,namePattern->parNamesList],1];*)
+	parList=Table[
+		If[OptionValue[InterpretParameter],
+			Interpreter["Number"][StringCases[fileName,namePattern->parNamesList][[1]]],
+			StringCases[fileName,namePattern->parNamesList][[1]]
+		],
+		{fileName,fileNamesList}];
+	
+	(*read data from the files*)
+	If[FunctionQ[OptionValue[FileLoadingFunction]],
+		FLF=OptionValue[FileLoadingFunction],
+		FLF=(Import[#,"Table"]&)];
+	dataList=Table[FLF[fileName],{fileName,fileNamesList}];
+	
+	(*sort parameters and data sets according to increase in the first parameter in parList*)
+	ret=Transpose@Sort[Transpose[{parList,dataList}],#1[[1,1]]<#2[[1,1]]&];
+	
+	(*If only one parameter, flatten the parList*)
+	If[Length[parNamesList]>1,ret,{Flatten[ret[[1]]],ret[[2]]}]
+]
+
+
+LoadSpeParameters::usage="LoadSpeParameters[namePattern_, keyword_]
+	Function loads parameters given by keyword from .spe files with names matching namePattern"
+
+LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True}]]:=Module[{fileNamesList,tmpData,fileParList,speParList,ret},
+	fileNamesList=FileNames[namePattern,Directory[],Infinity];
+	fileParList=Table[
+		If[OptionValue[InterpretParameter],
+			Interpreter["Number"][StringCases[fileName,namePattern->fileParNamesList][[1]]],
+			StringCases[fileName,namePattern->fileParNamesList][[1]]
+		],
+	{fileName,fileNamesList}];
+	speParList={};
+	Do[
+		tmpData=Import[x,"Table"];
+		AppendTo[speParList,FirstCase[tmpData,{keyword,_,_}][[-1]]],
+	{x,fileNamesList}];
+	ret=Sort[Transpose[{fileParList,speParList}],#1[[1,1]]<#2[[1,1]]&]; (*sorting according to increase in the first file name parameter*)
+	ret[[;;,2]]
+]
+
+
+SelectRange::usage="SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]
+	Return subset of xylist_ with x values within xRange_
+
+Options
+	Same as InRangeQ"
+
+Options[SelectRange]=Options[InRangeQ]
+SelectRange[xylist_?XYListQ,xRange_,opts:OptionsPattern[{SelectRange}]]:=Select[xylist,(InRangeQ[#[[1]],xRange,opts])&];
+SelectRange[xylistd2_?(XYListQ[#,2]&),xRange_,opts:OptionsPattern[{SelectRange}]]:=Table[Select[xylist,(InRangeQ[#[[1]],xRange,opts])&],{xylist,xylistd2}];

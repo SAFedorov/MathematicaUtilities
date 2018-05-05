@@ -59,8 +59,6 @@ RemoveRAMRestriction::usage="RemoveRAMRestriction[]
 
 DefaultHeaderPrint::usage="DefaultHeaderPrint[] prints a cell with commands, frequently used on startup"
 
-InRangeQ::usage="InRangeQ[x_, range_, IncludeBoundary\[Rule]True]"
-
 PhaseUnwrap::usage="PhaseUnwrap[list_, jumpThreshold\[Rule]1.8\[Pi]]"
 
 
@@ -97,30 +95,6 @@ AverageXYLists::usage="AverageXYLists[xylists_]
 
 
 (* ::Subsubsection::Closed:: *)
-(*Series data processing*)
-
-
-LoadDataSeries::usage="LoadDataSeries[namePattern_,parNamesList_:{x}]
-	Input: namePattern, containing varibles which values are being swept and parNamesList that lists the variables.
-	In the case of single variable named x parNamesList may be omitted.  
-	Example: LoadDataSeries[x__~~\" nW pickoff.txt\"]
-
-	Output: {parList, dataList}, where dataList[[i]] corresponds to the content of the file with name including parList[[i]]
-	parList={\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(x\), \(2\)]\), ... } in the case of single parameter and {{\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(y\), \(1\)]\),\!\(\*SubscriptBox[\(z\), \(1\)]\)},..} in the case of multiple
-	
-	Options:
-	By default the measurement files are loaded as Import[fileName,\"Table\"], custom loading function can be specified using FileLoadingFunction option, 
-	which should return data if applied to file name
-	By default the parameters are interpreted as numbers, if they should remain in text format, the InterpretParameter option should be set to False. "
-
-LoadSpeParameters::usage="LoadSpeParameters[namePattern_, keyword_]
-	Function loads parameters given by keyword from .spe files with names matching namePattern"
-
-SelectSeries::usage="[xylist_,xRange_]"
-
-
-
-(* ::Subsubsection::Closed:: *)
 (*Experiment-specific*)
 
 
@@ -149,7 +123,7 @@ where \[Eta] is detection efficiency, is the optomechanical multi-photon coopera
 Begin["`Private`"]
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Sets of settings*)
 
 
@@ -160,7 +134,7 @@ compilationOptionsC=Sequence[
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*RAM usage restriction*)
 
 
@@ -173,7 +147,7 @@ SetRAMRestriction[maxMemAllowedGB_:2,intervalBetweenTests_:5]:=(
 RemoveRAMRestriction[]:=RemoveScheduledTask[ScheduledTasks[]];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Frequently used cells*)
 
 
@@ -327,53 +301,6 @@ AverageXYLists[xylists_]:=Module[{nMin,nLists,ylist},
 
 
 (* ::Subsubsection::Closed:: *)
-(*Loading data*)
-
-
-LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True,FileLoadingFunction->Automatic,BaseDirectory->Directory[]}]]:=Module[{fileNamesList,dir,FLF,parList,dataList,ret},
-	dir=OptionValue[BaseDirectory];
-	fileNamesList=FileNames[namePattern,dir,Infinity](*read file names and extract parameters from them*);
-	(*parList=Flatten[ToExpression@StringCases[fileNamesList,namePattern->parNamesList],1];*)
-	parList=Table[
-		If[OptionValue[InterpretParameter],
-			Interpreter["Number"][StringCases[fileName,namePattern->parNamesList][[1]]],
-			StringCases[fileName,namePattern->parNamesList][[1]]
-		],
-		{fileName,fileNamesList}];
-	
-	(*read data from the files*)
-	If[FunctionQ[OptionValue[FileLoadingFunction]],
-		FLF=OptionValue[FileLoadingFunction],
-		FLF=(Import[#,"Table"]&)];
-	dataList=Table[FLF[fileName],{fileName,fileNamesList}];
-	
-	(*sort parameters and data sets according to increase in the first parameter in parList*)
-	ret=Transpose@Sort[Transpose[{parList,dataList}],#1[[1,1]]<#2[[1,1]]&];
-	
-	(*If only one parameter, flatten the parList*)
-	If[Length[parNamesList]>1,ret,{Flatten[ret[[1]]],ret[[2]]}]
-]
-
-
-LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True}]]:=Module[{fileNamesList,tmpData,fileParList,speParList,ret},
-	fileNamesList=FileNames[namePattern,Directory[],Infinity];
-	fileParList=Table[
-		If[OptionValue[InterpretParameter],
-			Interpreter["Number"][StringCases[fileName,namePattern->fileParNamesList][[1]]],
-			StringCases[fileName,namePattern->fileParNamesList][[1]]
-		],
-	{fileName,fileNamesList}];
-	speParList={};
-	Do[
-		tmpData=Import[x,"Table"];
-		AppendTo[speParList,FirstCase[tmpData,{keyword,_,_}][[-1]]],
-	{x,fileNamesList}];
-	ret=Sort[Transpose[{fileParList,speParList}],#1[[1,1]]<#2[[1,1]]&]; (*sorting according to increase in the first file name parameter*)
-	ret[[;;,2]]
-]
-
-
-(* ::Subsubsection::Closed:: *)
 (*Fitting*)
 
 
@@ -394,14 +321,7 @@ FindFit[tmpData,A Cos[\[Nu] (x-x0)]+B,{{A,A0},{B,B0},{\[Nu],\[Nu]0},{x0,x00}},x]
 ]
 
 
-(* ::Subsubsection::Closed:: *)
-(*Integration and selection*)
-
-
-SelectSeries[xylist_,xRange_]:=Table[Select[x,((#[[1]]>=xRange[[1]])&&(#[[1]]<=xRange[[2]]))&],{x,xylist}];
-
-
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Misc*)
 
 
@@ -430,26 +350,6 @@ Module[{tmpPhase,dim},
 			{x,y}],
 		{y,list}]
 	]
-];
-
-
-InRangeQ[x_,range_,OptionsPattern[{IncludeBoundary->True}]]:=
-Module[{upCompFunc,lowCompFunc,ibOpt},
-(**;
-Function returns True or False depending on whever x_ belongs to the interval range_={Subscript[x, min],Subscript[x, max]}.;
-Usin the option IncludeBoundary one can regulate if the boundary points are included into the interval. Option can be a single logical value or a list of 2 logical values (e.g. {True,False}), related to the low and high boundary correspondingly.
-**)
-	ibOpt=OptionValue[IncludeBoundary];
-	Which[
-		Head[ibOpt]===Symbol,
-		lowCompFunc=If[ibOpt===True,GreaterEqual,Greater];
-		upCompFunc=If[ibOpt===True,LessEqual,Less];
-	,
-		Head[ibOpt]===List,
-		lowCompFunc=If[ibOpt[[1]]===True,GreaterEqual,Greater];
-		upCompFunc=If[ibOpt[[2]]===True,LessEqual,Less];
-	];
-	lowCompFunc[x,range[[1]]]&&upCompFunc[x,range[[2]]]
 ];
 
 

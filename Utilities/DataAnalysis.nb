@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     58792,       1545]
-NotebookOptionsPosition[     57421,       1496]
-NotebookOutlinePosition[     57797,       1512]
-CellTagsIndexPosition[     57754,       1509]
+NotebookDataLength[     74646,       1957]
+NotebookOptionsPosition[     72871,       1895]
+NotebookOutlinePosition[     73247,       1911]
+CellTagsIndexPosition[     73204,       1908]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -180,7 +180,85 @@ the dimension d, d=1 if omitted.\>\""}], "\n", "\t"}], "\n",
  InitializationCell->True,
  CellChangeTimes->{{3.733995736898099*^9, 3.7339957475509605`*^9}, {
    3.7339957784190626`*^9, 3.7339957861832943`*^9}, 3.7339958564219456`*^9, 
-   3.7339966865387115`*^9}]
+   3.7339966865387115`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"InRangeQ", "::", "usage"}], "=", 
+   "\"\<InRangeQ[x_, range_, IncludeBoundary\[Rule]True]\n\tCheck if x_ \
+belongs to the interval range_={\!\(\*SubscriptBox[\(x\), \(min\)]\), \
+\!\(\*SubscriptBox[\(x\), \(max\)]\)}.\n\nOptions:\n\t\
+IncludeBoundary\[Rule]True - regulate if the boundary points are included in \
+the interval. \n\tThe option can be a single logical value or a list of 2 \
+logical values (e.g. {True,False}), related to the low and high boundary \
+correspondingly.\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Options", "[", "InRangeQ", "]"}], "=", 
+  RowBox[{"{", 
+   RowBox[{"IncludeBoundary", "\[Rule]", "True"}], "}"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"InRangeQ", "[", 
+    RowBox[{"x_", ",", "range_", ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"{", "InRangeQ", "}"}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"upCompFunc", ",", "lowCompFunc", ",", "ibOpt"}], "}"}], ",", 
+     "\n", "\t", 
+     RowBox[{
+      RowBox[{"ibOpt", "=", 
+       RowBox[{"OptionValue", "[", "IncludeBoundary", "]"}]}], ";", "\n", 
+      "\t", 
+      RowBox[{"Which", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Head", "[", "ibOpt", "]"}], "===", "Symbol"}], ",", "\n", 
+        "\t\t", 
+        RowBox[{
+         RowBox[{"lowCompFunc", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"ibOpt", "===", "True"}], ",", "GreaterEqual", ",", 
+            "Greater"}], "]"}]}], ";", "\n", "\t\t", 
+         RowBox[{"upCompFunc", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"ibOpt", "===", "True"}], ",", "LessEqual", ",", "Less"}],
+            "]"}]}], ";"}], "\n", "\t", ",", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{"Head", "[", "ibOpt", "]"}], "===", "List"}], ",", "\n", 
+        "\t\t", 
+        RowBox[{
+         RowBox[{"lowCompFunc", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"ibOpt", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "===", "True"}], ",", 
+            "GreaterEqual", ",", "Greater"}], "]"}]}], ";", "\n", "\t\t", 
+         RowBox[{"upCompFunc", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"ibOpt", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], "===", "True"}], ",", 
+            "LessEqual", ",", "Less"}], "]"}]}], ";"}]}], "\n", "\t", "]"}], 
+      ";", "\n", "\t", 
+      RowBox[{
+       RowBox[{"lowCompFunc", "[", 
+        RowBox[{"x", ",", 
+         RowBox[{"range", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "&&", 
+       RowBox[{"upCompFunc", "[", 
+        RowBox[{"x", ",", 
+         RowBox[{"range", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}]}]}], "\n", "]"}]}], 
+  ";"}]}], "Code",
+ CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
+  3.7345477632606993`*^9, 3.734547822165815*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -348,7 +426,7 @@ and Y elements in xy- or xyz- list\>\""}], "\n",
  CellChangeTimes->{{3.733995983435758*^9, 3.733996047818942*^9}, {
   3.7339960862113943`*^9, 3.733996313181395*^9}, {3.733996700815343*^9, 
   3.7339967284947357`*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -692,7 +770,7 @@ IzIPDDP3vPRuM7IIffqVNTjOtmxA7cDsDjQm3+/Sf3dNB7B0S/wEd8tCL7Bv
 df4VfsvIGPQybLRfQ1V/0J2pppXEiwk25dqcngudbr8ctvkiZuhrJ6yQM9yw
 BP8B2RntFg==
   "]]
-}, Open  ]]
+}, Closed]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1085,8 +1163,8 @@ LogYPlot\[Rule]False\n\tLogXPlot\[Rule]False\>\""}], "\n"}], "\n",
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"FindFitSeries", "::", "usage"}], "=", 
-   "\"\<FindFitSeries[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]\n\t\
+   RowBox[{"ThreadFindFit", "::", "usage"}], "=", 
+   "\"\<ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]\n\t\
 Function applies FindFit[] to each element in the list of 2D data traces \
 traceList.\n\nInput:\n\tfitModel_, pars_ and vars_ correspond to inputs for \
 FindFit[]. fitModel_ and pars_ can be either a single element, \n\tor a list \
@@ -1102,18 +1180,18 @@ replacement rules for each trace in traceList_\n\nOptions: \n\tFitFunction\
   "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"Options", "[", "FindFitSeries", "]"}], "=", 
+   RowBox[{"Options", "[", "ThreadFindFit", "]"}], "=", 
    RowBox[{"{", 
     RowBox[{"FitFunction", "\[Rule]", "FindFit"}], "}"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"FindFitSeries", "[", 
+   RowBox[{"ThreadFindFit", "[", 
     RowBox[{"traceList_", ",", "fitModel_", ",", "pars_", ",", "vars_", ",", 
      RowBox[{"fitRanges", ":", 
       RowBox[{"Except", "[", 
        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "Full"}], ",", 
      RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", "FindFitSeries", "}"}], "]"}]}], "]"}], ":=", 
+      RowBox[{"{", "ThreadFindFit", "}"}], "]"}]}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -1313,7 +1391,10 @@ replacement rules for each trace in traceList_\n\nOptions: \n\tFitFunction\
   3.7345373464141545`*^9, 3.7345373513228006`*^9}, {3.7345374935210767`*^9, 
   3.7345375173398075`*^9}, {3.7345376080581307`*^9, 3.7345377423062515`*^9}, {
   3.734539808709217*^9, 3.7345398177540193`*^9}, {3.734539850856926*^9, 
-  3.7345399161963816`*^9}}],
+  3.7345399161963816`*^9}, {3.7345457586289034`*^9, 3.734545760570993*^9}, {
+  3.7345458526177034`*^9, 3.7345458537245045`*^9}, {3.734545930823085*^9, 
+  3.734545932008355*^9}, {3.73454622819354*^9, 3.7345462921981087`*^9}, {
+  3.73454638684256*^9, 3.734546390175509*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -1492,6 +1573,324 @@ LogXPlot\[Rule]False\>\""}], "\n"}], "\n",
   3.734539314833763*^9}, {3.7345393595407877`*^9, 3.7345393763688483`*^9}, {
   3.7345394340843024`*^9, 3.734539454541932*^9}, {3.73453952479661*^9, 
   3.7345395462154975`*^9}, {3.7345395807278595`*^9, 3.734539733632825*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Batch data processing", "Section"],
+
+Cell[CellGroupData[{
+
+Cell["Loading data", "Subsubsection"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"LoadDataSeries", "::", "usage"}], "=", 
+   "\"\<LoadDataSeries[namePattern_,parNamesList_:{x}]\n\tInput: namePattern, \
+containing varibles which values are being swept and parNamesList that lists \
+the variables.\n\tIn the case of single variable named x parNamesList may be \
+omitted.  \n\tExample: LoadDataSeries[x__~~\\\" nW pickoff.txt\\\"]\n\n\t\
+Output: {parList, dataList}, where dataList[[i]] corresponds to the content \
+of the file with name including parList[[i]]\n\t\
+parList={\\!\\(\\*SubscriptBox[\\(x\\), \
+\\(1\\)]\\),\\!\\(\\*SubscriptBox[\\(x\\), \\(2\\)]\\), ... } in the case of \
+single parameter and {{\\!\\(\\*SubscriptBox[\\(x\\), \
+\\(1\\)]\\),\\!\\(\\*SubscriptBox[\\(y\\), \\(1\\)]\\),\\!\\(\\*SubscriptBox[\
+\\(z\\), \\(1\\)]\\)},..} in the case of multiple\n\t\n\tOptions:\n\tBy \
+default the measurement files are loaded as Import[fileName,\\\"Table\\\"], \
+custom loading function can be specified using FileLoadingFunction option, \n\
+\twhich should return data if applied to file name\n\tBy default the \
+parameters are interpreted as numbers, if they should remain in text format, \
+the InterpretParameter option should be set to False. \>\""}], "\n", 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"LoadDataSeries", "[", 
+   RowBox[{"namePattern_", ",", 
+    RowBox[{"parNamesList", ":", 
+     RowBox[{"Except", "[", 
+      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
+     RowBox[{"{", "Global`x", "}"}]}], ",", 
+    RowBox[{"OptionsPattern", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"InterpretParameter", "->", "True"}], ",", 
+       RowBox[{"FileLoadingFunction", "->", "Automatic"}], ",", 
+       RowBox[{"BaseDirectory", "->", 
+        RowBox[{"Directory", "[", "]"}]}]}], "}"}], "]"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "fileNamesList", ",", "dir", ",", "FLF", ",", "parList", ",", "dataList",
+       ",", "ret"}], "}"}], ",", "\n", "\t", 
+    RowBox[{
+     RowBox[{"dir", "=", 
+      RowBox[{"OptionValue", "[", "BaseDirectory", "]"}]}], ";", "\n", "\t", 
+     RowBox[{"fileNamesList", "=", 
+      RowBox[{"FileNames", "[", 
+       RowBox[{"namePattern", ",", "dir", ",", "Infinity"}], "]"}]}], 
+     RowBox[{"(*", 
+      RowBox[{
+      "read", " ", "file", " ", "names", " ", "and", " ", "extract", " ", 
+       "parameters", " ", "from", " ", "them"}], "*)"}], ";", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"parList", "=", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{
+          RowBox[{"ToExpression", "@", 
+           RowBox[{"StringCases", "[", 
+            RowBox[{"fileNamesList", ",", 
+             RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}]}], ",", 
+          "1"}], "]"}]}], ";"}], "*)"}], "\n", "\t", 
+     RowBox[{"parList", "=", 
+      RowBox[{"Table", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"OptionValue", "[", "InterpretParameter", "]"}], ",", "\n", 
+          "\t\t\t", 
+          RowBox[{
+           RowBox[{"Interpreter", "[", "\"\<Number\>\"", "]"}], "[", 
+           RowBox[{
+            RowBox[{"StringCases", "[", 
+             RowBox[{"fileName", ",", 
+              RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\n", "\t\t\t", 
+          RowBox[{
+           RowBox[{"StringCases", "[", 
+            RowBox[{"fileName", ",", 
+             RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}], "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "\n", "\t\t", "]"}], ",", "\n", 
+        "\t\t", 
+        RowBox[{"{", 
+         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
+     "\n", "\t", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{"read", " ", "data", " ", "from", " ", "the", " ", "files"}], 
+      "*)"}], "\n", "\t", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"FunctionQ", "[", 
+        RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}], "]"}], ",", 
+       "\n", "\t\t", 
+       RowBox[{"FLF", "=", 
+        RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}]}], ",", "\n",
+        "\t\t", 
+       RowBox[{"FLF", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"Import", "[", 
+           RowBox[{"#", ",", "\"\<Table\>\""}], "]"}], "&"}], ")"}]}]}], 
+      "]"}], ";", "\n", "\t", 
+     RowBox[{"dataList", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"FLF", "[", "fileName", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
+     "\n", "\t", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+      "sort", " ", "parameters", " ", "and", " ", "data", " ", "sets", " ", 
+       "according", " ", "to", " ", "increase", " ", "in", " ", "the", " ", 
+       "first", " ", "parameter", " ", "in", " ", "parList"}], "*)"}], "\n", 
+     "\t", 
+     RowBox[{"ret", "=", 
+      RowBox[{"Transpose", "@", 
+       RowBox[{"Sort", "[", 
+        RowBox[{
+         RowBox[{"Transpose", "[", 
+          RowBox[{"{", 
+           RowBox[{"parList", ",", "dataList"}], "}"}], "]"}], ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"#1", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "1"}], "]"}], "]"}], "<", 
+           RowBox[{"#2", "[", 
+            RowBox[{"[", 
+             RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "&"}]}], "]"}]}]}], ";",
+      "\n", "\t", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"If", " ", "only", " ", "one", " ", "parameter"}], ",", " ", 
+       RowBox[{"flatten", " ", "the", " ", "parList"}]}], "*)"}], "\n", "\t", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "parNamesList", "]"}], ">", "1"}], ",", "ret", 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Flatten", "[", 
+          RowBox[{"ret", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
+         RowBox[{"ret", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}]}], "\n", 
+   "]"}]}]}], "Code",
+ CellChangeTimes->{{3.7345465955852985`*^9, 3.734546598245433*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"LoadSpeParameters", "::", "usage"}], "=", 
+   "\"\<LoadSpeParameters[namePattern_, keyword_]\n\tFunction loads \
+parameters given by keyword from .spe files with names matching namePattern\>\
+\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"LoadSpeParameters", "[", 
+   RowBox[{"namePattern_", ",", " ", "keyword_", ",", 
+    RowBox[{"fileParNamesList", ":", 
+     RowBox[{"Except", "[", 
+      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
+     RowBox[{"{", "Global`x", "}"}]}], ",", 
+    RowBox[{"OptionsPattern", "[", 
+     RowBox[{"{", 
+      RowBox[{"InterpretParameter", "->", "True"}], "}"}], "]"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "fileNamesList", ",", "tmpData", ",", "fileParList", ",", "speParList", 
+      ",", "ret"}], "}"}], ",", "\n", "\t", 
+    RowBox[{
+     RowBox[{"fileNamesList", "=", 
+      RowBox[{"FileNames", "[", 
+       RowBox[{"namePattern", ",", 
+        RowBox[{"Directory", "[", "]"}], ",", "Infinity"}], "]"}]}], ";", 
+     "\n", "\t", 
+     RowBox[{"fileParList", "=", 
+      RowBox[{"Table", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"OptionValue", "[", "InterpretParameter", "]"}], ",", "\n", 
+          "\t\t\t", 
+          RowBox[{
+           RowBox[{"Interpreter", "[", "\"\<Number\>\"", "]"}], "[", 
+           RowBox[{
+            RowBox[{"StringCases", "[", 
+             RowBox[{"fileName", ",", 
+              RowBox[{"namePattern", "->", "fileParNamesList"}]}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\n", "\t\t\t", 
+          RowBox[{
+           RowBox[{"StringCases", "[", 
+            RowBox[{"fileName", ",", 
+             RowBox[{"namePattern", "->", "fileParNamesList"}]}], "]"}], "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "\n", "\t\t", "]"}], ",", "\n", 
+        "\t", 
+        RowBox[{"{", 
+         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
+     "\n", "\t", 
+     RowBox[{"speParList", "=", 
+      RowBox[{"{", "}"}]}], ";", "\n", "\t", 
+     RowBox[{"Do", "[", "\n", "\t\t", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"tmpData", "=", 
+         RowBox[{"Import", "[", 
+          RowBox[{"x", ",", "\"\<Table\>\""}], "]"}]}], ";", "\n", "\t\t", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"speParList", ",", 
+          RowBox[{
+           RowBox[{"FirstCase", "[", 
+            RowBox[{"tmpData", ",", 
+             RowBox[{"{", 
+              RowBox[{"keyword", ",", "_", ",", "_"}], "}"}]}], "]"}], "[", 
+           RowBox[{"[", 
+            RowBox[{"-", "1"}], "]"}], "]"}]}], "]"}]}], ",", "\n", "\t", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "fileNamesList"}], "}"}]}], "]"}], ";", "\n", "\t", 
+     RowBox[{"ret", "=", 
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"fileParList", ",", "speParList"}], "}"}], "]"}], ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#1", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "1"}], "]"}], "]"}], "<", 
+          RowBox[{"#2", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
+     " ", 
+     RowBox[{"(*", 
+      RowBox[{
+      "sorting", " ", "according", " ", "to", " ", "increase", " ", "in", " ",
+        "the", " ", "first", " ", "file", " ", "name", " ", "parameter"}], 
+      "*)"}], "\n", "\t", 
+     RowBox[{"ret", "[", 
+      RowBox[{"[", 
+       RowBox[{";;", ",", "2"}], "]"}], "]"}]}]}], "\n", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.7345466058454895`*^9, 3.7345466147437115`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Integration and selection", "Subsubsection"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SelectRange", "::", "usage"}], "=", 
+   "\"\<SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]\n\t\
+Return subset of xylist_ with x values within xRange_\n\nOptions\n\tSame as \
+InRangeQ\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Options", "[", "SelectRange", "]"}], "=", 
+  RowBox[{"Options", "[", "InRangeQ", "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SelectRange", "[", 
+    RowBox[{
+     RowBox[{"xylist_", "?", "XYListQ"}], ",", "xRange_", ",", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", 
+       RowBox[{"{", "SelectRange", "}"}], "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"xylist", ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"InRangeQ", "[", 
+        RowBox[{
+         RowBox[{"#", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", "xRange", ",", "opts"}], "]"}],
+        ")"}], "&"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SelectRange", "[", 
+    RowBox[{
+     RowBox[{"xylistd2_", "?", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"XYListQ", "[", 
+         RowBox[{"#", ",", "2"}], "]"}], "&"}], ")"}]}], ",", "xRange_", ",", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", 
+       RowBox[{"{", "SelectRange", "}"}], "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Select", "[", 
+      RowBox[{"xylist", ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"InRangeQ", "[", 
+          RowBox[{
+           RowBox[{"#", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], ",", "xRange", ",", "opts"}], 
+          "]"}], ")"}], "&"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"xylist", ",", "xylistd2"}], "}"}]}], "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.734546627865629*^9, 3.7345466295478487`*^9}, {
+  3.734547425049396*^9, 3.7345474331763906`*^9}, {3.734547867239811*^9, 
+  3.734548125546877*^9}, {3.7345481625783978`*^9, 3.7345481875924163`*^9}, {
+  3.734548279897182*^9, 3.7345483147403464`*^9}, {3.7345486982210283`*^9, 
+  3.7345487717640295`*^9}}]
+}, Open  ]]
 }, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
@@ -1520,32 +1919,45 @@ Cell[2614, 80, 620, 16, 87, "Code"],
 Cell[3237, 98, 992, 17, 196, "Code"],
 Cell[4232, 117, 1492, 36, 141, "Code"],
 Cell[5727, 155, 1007, 27, 123, "Code",
- InitializationCell->True]
+ InitializationCell->True],
+Cell[6737, 184, 3000, 76, 411, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6771, 187, 126, 1, 70, "Section"],
+Cell[9774, 265, 126, 1, 70, "Section"],
 Cell[CellGroupData[{
-Cell[6922, 192, 121, 1, 49, "Subsection"],
-Cell[7046, 195, 626, 16, 69, "Code"],
-Cell[7675, 213, 4186, 136, 285, "Code"]
+Cell[9925, 270, 121, 1, 49, "Subsection"],
+Cell[10049, 273, 626, 16, 69, "Code"],
+Cell[10678, 291, 4186, 136, 285, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[14901, 432, 124, 1, 41, "Subsection"],
+Cell[15028, 435, 12813, 336, 1419, "Code"]
+}, Closed]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[11898, 354, 124, 1, 49, "Subsection"],
-Cell[12025, 357, 12813, 336, 1419, "Code"]
+Cell[27890, 777, 113, 1, 70, "Section"],
+Cell[28006, 780, 455, 13, 50, "Code"],
+Cell[28464, 795, 1458, 41, 105, "Code"],
+Cell[29925, 838, 600, 14, 87, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[30562, 857, 96, 1, 70, "Section"],
+Cell[30661, 860, 1941, 50, 231, "Code"],
+Cell[32605, 912, 10484, 248, 987, "Code"],
+Cell[43092, 1162, 10078, 234, 1024, "Code"],
+Cell[53173, 1398, 7480, 176, 843, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[60690, 1579, 40, 0, 56, "Section"],
+Cell[CellGroupData[{
+Cell[60755, 1583, 37, 0, 39, "Subsubsection"],
+Cell[60795, 1585, 6182, 147, 699, "Code"],
+Cell[66980, 1734, 3694, 94, 375, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70711, 1833, 50, 0, 39, "Subsubsection"],
+Cell[70764, 1835, 2079, 56, 195, "Code"]
 }, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[24887, 699, 113, 1, 70, "Section"],
-Cell[25003, 702, 455, 13, 50, "Code"],
-Cell[25461, 717, 1458, 41, 105, "Code"],
-Cell[26922, 760, 600, 14, 87, "Code"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[27559, 779, 96, 1, 70, "Section"],
-Cell[27658, 782, 1941, 50, 231, "Code"],
-Cell[29602, 834, 10484, 248, 987, "Code"],
-Cell[40089, 1084, 9833, 231, 1024, "Code"],
-Cell[49925, 1317, 7480, 176, 843, "Code"]
 }, Open  ]]
 }
 ]
