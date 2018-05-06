@@ -66,24 +66,6 @@ PhaseUnwrap::usage="PhaseUnwrap[list_, jumpThreshold\[Rule]1.8\[Pi]]"
 (*Manipulation with multi-dimensional lists *)
 
 
-NormalizeY::usage="NormalizeY[xylist_]
-	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to be within [0,1]"
-
-Average::usage="Average[list_, nAvg_]
-	Function calculates moving average of the list and does a corresponding decimation of the list.
-	The output thus consists of averages over successive intervals of nAvg elements. 
-	The X-values for each of the averaging intervals are taken close to the centers of the interval\[IndentingNewLine]
-	list_ can be
-	1. 1D list
-	2. xylist
-	3. list of xylists"
-	
-GaussianAverage::usage="GaussianAverage[list_, nAvg_]"
-	
-FindPeaksXY::usage="FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]"
-
-FindPeakCenter::usage="FindPeakCenter[xylist_]"
-
 ReflectX::usage=""
 
 AreaXY::usage=""
@@ -163,108 +145,6 @@ DefaultHeaderPrint[]:=CellPrint[
 
 (* ::Subsection:: *)
 (*Manipulations with multi-dimensional lists*)
-
-
-(**
-Function takes 2D array of data (list_) 
-and rescales it along Y coordinate to be within [0,1]
-**)
-NormalizeY[list_]:=
-	Module[{ymin,ymax},
-	ymin=Min[list[[;;,2]]];
-	ymax=Max[list[[;;,2]]];
-	Transpose[{list[[;;,1]],(list[[;;,2]]-(ymax+ymin)/2) 2/(ymax-ymin)}]
-];
-
-
-Average[list_,nAvg_]:=
-(**
-Function calculates moving average of the list and does a corresponding decimation of the list_.;
-The output thus consists of averages over successive intervals of nAvg elements.; 
-
-list_ can be;
-1. a 1D list;
-2. a XY trace;
-3. a list of XY traces;
-In the latter two cases an appropriate the X-values for each of the averaging intervals are taken close to the centers of the interval;
-**)
-Which[
-	Depth[list]==2, 
-	(*single 1D list input*)
-	Take[MovingAverage[list,nAvg],{1,-1,nAvg}]
-	,
-	Depth[list]==3, 
-	(*single XY trace input*)
-	Take[Transpose[{list[[Ceiling[nAvg/2];;-Floor[nAvg/2]-1,1]],MovingAverage[list[[;;,2]],nAvg]}],{1,-1,nAvg}]
-	,
-	Depth[list]==4, 
-	(*list of XY traces as input*)
-	Table[Take[Transpose[{x[[Ceiling[nAvg/2];;-Floor[nAvg/2]-1,1]],MovingAverage[x[[;;,2]],nAvg]}],{1,-1,nAvg}],{x,list}]
-]
-
-
-GaussianAverage[list_,nAvg_]:=
-(**
-Function calculates the Gaussian filtered signal;
-The output thus consists of averages over successive intervals of nAvg elements.; 
-
-list_ can be;
-1. a 1D list;
-2. a XY trace;
-3. a list of XY traces;
-In the latter two cases an appropriate the X-values for each of the averaging intervals are taken close to the centers of the interval;
-**)
-Which[
-	Depth[list]==2, 
-	(*single 1D list input*)
-	GaussianFilter[list,nAvg]
-	,
-	Depth[list]==3, 
-	(*single XY trace input*)
-	Transpose[{list[[;;,1]],GaussianFilter[list[[;;,2]],nAvg]}]
-	,
-	Depth[list]==4, 
-	(*list of XY traces as input*)
-	Table[Transpose[{x[[;;,1]],GaussianFilter[x[[;;,2]],nAvg]}],{x,list}]
-]
-
-
-FindPeaksXY[XYData_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[{FindPeaks,sign-> 1}]]:=
-Module[{peakIndexList,peakValList,xInterp},
-	{peakIndexList,peakValList}=Transpose[FindPeaks[Sign[OptionValue[sign]]*XYData[[;;,2]],\[Sigma],s,t]];
-	xInterp=Interpolation[XYData[[;;,1]],InterpolationOrder->OptionValue[InterpolationOrder]];
-
-	Transpose[{Thread[xInterp[peakIndexList]],peakValList}]
-];
-
-
-FindPeakCenter[XYData_,OptionsPattern[sign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
-(*Function accepts an interval of XY data and returns x-position of its center of mass, using linear data interpolation over x*)
-
-dim=Depth[XYData];
-Which[
-dim==3 (*single XY trace*),
-offset=If[Sign[OptionValue[sign]]>=0,Min[XYData[[;;,2]]],Max[XYData[[;;,2]]]];
-YIntegralList=Accumulate[XYData[[;;,2]]-offset];
-YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
-
-(*fractional index of the Center of Mass*)
-(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
-1/(Ceiling[iCOM]-Floor[iCOM]) (XYData[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+XYData[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
-
-,
-dim==4 (*list of XY traces*),
-Table[
-offset=If[Sign[OptionValue[sign]]>=0,Min[y[[;;,2]]],Max[y[[;;,2]]]];
-YIntegralList=Accumulate[y[[;;,2]]-offset];
-YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
-
-(*fractional index of the Center of Mass*)
-(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
-1/(Ceiling[iCOM]-Floor[iCOM]) (y[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+y[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
-,{y,XYData}]
-]
-]
 
 
 ListIntegrate[xylist_,intRange_]:=Module[{interpData,intRangeExt,x0,\[CapitalDelta]x,\[CapitalDelta]xMin,x},

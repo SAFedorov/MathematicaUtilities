@@ -7,8 +7,8 @@
 (*This file contains outdated functions or function names to ensure compatibility with previous package versions*)
 
 
-(* ::Section:: *)
-(*Body*)
+(* ::Section::Closed:: *)
+(*Superseded and depreciated functions*)
 
 
 (**;
@@ -179,3 +179,28 @@ FindFitSeries[x__]:=ThreadFindFit[x]
 
 
 SelectSeries[list_,xRange_]:=Table[Select[x,((#[[1]]>=xRange[[1]])&&(#[[1]]<=xRange[[2]]))&],{x,list}];
+
+
+(* ::Section:: *)
+(*Old functions*)
+
+
+LoadSpeParameters::usage="LoadSpeParameters[namePattern_, keyword_]
+	Function loads parameters given by keyword from .spe files with names matching namePattern"
+
+LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True}]]:=Module[{fileNamesList,tmpData,fileParList,speParList,ret},
+	fileNamesList=FileNames[namePattern,Directory[],Infinity];
+	fileParList=Table[
+		If[OptionValue[InterpretParameter],
+			Interpreter["Number"][StringCases[fileName,namePattern->fileParNamesList][[1]]],
+			StringCases[fileName,namePattern->fileParNamesList][[1]]
+		],
+	{fileName,fileNamesList}];
+	speParList={};
+	Do[
+		tmpData=Import[x,"Table"];
+		AppendTo[speParList,FirstCase[tmpData,{keyword,_,_}][[-1]]],
+	{x,fileNamesList}];
+	ret=Sort[Transpose[{fileParList,speParList}],#1[[1,1]]<#2[[1,1]]&]; (*sorting according to increase in the first file name parameter*)
+	ret[[;;,2]]
+]

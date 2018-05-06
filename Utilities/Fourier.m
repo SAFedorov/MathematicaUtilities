@@ -19,8 +19,12 @@
 
 
 
+(*A fix for usage messages, from http://mathematica.stackexchange.com/questions/3943/usage-displays-properly-only-after-second-call/27671#27671*)
+System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
+
+
 \[Nu]FourierXY::usage = "\[Nu]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]
-	Compute in numerical approximation of the Fourier transform in linear units y[\[Nu]]=1/Sqrt[L]\!\(\*SubsuperscriptBox[\(\[Integral]\), SubscriptBox[\(x\), \(0\)], \(\*SubscriptBox[\(x\), \(0\)] + L\)]\)y(x)Exp[\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=dx/Sqrt[L]\!\(\*UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \(n - 1\)]\)y(\!\(\*SubscriptBox[\(x\), \(r\)]\))Exp[\[ImaginaryI](2\[Pi]\[Nu])\!\(\*SubscriptBox[\(x\), \(r\)]\)]
+	Compute numerical approximation of Fourier transform in linear units y[\[Nu]]=\!\(\*FractionBox[\(1\), SqrtBox[\(L\)]]\)\!\(\*SubsuperscriptBox[\(\[Integral]\), SubscriptBox[\(x\), \(0\)], \(\*SubscriptBox[\(x\), \(0\)] + L\)]\)y(x)Exp[\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=\!\(\*FractionBox[\(dx\), SqrtBox[\(L\)]]\)\!\(\*UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \(n - 1\)]\)y(\!\(\*SubscriptBox[\(x\), \(r\)]\))Exp[\[ImaginaryI](2\[Pi]\[Nu])\!\(\*SubscriptBox[\(x\), \(r\)]\)]
 	Frequency is defined in linear units on the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, (n-1)/2]
 	In the case of odd n the spectrum contains equal number of positive and negative frequency components, 
 	in the case of even n there is n/2 positive frequency components and n/2-1 negative frequency components

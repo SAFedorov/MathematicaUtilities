@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     74646,       1957]
-NotebookOptionsPosition[     72871,       1895]
-NotebookOutlinePosition[     73247,       1911]
-CellTagsIndexPosition[     73204,       1908]
+NotebookDataLength[     91638,       2414]
+NotebookOptionsPosition[     89544,       2343]
+NotebookOutlinePosition[     89920,       2359]
+CellTagsIndexPosition[     89877,       2356]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -34,6 +34,58 @@ Cell[BoxData[
   3.733914406837203*^9, 3.7339144075478926`*^9}, {3.733914733952835*^9, 
   3.7339147356576366`*^9}},
  CellID->484687852],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"A", " ", "fix", " ", "for", " ", "usage", " ", "messages"}], ",",
+     " ", 
+    RowBox[{
+     RowBox[{"from", " ", 
+      RowBox[{"http", ":"}]}], "//", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+         "questions"}], "/", "3943"}], "/", "usage"}], "-", "displays", "-", 
+      "properly", "-", "only", "-", "after", "-", "second", "-", 
+      RowBox[{
+       RowBox[{"call", "/", "27671"}], "#27671"}]}]}]}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"System`Dump`fixmessagestring", "[", "System`Dump`s_", "]"}], ":=", 
+   RowBox[{"ToString", "@", 
+    RowBox[{"InputForm", "@", "System`Dump`s"}]}]}]}]], "Code"],
+
+Cell[CellGroupData[{
+
+Cell["Sequences of settings", "Section",
+ CellChangeTimes->{{3.734594019110738*^9, 3.7345940221720524`*^9}, {
+  3.7345940665222726`*^9, 3.734594068292148*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "compilationOptionsC", "::", 
+   "\"\<Settings for Compile that result in ultimate speedup of the compiled \
+code. Use C code as targer and thus require a C compiler installed.\>\""}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"compilationOptionsC", "=", 
+   RowBox[{"Sequence", "[", "\n", "\t", 
+    RowBox[{
+     RowBox[{"CompilationTarget", "\[Rule]", "\"\<C\>\""}], ",", "\n", "\t", 
+     RowBox[{"CompilationOptions", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<InlineExternalDefinitions\>\"", "->", "True"}], "}"}]}], 
+     ",", "\n", "\t", 
+     RowBox[{"RuntimeOptions", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<EvaluateSymbolically\>\"", "->", "False"}], "}"}]}]}], 
+    "\n", "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.7345940329071417`*^9, 3.734594270299597*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -259,7 +311,7 @@ correspondingly.\>\""}], "\n"}], "\n",
   ";"}]}], "Code",
  CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
   3.7345477632606993`*^9, 3.734547822165815*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -770,6 +822,504 @@ IzIPDDP3vPRuM7IIffqVNTjOtmxA7cDsDjQm3+/Sf3dNB7B0S/wEd8tCL7Bv
 df4VfsvIGPQybLRfQ1V/0J2pppXEiwk25dqcngudbr8ctvkiZuhrJ6yQM9yw
 BP8B2RntFg==
   "]]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Averaging and normalization", "Subsection",
+ CellChangeTimes->{{3.734590449245929*^9, 3.7345904497821093`*^9}, {
+  3.7345935578445897`*^9, 3.7345935643253946`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"NormalizeY", "::", "usage"}], "=", 
+   "\"\<NormalizeY[xylist_]\n\tFunction accepts 2D array of data (xylist) and \
+rescales it along Y coordinate to within [0,1]\>\""}], "\n", "\t"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"NormalizeY", "[", "list_", "]"}], ":=", "\n", "\t", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"ymin", ",", "ymax"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"ymin", "=", 
+       RowBox[{"Min", "[", 
+        RowBox[{"list", "[", 
+         RowBox[{"[", 
+          RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"ymax", "=", 
+       RowBox[{"Max", "[", 
+        RowBox[{"list", "[", 
+         RowBox[{"[", 
+          RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"list", "[", 
+          RowBox[{"[", 
+           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"list", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{"ymax", "+", "ymin"}], ")"}], "/", "2"}]}], ")"}], " ", 
+          RowBox[{"2", "/", 
+           RowBox[{"(", 
+            RowBox[{"ymax", "-", "ymin"}], ")"}]}]}]}], "}"}], "]"}]}]}], 
+    "\n", "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.7345905620927925`*^9, 3.734590563503581*^9}, 
+   3.7345935734235616`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Average", "::", "usage"}], "=", 
+   "\"\<Average[list_, nAvg_]\n\tFunction calculates moving average of the \
+list and does a corresponding decimation of the list.\n\tThe output thus \
+consists of averages over successive intervals of nAvg elements. \n\tThe \
+X-values for each of the averaging intervals are taken close to the centers \
+of the interval\[IndentingNewLine]\n\tlist_ can be\n\t1. a 1D list\n\t2. a \
+xylist\n\t3. a xylistd2\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Average", "[", 
+   RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", "\n", 
+  RowBox[{"Which", "[", "\n", "\t", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
+    "\n", "\t", 
+    RowBox[{"Take", "[", 
+     RowBox[{
+      RowBox[{"MovingAverage", "[", 
+       RowBox[{"list", ",", "nAvg"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", 
+        RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
+    "\n", "\t", 
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n", 
+    "\t", 
+    RowBox[{"Take", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"list", "[", 
+          RowBox[{"[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Ceiling", "[", 
+              RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"Floor", "[", 
+                RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", "1"}],
+            "]"}], "]"}], ",", 
+         RowBox[{"MovingAverage", "[", 
+          RowBox[{
+           RowBox[{"list", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+        "}"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", 
+        RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
+    "\n", "\t", 
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{
+     "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
+     "*)"}], "\n", "\t", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Take", "[", 
+       RowBox[{
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"x", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Ceiling", "[", 
+                RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
+               RowBox[{
+                RowBox[{"-", 
+                 RowBox[{"Floor", "[", 
+                  RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", 
+              "1"}], "]"}], "]"}], ",", 
+           RowBox[{"MovingAverage", "[", 
+            RowBox[{
+             RowBox[{"x", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}],
+           "}"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"1", ",", 
+          RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.734590538225938*^9, 3.7345905472177286`*^9}, {
+  3.7345937264864874`*^9, 3.7345937298761635`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"GaussianAverage", "::", "usage"}], "=", 
+   "\"\<GaussianAverage[list_, nAvg_]\n\tFunction calculates the Gaussian \
+filtered signal. The output thus consists of averages over successive \
+intervals of nAvg elements.\n\nInput:\n\tlist_ can be\n\t1. a 1D list\n\t2. a \
+xylist\n\t3. a xylistd2\n\tIn the latter two cases an appropriate the \
+X-values for each of the averaging intervals are taken close to the centers \
+of the interval\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"GaussianAverage", "[", 
+   RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", "\n", 
+  RowBox[{"Which", "[", "\n", "\t", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
+    "\n", "\t", 
+    RowBox[{"GaussianFilter", "[", 
+     RowBox[{"list", ",", "nAvg"}], "]"}], "\n", "\t", ",", "\n", "\t", 
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n", 
+    "\t", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"list", "[", 
+        RowBox[{"[", 
+         RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+       RowBox[{"GaussianFilter", "[", 
+        RowBox[{
+         RowBox[{"list", "[", 
+          RowBox[{"[", 
+           RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+      "}"}], "]"}], "\n", "\t", ",", "\n", "\t", 
+    RowBox[{
+     RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
+    RowBox[{"(*", 
+     RowBox[{
+     "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
+     "*)"}], "\n", "\t", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"x", "[", 
+          RowBox[{"[", 
+           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{"GaussianFilter", "[", 
+          RowBox[{
+           RowBox[{"x", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+        "}"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.73459058125589*^9, 3.73459058446517*^9}, {
+  3.7345936355260553`*^9, 3.734593716937027*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Find peaks", "Subsection",
+ CellChangeTimes->{{3.7345905013190093`*^9, 3.7345905072571735`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"FindPeaksXY", "::", "usage"}], "=", 
+   "\"\<FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]\n\tAnalog of \
+FindPeaks that acts on xylists.\n\nOutput:\n\tPeak x position and y values {{\
+\!\(\*SubscriptBox[\(x\), \(peak, i\)]\), \!\(\*SubscriptBox[\(y\), \(peak, i\
+\)]\)},...}\n\nOptions:\n\tThose of standard FindPeaks plus\n\tsign\[Rule]1, \
+determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FindPeaksXY", "[", 
+    RowBox[{"xylist_", ",", 
+     RowBox[{"\[Sigma]", ":", 
+      RowBox[{"Except", "[", 
+       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
+     RowBox[{"s", ":", 
+      RowBox[{"Except", "[", 
+       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
+     RowBox[{"t", ":", 
+      RowBox[{"Except", "[", 
+       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
+      RowBox[{"-", "\[Infinity]"}]}], ",", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", 
+       RowBox[{"{", 
+        RowBox[{"FindPeaks", ",", 
+         RowBox[{"sign", "->", " ", "1"}]}], "}"}], "]"}]}]}], "]"}], ":=", 
+   "\n", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"peakIndexList", ",", "peakValList", ",", "xInterp"}], "}"}], 
+     ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"peakIndexList", ",", "peakValList"}], "}"}], "=", 
+       RowBox[{"Transpose", "[", 
+        RowBox[{"FindPeaks", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Sign", "[", 
+            RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], "*", 
+           RowBox[{"xylist", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ",", "\[Sigma]", ",", 
+          "s", ",", "t"}], "]"}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"xInterp", "=", 
+       RowBox[{"Interpolation", "[", 
+        RowBox[{
+         RowBox[{"xylist", "[", 
+          RowBox[{"[", 
+           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{"InterpolationOrder", "\[Rule]", 
+          RowBox[{"OptionValue", "[", "InterpolationOrder", "]"}]}]}], 
+        "]"}]}], ";", "\n", "\n", "\t", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Thread", "[", 
+          RowBox[{"xInterp", "[", "peakIndexList", "]"}], "]"}], ",", 
+         "peakValList"}], "}"}], "]"}]}]}], "\n", "]"}]}], ";"}]}], "Code",
+ CellChangeTimes->{{3.7345906005878644`*^9, 3.734590602787898*^9}, {
+   3.734591152093604*^9, 3.734591165385395*^9}, {3.7345911967419157`*^9, 
+   3.734591235840968*^9}, {3.7345917556463947`*^9, 3.734591875852747*^9}, {
+   3.7345919083533278`*^9, 3.7345919461751776`*^9}, 3.734593741661647*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"FindPeakCenter", "::", "usage"}], "=", 
+   "\"\<FindPeakCenter[xylist_]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"FindPeakCenter", "[", 
+   RowBox[{"XYData_", ",", 
+    RowBox[{"OptionsPattern", "[", 
+     RowBox[{"sign", "->", " ", "1"}], "]"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "YIntegralList", ",", "YIntegralInterpol", ",", "iCOM", ",", "offset", 
+      ",", "dim"}], "}"}], ",", "\n", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+       "Function", " ", "accepts", " ", "an", " ", "interval", " ", "of", " ",
+         "XY", " ", "data", " ", "and", " ", "returns", " ", "x"}], "-", 
+       RowBox[{
+       "position", " ", "of", " ", "its", " ", "center", " ", "of", " ", 
+        "mass"}]}], ",", " ", 
+      RowBox[{
+      "using", " ", "linear", " ", "data", " ", "interpolation", " ", "over", 
+       " ", "x"}]}], "*)"}], "\n", "\n", 
+    RowBox[{
+     RowBox[{"dim", "=", 
+      RowBox[{"Depth", "[", "XYData", "]"}]}], ";", "\n", 
+     RowBox[{"Which", "[", "\n", 
+      RowBox[{
+       RowBox[{"dim", "==", "3"}], " ", 
+       RowBox[{"(*", 
+        RowBox[{"single", " ", "XY", " ", "trace"}], "*)"}], ",", "\n", 
+       RowBox[{
+        RowBox[{"offset", "=", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Sign", "[", 
+             RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
+           ",", 
+           RowBox[{"Min", "[", 
+            RowBox[{"XYData", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
+           RowBox[{"Max", "[", 
+            RowBox[{"XYData", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], ";", 
+        "\n", 
+        RowBox[{"YIntegralList", "=", 
+         RowBox[{"Accumulate", "[", 
+          RowBox[{
+           RowBox[{"XYData", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], "]"}]}],
+         ";", "\n", 
+        RowBox[{"YIntegralInterpol", "=", 
+         RowBox[{"Interpolation", "[", 
+          RowBox[{
+           RowBox[{"YIntegralList", "/", 
+            RowBox[{"YIntegralList", "[", 
+             RowBox[{"[", 
+              RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
+           RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n", 
+        "\n", 
+        RowBox[{"(*", 
+         RowBox[{
+         "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
+          " ", "of", " ", "Mass"}], "*)"}], "\n", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"iCOM", "=", 
+           RowBox[{"0.5", "+", 
+            RowBox[{"(", 
+             RowBox[{"x", "/.", 
+              RowBox[{"FindRoot", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", "0.5"}], 
+                ",", 
+                RowBox[{"{", 
+                 RowBox[{"x", ",", 
+                  RowBox[{
+                   RowBox[{"Length", "[", "YIntegralList", "]"}], "/", 
+                   "2"}]}], "}"}]}], "]"}]}], ")"}]}]}], ")"}], "//", 
+         "Quiet"}], ";", "\n", 
+        RowBox[{
+         RowBox[{"1", "/", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
+            RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"XYData", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], "]"}], 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], ")"}]}], 
+           "+", 
+           RowBox[{
+            RowBox[{"XYData", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+             "]"}], 
+            RowBox[{"(", 
+             RowBox[{"iCOM", "-", 
+              RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
+       "\n", "\n", ",", "\n", 
+       RowBox[{"dim", "==", "4"}], " ", 
+       RowBox[{"(*", 
+        RowBox[{"list", " ", "of", " ", "XY", " ", "traces"}], "*)"}], ",", 
+       "\n", 
+       RowBox[{"Table", "[", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"offset", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Sign", "[", 
+               RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
+             ",", 
+             RowBox[{"Min", "[", 
+              RowBox[{"y", "[", 
+               RowBox[{"[", 
+                RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
+             RowBox[{"Max", "[", 
+              RowBox[{"y", "[", 
+               RowBox[{"[", 
+                RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], ";",
+           "\n", 
+          RowBox[{"YIntegralList", "=", 
+           RowBox[{"Accumulate", "[", 
+            RowBox[{
+             RowBox[{"y", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], 
+            "]"}]}], ";", "\n", 
+          RowBox[{"YIntegralInterpol", "=", 
+           RowBox[{"Interpolation", "[", 
+            RowBox[{
+             RowBox[{"YIntegralList", "/", 
+              RowBox[{"YIntegralList", "[", 
+               RowBox[{"[", 
+                RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n", 
+          "\n", 
+          RowBox[{"(*", 
+           RowBox[{
+           "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
+            " ", "of", " ", "Mass"}], "*)"}], "\n", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"iCOM", "=", 
+             RowBox[{"0.5", "+", 
+              RowBox[{"(", 
+               RowBox[{"x", "/.", 
+                RowBox[{"FindRoot", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", 
+                   "0.5"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"x", ",", 
+                    RowBox[{
+                    RowBox[{"Length", "[", "YIntegralList", "]"}], "/", 
+                    "2"}]}], "}"}]}], "]"}]}], ")"}]}]}], ")"}], "//", 
+           "Quiet"}], ";", "\n", 
+          RowBox[{
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
+              RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"y", "[", 
+               RowBox[{"[", 
+                RowBox[{
+                 RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+               "]"}], 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], ")"}]}],
+              "+", 
+             RowBox[{
+              RowBox[{"y", "[", 
+               RowBox[{"[", 
+                RowBox[{
+                 RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+               "]"}], 
+              RowBox[{"(", 
+               RowBox[{"iCOM", "-", 
+                RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
+         "\n", ",", 
+         RowBox[{"{", 
+          RowBox[{"y", ",", "XYData"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], 
+   "\n", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.73459062376963*^9, 3.7345906263393307`*^9}}]
 }, Closed]]
 }, Open  ]],
 
@@ -1579,31 +2129,34 @@ Cell[CellGroupData[{
 
 Cell["Batch data processing", "Section"],
 
-Cell[CellGroupData[{
-
-Cell["Loading data", "Subsubsection"],
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"LoadDataSeries", "::", "usage"}], "=", 
-   "\"\<LoadDataSeries[namePattern_,parNamesList_:{x}]\n\tInput: namePattern, \
-containing varibles which values are being swept and parNamesList that lists \
-the variables.\n\tIn the case of single variable named x parNamesList may be \
-omitted.  \n\tExample: LoadDataSeries[x__~~\\\" nW pickoff.txt\\\"]\n\n\t\
-Output: {parList, dataList}, where dataList[[i]] corresponds to the content \
-of the file with name including parList[[i]]\n\t\
-parList={\\!\\(\\*SubscriptBox[\\(x\\), \
-\\(1\\)]\\),\\!\\(\\*SubscriptBox[\\(x\\), \\(2\\)]\\), ... } in the case of \
-single parameter and {{\\!\\(\\*SubscriptBox[\\(x\\), \
-\\(1\\)]\\),\\!\\(\\*SubscriptBox[\\(y\\), \\(1\\)]\\),\\!\\(\\*SubscriptBox[\
-\\(z\\), \\(1\\)]\\)},..} in the case of multiple\n\t\n\tOptions:\n\tBy \
-default the measurement files are loaded as Import[fileName,\\\"Table\\\"], \
-custom loading function can be specified using FileLoadingFunction option, \n\
-\twhich should return data if applied to file name\n\tBy default the \
-parameters are interpreted as numbers, if they should remain in text format, \
-the InterpretParameter option should be set to False. \>\""}], "\n", 
-  "\n"}], "\n", 
+   "\"\<LoadDataSeries[namePattern_,parNamesList_:{x}]\n\tLoad a set of files \
+with names, matching the namePattern_\n\nInput: \n\tnamePattern_ containing \
+varibles which values are being swept and parNamesList_ that lists these \
+variables.\n\tIn the case of single variable named x parNamesList may be \
+omitted.  \n\nOutput: \n\t{parList, dataList}, where dataList[[i]] \
+corresponds to the content of the file with name including parList[[i]]\n\t\
+parList={\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\
+\), ... } in the case of single parameter and {{\!\(\*SubscriptBox[\(x\), \(1\
+\)]\),\!\(\*SubscriptBox[\(y\), \(1\)]\),\!\(\*SubscriptBox[\(z\), \
+\(1\)]\)},..} in the case of multiple\n\t\nOptions:\n\tBy default the \
+measurement files are loaded as Import[fileName,\\\"Table\\\"], custom \
+loading function can be specified using FileLoadingFunction option, \n\twhich \
+should return data if applied to file name\n\tBy default the parameters are \
+interpreted as numbers, if they should remain in text format, the \
+InterpretParameter option should be set to False.\n\nExample: \n\t\
+LoadDataSeries[x__~~\\\" nW pickoff.txt\\\"]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Options", "[", "LoadDataSeries", "]"}], "=", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"InterpretParameter", "\[Rule]", "True"}], ",", 
+    RowBox[{"FileLoadingFunction", "\[Rule]", "Automatic"}], ",", 
+    RowBox[{"BaseDirectory", "\[Rule]", 
+     RowBox[{"Directory", "[", "]"}]}]}], "}"}]}], "\n", 
  RowBox[{
   RowBox[{"LoadDataSeries", "[", 
    RowBox[{"namePattern_", ",", 
@@ -1612,12 +2165,7 @@ the InterpretParameter option should be set to False. \>\""}], "\n",
       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
      RowBox[{"{", "Global`x", "}"}]}], ",", 
     RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"InterpretParameter", "->", "True"}], ",", 
-       RowBox[{"FileLoadingFunction", "->", "Automatic"}], ",", 
-       RowBox[{"BaseDirectory", "->", 
-        RowBox[{"Directory", "[", "]"}]}]}], "}"}], "]"}]}], "]"}], ":=", 
+     RowBox[{"{", "LoadDataSeries", "}"}], "]"}]}], "]"}], ":=", 
   RowBox[{"Module", "[", 
    RowBox[{
     RowBox[{"{", 
@@ -1730,115 +2278,16 @@ the InterpretParameter option should be set to False. \>\""}], "\n",
          RowBox[{"ret", "[", 
           RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}]}], "\n", 
    "]"}]}]}], "Code",
- CellChangeTimes->{{3.7345465955852985`*^9, 3.734546598245433*^9}}],
-
-Cell[BoxData[{
- RowBox[{
-  RowBox[{
-   RowBox[{"LoadSpeParameters", "::", "usage"}], "=", 
-   "\"\<LoadSpeParameters[namePattern_, keyword_]\n\tFunction loads \
-parameters given by keyword from .spe files with names matching namePattern\>\
-\""}], "\n"}], "\n", 
- RowBox[{
-  RowBox[{"LoadSpeParameters", "[", 
-   RowBox[{"namePattern_", ",", " ", "keyword_", ",", 
-    RowBox[{"fileParNamesList", ":", 
-     RowBox[{"Except", "[", 
-      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
-     RowBox[{"{", "Global`x", "}"}]}], ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", 
-      RowBox[{"InterpretParameter", "->", "True"}], "}"}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{
-     "fileNamesList", ",", "tmpData", ",", "fileParList", ",", "speParList", 
-      ",", "ret"}], "}"}], ",", "\n", "\t", 
-    RowBox[{
-     RowBox[{"fileNamesList", "=", 
-      RowBox[{"FileNames", "[", 
-       RowBox[{"namePattern", ",", 
-        RowBox[{"Directory", "[", "]"}], ",", "Infinity"}], "]"}]}], ";", 
-     "\n", "\t", 
-     RowBox[{"fileParList", "=", 
-      RowBox[{"Table", "[", "\n", "\t\t", 
-       RowBox[{
-        RowBox[{"If", "[", 
-         RowBox[{
-          RowBox[{"OptionValue", "[", "InterpretParameter", "]"}], ",", "\n", 
-          "\t\t\t", 
-          RowBox[{
-           RowBox[{"Interpreter", "[", "\"\<Number\>\"", "]"}], "[", 
-           RowBox[{
-            RowBox[{"StringCases", "[", 
-             RowBox[{"fileName", ",", 
-              RowBox[{"namePattern", "->", "fileParNamesList"}]}], "]"}], "[", 
-            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\n", "\t\t\t", 
-          RowBox[{
-           RowBox[{"StringCases", "[", 
-            RowBox[{"fileName", ",", 
-             RowBox[{"namePattern", "->", "fileParNamesList"}]}], "]"}], "[", 
-           RowBox[{"[", "1", "]"}], "]"}]}], "\n", "\t\t", "]"}], ",", "\n", 
-        "\t", 
-        RowBox[{"{", 
-         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
-     "\n", "\t", 
-     RowBox[{"speParList", "=", 
-      RowBox[{"{", "}"}]}], ";", "\n", "\t", 
-     RowBox[{"Do", "[", "\n", "\t\t", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"tmpData", "=", 
-         RowBox[{"Import", "[", 
-          RowBox[{"x", ",", "\"\<Table\>\""}], "]"}]}], ";", "\n", "\t\t", 
-        RowBox[{"AppendTo", "[", 
-         RowBox[{"speParList", ",", 
-          RowBox[{
-           RowBox[{"FirstCase", "[", 
-            RowBox[{"tmpData", ",", 
-             RowBox[{"{", 
-              RowBox[{"keyword", ",", "_", ",", "_"}], "}"}]}], "]"}], "[", 
-           RowBox[{"[", 
-            RowBox[{"-", "1"}], "]"}], "]"}]}], "]"}]}], ",", "\n", "\t", 
-       RowBox[{"{", 
-        RowBox[{"x", ",", "fileNamesList"}], "}"}]}], "]"}], ";", "\n", "\t", 
-     RowBox[{"ret", "=", 
-      RowBox[{"Sort", "[", 
-       RowBox[{
-        RowBox[{"Transpose", "[", 
-         RowBox[{"{", 
-          RowBox[{"fileParList", ",", "speParList"}], "}"}], "]"}], ",", 
-        RowBox[{
-         RowBox[{
-          RowBox[{"#1", "[", 
-           RowBox[{"[", 
-            RowBox[{"1", ",", "1"}], "]"}], "]"}], "<", 
-          RowBox[{"#2", "[", 
-           RowBox[{"[", 
-            RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "&"}]}], "]"}]}], ";", 
-     " ", 
-     RowBox[{"(*", 
-      RowBox[{
-      "sorting", " ", "according", " ", "to", " ", "increase", " ", "in", " ",
-        "the", " ", "first", " ", "file", " ", "name", " ", "parameter"}], 
-      "*)"}], "\n", "\t", 
-     RowBox[{"ret", "[", 
-      RowBox[{"[", 
-       RowBox[{";;", ",", "2"}], "]"}], "]"}]}]}], "\n", "]"}]}]}], "Code",
- CellChangeTimes->{{3.7345466058454895`*^9, 3.7345466147437115`*^9}}]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["Integration and selection", "Subsubsection"],
+ CellChangeTimes->{{3.7345465955852985`*^9, 3.734546598245433*^9}, {
+  3.734549085480486*^9, 3.734549287809987*^9}, {3.7345498469823484`*^9, 
+  3.7345499036338263`*^9}, {3.7345903481113367`*^9, 3.7345903603916545`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"SelectRange", "::", "usage"}], "=", 
    "\"\<SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]\n\t\
-Return subset of xylist_ with x values within xRange_\n\nOptions\n\tSame as \
+Return subset of xylist_ with x values within xRange_\n\nOptions:\n\tSame as \
 InRangeQ\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"Options", "[", "SelectRange", "]"}], "=", 
@@ -1886,11 +2335,10 @@ InRangeQ\>\""}], "\n"}], "\n",
      RowBox[{"{", 
       RowBox[{"xylist", ",", "xylistd2"}], "}"}]}], "]"}]}], ";"}]}], "Code",
  CellChangeTimes->{{3.734546627865629*^9, 3.7345466295478487`*^9}, {
-  3.734547425049396*^9, 3.7345474331763906`*^9}, {3.734547867239811*^9, 
-  3.734548125546877*^9}, {3.7345481625783978`*^9, 3.7345481875924163`*^9}, {
-  3.734548279897182*^9, 3.7345483147403464`*^9}, {3.7345486982210283`*^9, 
-  3.7345487717640295`*^9}}]
-}, Open  ]]
+   3.734547425049396*^9, 3.7345474331763906`*^9}, {3.734547867239811*^9, 
+   3.734548125546877*^9}, {3.7345481625783978`*^9, 3.7345481875924163`*^9}, {
+   3.734548279897182*^9, 3.7345483147403464`*^9}, {3.7345486982210283`*^9, 
+   3.7345487717640295`*^9}, 3.73455005322637*^9}]
 }, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
@@ -1912,52 +2360,61 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 618, 15, 50, "Input",
  CellID->484687852],
+Cell[1179, 37, 771, 21, 69, "Code"],
 Cell[CellGroupData[{
-Cell[1201, 39, 116, 1, 70, "Section"],
-Cell[1320, 42, 1291, 36, 142, "Code"],
-Cell[2614, 80, 620, 16, 87, "Code"],
-Cell[3237, 98, 992, 17, 196, "Code"],
-Cell[4232, 117, 1492, 36, 141, "Code"],
-Cell[5727, 155, 1007, 27, 123, "Code",
- InitializationCell->True],
-Cell[6737, 184, 3000, 76, 411, "Code"]
+Cell[1975, 62, 159, 2, 70, "Section"],
+Cell[2137, 66, 832, 20, 159, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[9774, 265, 126, 1, 70, "Section"],
-Cell[CellGroupData[{
-Cell[9925, 270, 121, 1, 49, "Subsection"],
-Cell[10049, 273, 626, 16, 69, "Code"],
-Cell[10678, 291, 4186, 136, 285, "Code"]
+Cell[3006, 91, 116, 1, 70, "Section"],
+Cell[3125, 94, 1291, 36, 142, "Code"],
+Cell[4419, 132, 620, 16, 87, "Code"],
+Cell[5042, 150, 992, 17, 196, "Code"],
+Cell[6037, 169, 1492, 36, 141, "Code"],
+Cell[7532, 207, 1007, 27, 123, "Code",
+ InitializationCell->True],
+Cell[8542, 236, 3000, 76, 411, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[14901, 432, 124, 1, 41, "Subsection"],
-Cell[15028, 435, 12813, 336, 1419, "Code"]
+Cell[11579, 317, 126, 1, 56, "Section"],
+Cell[CellGroupData[{
+Cell[11730, 322, 121, 1, 49, "Subsection"],
+Cell[11854, 325, 626, 16, 69, "Code"],
+Cell[12483, 343, 4186, 136, 285, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[16706, 484, 124, 1, 41, "Subsection"],
+Cell[16833, 487, 12813, 336, 1419, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[29683, 828, 170, 2, 41, "Subsection"],
+Cell[29856, 832, 1586, 44, 195, "Code"],
+Cell[31445, 878, 3554, 95, 465, "Code"],
+Cell[35002, 975, 2459, 62, 465, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[37498, 1042, 102, 1, 41, "Subsection"],
+Cell[37603, 1045, 2747, 66, 340, "Code"],
+Cell[40353, 1113, 7702, 208, 555, "Code"]
 }, Closed]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[27890, 777, 113, 1, 70, "Section"],
-Cell[28006, 780, 455, 13, 50, "Code"],
-Cell[28464, 795, 1458, 41, 105, "Code"],
-Cell[29925, 838, 600, 14, 87, "Code"]
+Cell[48104, 1327, 113, 1, 70, "Section"],
+Cell[48220, 1330, 455, 13, 50, "Code"],
+Cell[48678, 1345, 1458, 41, 105, "Code"],
+Cell[50139, 1388, 600, 14, 87, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[30562, 857, 96, 1, 70, "Section"],
-Cell[30661, 860, 1941, 50, 231, "Code"],
-Cell[32605, 912, 10484, 248, 987, "Code"],
-Cell[43092, 1162, 10078, 234, 1024, "Code"],
-Cell[53173, 1398, 7480, 176, 843, "Code"]
+Cell[50776, 1407, 96, 1, 70, "Section"],
+Cell[50875, 1410, 1941, 50, 231, "Code"],
+Cell[52819, 1462, 10484, 248, 987, "Code"],
+Cell[63306, 1712, 10078, 234, 1024, "Code"],
+Cell[73387, 1948, 7480, 176, 843, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[60690, 1579, 40, 0, 56, "Section"],
-Cell[CellGroupData[{
-Cell[60755, 1583, 37, 0, 39, "Subsubsection"],
-Cell[60795, 1585, 6182, 147, 699, "Code"],
-Cell[66980, 1734, 3694, 94, 375, "Code"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[70711, 1833, 50, 0, 39, "Subsubsection"],
-Cell[70764, 1835, 2079, 56, 195, "Code"]
-}, Open  ]]
+Cell[80904, 2129, 40, 0, 56, "Section"],
+Cell[80947, 2131, 6473, 151, 807, "Code"],
+Cell[87423, 2284, 2105, 56, 195, "Code"]
 }, Open  ]]
 }
 ]

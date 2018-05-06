@@ -19,6 +19,19 @@
 
 
 
+(*A fix for usage messages, from http://mathematica.stackexchange.com/questions/3943/usage-displays-properly-only-after-second-call/27671#27671*)
+System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
+
+
+compilationOptionsC::"Settings for Compile that result in ultimate speedup of the compiled code. Use C code as targer and thus require a C compiler installed."
+
+compilationOptionsC=Sequence[
+	CompilationTarget->"C",
+	CompilationOptions->{"InlineExternalDefinitions"->True},
+	RuntimeOptions->{"EvaluateSymbolically"->False}
+];
+
+
 FunctionQ::usage="FunctionQ[expr_] tests if expression is a Function, CompiledFunction or InterpolatingFunction."
 	
 (*Adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
@@ -178,6 +191,118 @@ ShiftX[list_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1
 	xSh=a;
 	ySh=OptionValue[ShiftY];	
 	SSXY[list,xSc,ySc,xSh,ySh]
+]
+
+
+NormalizeY::usage="NormalizeY[xylist_]
+	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to within [0,1]"
+	
+NormalizeY[list_]:=
+	Module[{ymin,ymax},
+	ymin=Min[list[[;;,2]]];
+	ymax=Max[list[[;;,2]]];
+	Transpose[{list[[;;,1]],(list[[;;,2]]-(ymax+ymin)/2) 2/(ymax-ymin)}]
+];
+
+
+Average::usage="Average[list_, nAvg_]
+	Function calculates moving average of the list and does a corresponding decimation of the list.
+	The output thus consists of averages over successive intervals of nAvg elements. 
+	The X-values for each of the averaging intervals are taken close to the centers of the interval\[IndentingNewLine]
+	list_ can be
+	1. a 1D list
+	2. a xylist
+	3. a xylistd2"
+
+Average[list_,nAvg_]:=
+Which[
+	Depth[list]==2, 
+	(*single 1D list input*)
+	Take[MovingAverage[list,nAvg],{1,-1,nAvg}]
+	,
+	Depth[list]==3, 
+	(*single XY trace input*)
+	Take[Transpose[{list[[Ceiling[nAvg/2];;-Floor[nAvg/2]-1,1]],MovingAverage[list[[;;,2]],nAvg]}],{1,-1,nAvg}]
+	,
+	Depth[list]==4, 
+	(*list of XY traces as input*)
+	Table[Take[Transpose[{x[[Ceiling[nAvg/2];;-Floor[nAvg/2]-1,1]],MovingAverage[x[[;;,2]],nAvg]}],{1,-1,nAvg}],{x,list}]
+]
+
+
+GaussianAverage::usage="GaussianAverage[list_, nAvg_]
+	Function calculates the Gaussian filtered signal. The output thus consists of averages over successive intervals of nAvg elements.
+
+Input:
+	list_ can be
+	1. a 1D list
+	2. a xylist
+	3. a xylistd2
+	In the latter two cases an appropriate the X-values for each of the averaging intervals are taken close to the centers of the interval"
+
+GaussianAverage[list_,nAvg_]:=
+Which[
+	Depth[list]==2, 
+	(*single 1D list input*)
+	GaussianFilter[list,nAvg]
+	,
+	Depth[list]==3, 
+	(*single XY trace input*)
+	Transpose[{list[[;;,1]],GaussianFilter[list[[;;,2]],nAvg]}]
+	,
+	Depth[list]==4, 
+	(*list of XY traces as input*)
+	Table[Transpose[{x[[;;,1]],GaussianFilter[x[[;;,2]],nAvg]}],{x,list}]
+]
+
+
+FindPeaksXY::usage="FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]
+	Analog of FindPeaks that acts on xylists.
+
+Output:
+	Peak x position and y values {{\!\(\*SubscriptBox[\(x\), \(peak, i\)]\), \!\(\*SubscriptBox[\(y\), \(peak, i\)]\)},...}
+
+Options:
+	Those of standard FindPeaks plus
+	sign\[Rule]1, determining if look for peaks (1) or valleys (-1)"
+
+FindPeaksXY[xylist_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[{FindPeaks,sign-> 1}]]:=
+Module[{peakIndexList,peakValList,xInterp},
+	{peakIndexList,peakValList}=Transpose[FindPeaks[Sign[OptionValue[sign]]*xylist[[;;,2]],\[Sigma],s,t]];
+	xInterp=Interpolation[xylist[[;;,1]],InterpolationOrder->OptionValue[InterpolationOrder]];
+
+	Transpose[{Thread[xInterp[peakIndexList]],peakValList}]
+];
+
+
+FindPeakCenter::usage="FindPeakCenter[xylist_]"
+
+FindPeakCenter[XYData_,OptionsPattern[sign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
+(*Function accepts an interval of XY data and returns x-position of its center of mass, using linear data interpolation over x*)
+
+dim=Depth[XYData];
+Which[
+dim==3 (*single XY trace*),
+offset=If[Sign[OptionValue[sign]]>=0,Min[XYData[[;;,2]]],Max[XYData[[;;,2]]]];
+YIntegralList=Accumulate[XYData[[;;,2]]-offset];
+YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
+
+(*fractional index of the Center of Mass*)
+(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
+1/(Ceiling[iCOM]-Floor[iCOM]) (XYData[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+XYData[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
+
+,
+dim==4 (*list of XY traces*),
+Table[
+offset=If[Sign[OptionValue[sign]]>=0,Min[y[[;;,2]]],Max[y[[;;,2]]]];
+YIntegralList=Accumulate[y[[;;,2]]-offset];
+YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
+
+(*fractional index of the Center of Mass*)
+(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
+1/(Ceiling[iCOM]-Floor[iCOM]) (y[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+y[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
+,{y,XYData}]
+]
 ]
 
 
@@ -368,20 +493,26 @@ Module[{xPlotRanges,cPlotF,dPlotF},
 
 
 LoadDataSeries::usage="LoadDataSeries[namePattern_,parNamesList_:{x}]
-	Input: namePattern, containing varibles which values are being swept and parNamesList that lists the variables.
-	In the case of single variable named x parNamesList may be omitted.  
-	Example: LoadDataSeries[x__~~\" nW pickoff.txt\"]
+	Load a set of files with names, matching the namePattern_
 
-	Output: {parList, dataList}, where dataList[[i]] corresponds to the content of the file with name including parList[[i]]
-	parList={\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(x\), \(2\)]\), ... } in the case of single parameter and {{\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(y\), \(1\)]\),\!\(\*SubscriptBox[\(z\), \(1\)]\)},..} in the case of multiple
+Input: 
+	namePattern_ containing varibles which values are being swept and parNamesList_ that lists these variables.
+	In the case of single variable named x parNamesList may be omitted.  
+
+Output: 
+	{parList, dataList}, where dataList[[i]] corresponds to the content of the file with name including parList[[i]]
+	parList={\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\), ... } in the case of single parameter and {{\!\(\*SubscriptBox[\(x\), \(1\)]\),\!\(\*SubscriptBox[\(y\), \(1\)]\),\!\(\*SubscriptBox[\(z\), \(1\)]\)},..} in the case of multiple
 	
-	Options:
+Options:
 	By default the measurement files are loaded as Import[fileName,\"Table\"], custom loading function can be specified using FileLoadingFunction option, 
 	which should return data if applied to file name
-	By default the parameters are interpreted as numbers, if they should remain in text format, the InterpretParameter option should be set to False. "
+	By default the parameters are interpreted as numbers, if they should remain in text format, the InterpretParameter option should be set to False.
 
+Example: 
+	LoadDataSeries[x__~~\" nW pickoff.txt\"]"
 
-LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True,FileLoadingFunction->Automatic,BaseDirectory->Directory[]}]]:=Module[{fileNamesList,dir,FLF,parList,dataList,ret},
+Options[LoadDataSeries]={InterpretParameter->True,FileLoadingFunction->Automatic,BaseDirectory->Directory[]}
+LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{LoadDataSeries}]]:=Module[{fileNamesList,dir,FLF,parList,dataList,ret},
 	dir=OptionValue[BaseDirectory];
 	fileNamesList=FileNames[namePattern,dir,Infinity](*read file names and extract parameters from them*);
 	(*parList=Flatten[ToExpression@StringCases[fileNamesList,namePattern->parNamesList],1];*)
@@ -406,31 +537,10 @@ LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPat
 ]
 
 
-LoadSpeParameters::usage="LoadSpeParameters[namePattern_, keyword_]
-	Function loads parameters given by keyword from .spe files with names matching namePattern"
-
-LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True}]]:=Module[{fileNamesList,tmpData,fileParList,speParList,ret},
-	fileNamesList=FileNames[namePattern,Directory[],Infinity];
-	fileParList=Table[
-		If[OptionValue[InterpretParameter],
-			Interpreter["Number"][StringCases[fileName,namePattern->fileParNamesList][[1]]],
-			StringCases[fileName,namePattern->fileParNamesList][[1]]
-		],
-	{fileName,fileNamesList}];
-	speParList={};
-	Do[
-		tmpData=Import[x,"Table"];
-		AppendTo[speParList,FirstCase[tmpData,{keyword,_,_}][[-1]]],
-	{x,fileNamesList}];
-	ret=Sort[Transpose[{fileParList,speParList}],#1[[1,1]]<#2[[1,1]]&]; (*sorting according to increase in the first file name parameter*)
-	ret[[;;,2]]
-]
-
-
 SelectRange::usage="SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]
 	Return subset of xylist_ with x values within xRange_
 
-Options
+Options:
 	Same as InRangeQ"
 
 Options[SelectRange]=Options[InRangeQ]

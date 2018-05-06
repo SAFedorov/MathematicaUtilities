@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     19220,        496]
-NotebookOptionsPosition[     18805,        478]
-NotebookOutlinePosition[     19181,        494]
-CellTagsIndexPosition[     19138,        491]
+NotebookDataLength[     20196,        522]
+NotebookOptionsPosition[     19744,        503]
+NotebookOutlinePosition[     20120,        519]
+CellTagsIndexPosition[     20077,        516]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -35,18 +35,41 @@ Cell[BoxData[
   3.7339147356576366`*^9}},
  CellID->484687852],
 
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"A", " ", "fix", " ", "for", " ", "usage", " ", "messages"}], ",",
+     " ", 
+    RowBox[{
+     RowBox[{"from", " ", 
+      RowBox[{"http", ":"}]}], "//", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"mathematica", ".", "stackexchange", ".", "com"}], "/", 
+         "questions"}], "/", "3943"}], "/", "usage"}], "-", "displays", "-", 
+      "properly", "-", "only", "-", "after", "-", "second", "-", 
+      RowBox[{
+       RowBox[{"call", "/", "27671"}], "#27671"}]}]}]}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"System`Dump`fixmessagestring", "[", "System`Dump`s_", "]"}], ":=", 
+   RowBox[{"ToString", "@", 
+    RowBox[{"InputForm", "@", "System`Dump`s"}]}]}]}]], "Code"],
+
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"\[Nu]FourierXY", "::", "usage"}], " ", "=", " ", 
    "\"\<\[Nu]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\n\t\
-Compute in numerical approximation of the Fourier transform in linear units \
-y[\[Nu]]=1/Sqrt[L]\!\(\*SubsuperscriptBox[\(\[Integral]\), \
-SubscriptBox[\(x\), \(0\)], \(\*SubscriptBox[\(x\), \(0\)] + L\)]\)y(x)Exp[\
-\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=dx/Sqrt[L]\!\(\*\
-UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \(n - \
-1\)]\)y(\!\(\*SubscriptBox[\(x\), \(r\)]\))Exp[\[ImaginaryI](2\[Pi]\[Nu])\!\(\
-\*SubscriptBox[\(x\), \(r\)]\)]\n\tFrequency is defined in linear units on \
+Compute numerical approximation of Fourier transform in linear units \
+y[\[Nu]]=\!\(\*FractionBox[\(1\), SqrtBox[\(L\)]]\)\!\(\*SubsuperscriptBox[\(\
+\[Integral]\), SubscriptBox[\(x\), \(0\)], \(\*SubscriptBox[\(x\), \(0\)] + L\
+\)]\)y(x)Exp[\[ImaginaryI](2\[Pi]\[Nu])x]\[DifferentialD]x=\!\(\*FractionBox[\
+\(dx\), SqrtBox[\(L\)]]\)\!\(\*UnderoverscriptBox[\(\[Sum]\), \(r = 1\), \(n \
+- 1\)]\)y(\!\(\*SubscriptBox[\(x\), \(r\)]\))Exp[\[ImaginaryI](2\[Pi]\[Nu])\!\
+\(\*SubscriptBox[\(x\), \(r\)]\)]\n\tFrequency is defined in linear units on \
 the two-sided interval \[Nu]=s/dx, s\[Element][-(n-1)/2, (n-1)/2]\n\tIn the \
 case of odd n the spectrum contains equal number of positive and negative \
 frequency components, \n\tin the case of even n there is n/2 positive \
@@ -229,7 +252,9 @@ frequency units \[Omega]=2\[Pi]\[Times]\[Nu]\>\""}], "\n"}], "\n",
    3.7339148642400713`*^9}, {3.733914922200014*^9, 3.7339149277377777`*^9}, {
    3.733914970174095*^9, 3.733914986249914*^9}, {3.7339150513002996`*^9, 
    3.7339150531464453`*^9}, 3.733915193037817*^9, {3.7339170428570504`*^9, 
-   3.7339172557098246`*^9}, {3.733917302151745*^9, 3.7339173353175926`*^9}}],
+   3.7339172557098246`*^9}, {3.733917302151745*^9, 3.7339173353175926`*^9}, {
+   3.7345946969766192`*^9, 3.734594724396997*^9}, {3.7345949060633564`*^9, 
+   3.7345949103406177`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -495,9 +520,10 @@ CellTagsIndex->{}
 Notebook[{
 Cell[558, 20, 618, 15, 50, "Input",
  CellID->484687852],
-Cell[1179, 37, 7820, 194, 679, "Code"],
-Cell[9002, 233, 4262, 106, 358, "Code"],
-Cell[13267, 341, 5534, 135, 395, "Code"]
+Cell[1179, 37, 771, 21, 69, "Code"],
+Cell[1953, 60, 7985, 196, 679, "Code"],
+Cell[9941, 258, 4262, 106, 358, "Code"],
+Cell[14206, 366, 5534, 135, 395, "Code"]
 }
 ]
 *)
