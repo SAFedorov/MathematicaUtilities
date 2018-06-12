@@ -8,6 +8,7 @@ Get[FileNameJoin[{"Utilities","DataAnalysis.m"}]]
 Get[FileNameJoin[{"Utilities","Plotting.m"}]]
 Get[FileNameJoin[{"Utilities","Fourier.m"}]]
 Get[FileNameJoin[{"Utilities","Compatibility.m"}]]
-Get[FileNameJoin[{"Utilities","FEMTools.m"}]]
+Get[FileNameJoin[{"Utilities","FemTools.m"}]]
+Get[FileNameJoin[{"Utilities","Optimization.m"}]]
 
 EndPackage[]
