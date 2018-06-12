@@ -80,6 +80,9 @@ Options:
 	The option can be a single logical value or a list of 2 logical values (e.g. {True,False}), related to the low and high boundary correspondingly."
 
 Options[InRangeQ]={IncludeBoundary->True}
+
+Begin["`Privite`"]
+
 InRangeQ[x_,range_,OptionsPattern[{InRangeQ}]]:=Module[{upCompFunc,lowCompFunc,ibOpt},
 	ibOpt=OptionValue[IncludeBoundary];
 	Which[
@@ -93,6 +96,8 @@ InRangeQ[x_,range_,OptionsPattern[{InRangeQ}]]:=Module[{upCompFunc,lowCompFunc,i
 	];
 	lowCompFunc[x,range[[1]]]&&upCompFunc[x,range[[2]]]
 ];
+
+End[]
 
 
 (*Useful functions adopted with slight extension from the V.Sudhir's He3Analysis package;
@@ -134,7 +139,10 @@ ShiftX::usage=ScaleY::usage
 
 SSXY::usage="SSXY[list_,xSc_,ySc_,xSh_,ySh_] low level generic rescaling function used by ScaleY, ScaleX, ShiftY and ShiftX";
 
-(*Versions for various inputs*)				
+(*Versions for various inputs*)
+
+Begin["`Private`"]
+								
 SSXY[xylist_?XYListQ,xSc_,ySc_,xSh_,ySh_]:=Which[
 	XYListQ[ySh]&&(Length[ySh]==Length[xylist]),
 		Transpose[{xSc (xylist[[;;,1]]+xSh),ySc (xylist[[;;,2]]+ySh[[;;,2]])}],
@@ -157,11 +165,6 @@ SSXY[list_?(XYListQ[#,2]&),xSc_,ySc_,xSh_,ySh_]:=Module[{xScListQ,yScListQ,xShLi
 		,
 		{i,Length[list]}
 	];
-	
-	If[ListQ[a],
-		Table[ScaleY[list[[i]],a[[i]],opts],{i,Length[list]}],
-		Table[SSXY[xylist,xSc,ySc,xSh,ySh],{xylist,list}]
-	]
 ]
 		
 ScaleY[list_, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
@@ -193,16 +196,22 @@ ShiftX[list_?XYListQ, a:Except[_?OptionQ]:0, OptionsPattern[{ScaleX->1,ScaleY->1
 	SSXY[list,xSc,ySc,xSh,ySh]
 ]
 
+End[]
+
 
 NormalizeY::usage="NormalizeY[xylist_]
 	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to within [0,1]"
-	
+
+Begin["`Privite`"]
+
 NormalizeY[list_]:=
 	Module[{ymin,ymax},
 	ymin=Min[list[[;;,2]]];
 	ymax=Max[list[[;;,2]]];
 	Transpose[{list[[;;,1]],(list[[;;,2]]-(ymax+ymin)/2) 2/(ymax-ymin)}]
 ];
+
+End[]
 
 
 Average::usage="Average[list_, nAvg_]
@@ -213,9 +222,10 @@ Average::usage="Average[list_, nAvg_]
 	1. a 1D list
 	2. a xylist
 	3. a xylistd2"
+	
+Begin["`Private`"]
 
-Average[list_,nAvg_]:=
-Which[
+Average[list_,nAvg_]:=Which[
 	Depth[list]==2, 
 	(*single 1D list input*)
 	Take[MovingAverage[list,nAvg],{1,-1,nAvg}]
@@ -229,6 +239,8 @@ Which[
 	Table[Take[Transpose[{x[[Ceiling[nAvg/2];;-Floor[nAvg/2]-1,1]],MovingAverage[x[[;;,2]],nAvg]}],{1,-1,nAvg}],{x,list}]
 ]
 
+End[]
+
 
 GaussianAverage::usage="GaussianAverage[list_, nAvg_]
 	Function calculates the Gaussian filtered signal. The output thus consists of averages over successive intervals of nAvg elements.
@@ -239,6 +251,8 @@ Input:
 	2. a xylist
 	3. a xylistd2
 	In the latter two cases an appropriate the X-values for each of the averaging intervals are taken close to the centers of the interval"
+	
+Begin["`Private`"]
 
 GaussianAverage[list_,nAvg_]:=
 Which[
@@ -255,6 +269,8 @@ Which[
 	Table[Transpose[{x[[;;,1]],GaussianFilter[x[[;;,2]],nAvg]}],{x,list}]
 ]
 
+End[]
+
 
 FindPeaksXY::usage="FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]
 	Analog of FindPeaks that acts on xylists.
@@ -266,20 +282,28 @@ Options:
 	Those of standard FindPeaks plus
 	sign\[Rule]1, determining if look for peaks (1) or valleys (-1)"
 
-FindPeaksXY[xylist_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[{FindPeaks,sign-> 1}]]:=
+Options[FindPeaksXY]=Join[Options[FindPeaks],{sign->1}]
+
+Begin["`Privite`"]
+
+FindPeaksXY[xylist_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[]]:=
 Module[{peakIndexList,peakValList,xInterp},
 	{peakIndexList,peakValList}=Transpose[FindPeaks[Sign[OptionValue[sign]]*xylist[[;;,2]],\[Sigma],s,t]];
+	(*InterpolationOrder is an option of basic FindPeaks, so it also can be used to find x values*)
 	xInterp=Interpolation[xylist[[;;,1]],InterpolationOrder->OptionValue[InterpolationOrder]];
 
 	Transpose[{Thread[xInterp[peakIndexList]],peakValList}]
 ];
 
+End[]
 
-FindPeakCenter::usage="FindPeakCenter[xylist_]"
+
+FindPeakCenter::usage="FindPeakCenter[xylist_]
+	find x-position of the center of mass of xylist_ using linear data interpolation over x"
+
+Begin["`Private`"]
 
 FindPeakCenter[XYData_,OptionsPattern[sign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
-(*Function accepts an interval of XY data and returns x-position of its center of mass, using linear data interpolation over x*)
-
 dim=Depth[XYData];
 Which[
 dim==3 (*single XY trace*),
@@ -304,6 +328,8 @@ YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationO
 ,{y,XYData}]
 ]
 ]
+
+End[]
 
 
 (*From http://mathematica.stackexchange.com/questions/11345/can-mathematica-handle-open-intervals-interval-complements*)
@@ -349,6 +375,9 @@ Options:
 
 Options[FitRangeSelector]={LogYPlot->False,LogXPlot->False};
 SetAttributes[FitRangeSelector,HoldFirst];(*Hold attribute for the "fitRanges" variable is needed for being able to clear the variable if it was already defined*)
+
+Begin["`Private`"]
+
 FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{FitRangeSelector}]]:=DynamicModule[{epList, LowerLine,UpperLine,minList,maxList,plotF},
 	(*right and left cursor lines*)
 	minList=Table[Min[tr[[;;,2]]],{tr,traceList}];
@@ -387,6 +416,8 @@ FitRangeSelector[fitRanges_,traceList_,OptionsPattern[{FitRangeSelector}]]:=Dyna
 	],
 SaveDefinitions->True]
 
+End[]
+
 
 ThreadFindFit::usage="ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges_:Full]
 	Function applies FindFit[] to each element in the list of 2D data traces traceList.
@@ -407,6 +438,9 @@ Options:
 	FitFunction\[Rule]FindFit can be either FindFit (by default) of FindLogFit"
 
 Options[ThreadFindFit]={FitFunction->FindFit};
+
+Begin["`Private`"]
+
 ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,OptionsPattern[{ThreadFindFit}]]:=Module[{dataList,fitModelsList,parsList,frIntervalsList},
 	(*reduce the input parameters from all the various acceptable forms to a single one \[Dash] lists*)
 	If[fitRanges===Full,
@@ -443,6 +477,7 @@ ThreadFindFit[traceList_,fitModel_,pars_,vars_,fitRanges:Except[_?OptionQ]:Full,
 	Table[OptionValue[FitFunction][dataList[[i]],fitModelsList[[i]],parsList[[i]],vars],{i,Length[traceList]}]
 ];
 
+End[]
 
 
 FitQualityCheck::usage="FitQualityCheck[traceList_,fitRanges_,fitModel_,fitParameters_,fitVar_:x]
@@ -457,7 +492,10 @@ Options:
 	LogXPlot\[Rule]False"
 
 Options[FitQualityCheck]={LogYPlot->False,LogXPlot-> False};
-FitQualityCheck[traceList_,fitRanges_,fitModel_,fitParameters_,fitVar_,OptionsPattern[{FitQualityCheck}]]:=
+
+Begin["`Private`"]
+
+FitQualityCheck[traceList_,fitRanges_,fitModel_,fitParameters_,OptionsPattern[{FitQualityCheck}]]:=
 Module[{xPlotRanges,cPlotF,dPlotF},
 	If[Head[fitRanges]=!=List, Print["Fit ranges is not a list"];Return[]];
 		xPlotRanges=Which[
@@ -485,11 +523,13 @@ Module[{xPlotRanges,cPlotF,dPlotF},
 			Print[
 				Show[
 					dPlotF[traceList[[i]],PlotRange->{xPlotRanges[[i]],Full}],
-					cPlotF[(fitModel)/.fitParameters[[i]],{fitVar,xPlotRanges[[i,1]],xPlotRanges[[i,2]]},PlotStyle->Directive[Red,Thin],PlotRange->Full]
+					cPlotF[(fitModel)/.fitParameters[[i]],{Global`x,xPlotRanges[[i,1]],xPlotRanges[[i,2]]},PlotStyle->Directive[Red,Thin],PlotRange->Full]
 				]
 			],
 		{i,Length[traceList]}]
 ]
+
+End[]
 
 
 LoadDataSeries::usage="LoadDataSeries[namePattern_,parNamesList_:{x}]
@@ -506,12 +546,15 @@ Output:
 Options:
 	By default the measurement files are loaded as Import[fileName,\"Table\"], custom loading function can be specified using FileLoadingFunction option, 
 	which should return data if applied to file name
-	By default the parameters are interpreted as numbers, if they should remain in text format, the InterpretParameter option should be set to False.
+	By default the parameters in file names are interpreted as numbers, they can also be kept in text format by setting the InterpretParameter\[Rule]False.
 
 Example: 
 	LoadDataSeries[x__~~\" nW pickoff.txt\"]"
 
 Options[LoadDataSeries]={InterpretParameter->True,FileLoadingFunction->Automatic,BaseDirectory->Directory[]}
+
+Begin["`Private`"]
+
 LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{LoadDataSeries}]]:=Module[{fileNamesList,dir,FLF,parList,dataList,ret},
 	dir=OptionValue[BaseDirectory];
 	fileNamesList=FileNames[namePattern,dir,Infinity](*read file names and extract parameters from them*);
@@ -536,13 +579,20 @@ LoadDataSeries[namePattern_,parNamesList:Except[_?OptionQ]:{Global`x},OptionsPat
 	If[Length[parNamesList]>1,ret,{Flatten[ret[[1]]],ret[[2]]}]
 ]
 
+End[]
+
 
 SelectRange::usage="SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]
 	Return subset of xylist_ with x values within xRange_
 
 Options:
-	Same as InRangeQ"
+	Accepts options of InRangeQ"
 
 Options[SelectRange]=Options[InRangeQ]
+
+Begin["`Private`"]
+
 SelectRange[xylist_?XYListQ,xRange_,opts:OptionsPattern[{SelectRange}]]:=Select[xylist,(InRangeQ[#[[1]],xRange,opts])&];
 SelectRange[xylistd2_?(XYListQ[#,2]&),xRange_,opts:OptionsPattern[{SelectRange}]]:=Table[Select[xylist,(InRangeQ[#[[1]],xRange,opts])&],{xylist,xylistd2}];
+
+End[]

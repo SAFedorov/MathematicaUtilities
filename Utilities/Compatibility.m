@@ -7,7 +7,7 @@
 (*This file contains outdated functions or function names to ensure compatibility with previous package versions*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Superseded and depreciated functions*)
 
 
@@ -175,10 +175,23 @@ ListOfXYListsQ::usage="ListOfXYListsQ[list_]
 ListOfXYListsQ[list_]:=ListQ[list]&& AllTrue[list,XYListQ]
 
 
+FindFitSeries::usage="Obsolete name of ThreadFindFit"
+
+Begin["`Private`"]
 FindFitSeries[x__]:=ThreadFindFit[x]
+End[]
 
 
+FindFitSeries::usage="Obsolete, superseded by SelectRange. SelectSeries[list_,xRange_]"
+Begin["`Private`"]
 SelectSeries[list_,xRange_]:=Table[Select[x,((#[[1]]>=xRange[[1]])&&(#[[1]]<=xRange[[2]]))&],{x,list}];
+End[]
+
+
+COMSOLImport::usage="Obsolete name of ComsolImport"
+Begin["`Private`"]
+COMSOLImport[x__]:=ComsolImport[x]
+End[]
 
 
 (* ::Section:: *)
@@ -188,6 +201,7 @@ SelectSeries[list_,xRange_]:=Table[Select[x,((#[[1]]>=xRange[[1]])&&(#[[1]]<=xRa
 LoadSpeParameters::usage="LoadSpeParameters[namePattern_, keyword_]
 	Function loads parameters given by keyword from .spe files with names matching namePattern"
 
+Begin["`Private`"]
 LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Global`x},OptionsPattern[{InterpretParameter->True}]]:=Module[{fileNamesList,tmpData,fileParList,speParList,ret},
 	fileNamesList=FileNames[namePattern,Directory[],Infinity];
 	fileParList=Table[
@@ -204,3 +218,4 @@ LoadSpeParameters[namePattern_, keyword_,fileParNamesList:Except[_?OptionQ]:{Glo
 	ret=Sort[Transpose[{fileParList,speParList}],#1[[1,1]]<#2[[1,1]]&]; (*sorting according to increase in the first file name parameter*)
 	ret[[;;,2]]
 ]
+End[]

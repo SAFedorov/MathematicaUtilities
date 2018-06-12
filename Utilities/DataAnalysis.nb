@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     91638,       2414]
-NotebookOptionsPosition[     89544,       2343]
-NotebookOutlinePosition[     89920,       2359]
-CellTagsIndexPosition[     89877,       2356]
+NotebookDataLength[     96219,       2493]
+NotebookOptionsPosition[     94122,       2422]
+NotebookOutlinePosition[     94499,       2438]
+CellTagsIndexPosition[     94456,       2435]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -85,7 +85,7 @@ code. Use C code as targer and thus require a C compiler installed.\>\""}],
        RowBox[{"\"\<EvaluateSymbolically\>\"", "->", "False"}], "}"}]}]}], 
     "\n", "]"}]}], ";"}]}], "Code",
  CellChangeTimes->{{3.7345940329071417`*^9, 3.734594270299597*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -246,72 +246,78 @@ the interval. \n\tThe option can be a single logical value or a list of 2 \
 logical values (e.g. {True,False}), related to the low and high boundary \
 correspondingly.\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"Options", "[", "InRangeQ", "]"}], "=", 
-  RowBox[{"{", 
-   RowBox[{"IncludeBoundary", "\[Rule]", "True"}], "}"}]}], "\n", 
+  RowBox[{
+   RowBox[{"Options", "[", "InRangeQ", "]"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"IncludeBoundary", "\[Rule]", "True"}], "}"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"InRangeQ", "[", 
-    RowBox[{"x_", ",", "range_", ",", 
-     RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", "InRangeQ", "}"}], "]"}]}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"upCompFunc", ",", "lowCompFunc", ",", "ibOpt"}], "}"}], ",", 
-     "\n", "\t", 
+   RowBox[{
+    RowBox[{"InRangeQ", "[", 
+     RowBox[{"x_", ",", "range_", ",", 
+      RowBox[{"OptionsPattern", "[", 
+       RowBox[{"{", "InRangeQ", "}"}], "]"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
      RowBox[{
-      RowBox[{"ibOpt", "=", 
-       RowBox[{"OptionValue", "[", "IncludeBoundary", "]"}]}], ";", "\n", 
-      "\t", 
-      RowBox[{"Which", "[", "\n", "\t\t", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"Head", "[", "ibOpt", "]"}], "===", "Symbol"}], ",", "\n", 
-        "\t\t", 
-        RowBox[{
-         RowBox[{"lowCompFunc", "=", 
-          RowBox[{"If", "[", 
-           RowBox[{
-            RowBox[{"ibOpt", "===", "True"}], ",", "GreaterEqual", ",", 
-            "Greater"}], "]"}]}], ";", "\n", "\t\t", 
-         RowBox[{"upCompFunc", "=", 
-          RowBox[{"If", "[", 
-           RowBox[{
-            RowBox[{"ibOpt", "===", "True"}], ",", "LessEqual", ",", "Less"}],
-            "]"}]}], ";"}], "\n", "\t", ",", "\n", "\t\t", 
-        RowBox[{
-         RowBox[{"Head", "[", "ibOpt", "]"}], "===", "List"}], ",", "\n", 
-        "\t\t", 
-        RowBox[{
-         RowBox[{"lowCompFunc", "=", 
-          RowBox[{"If", "[", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"ibOpt", "[", 
-              RowBox[{"[", "1", "]"}], "]"}], "===", "True"}], ",", 
-            "GreaterEqual", ",", "Greater"}], "]"}]}], ";", "\n", "\t\t", 
-         RowBox[{"upCompFunc", "=", 
-          RowBox[{"If", "[", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"ibOpt", "[", 
-              RowBox[{"[", "2", "]"}], "]"}], "===", "True"}], ",", 
-            "LessEqual", ",", "Less"}], "]"}]}], ";"}]}], "\n", "\t", "]"}], 
-      ";", "\n", "\t", 
+      RowBox[{"{", 
+       RowBox[{"upCompFunc", ",", "lowCompFunc", ",", "ibOpt"}], "}"}], ",", 
+      "\n", "\t", 
       RowBox[{
-       RowBox[{"lowCompFunc", "[", 
-        RowBox[{"x", ",", 
-         RowBox[{"range", "[", 
-          RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "&&", 
-       RowBox[{"upCompFunc", "[", 
-        RowBox[{"x", ",", 
-         RowBox[{"range", "[", 
-          RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}]}]}], "\n", "]"}]}], 
-  ";"}]}], "Code",
+       RowBox[{"ibOpt", "=", 
+        RowBox[{"OptionValue", "[", "IncludeBoundary", "]"}]}], ";", "\n", 
+       "\t", 
+       RowBox[{"Which", "[", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Head", "[", "ibOpt", "]"}], "===", "Symbol"}], ",", "\n", 
+         "\t\t", 
+         RowBox[{
+          RowBox[{"lowCompFunc", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ibOpt", "===", "True"}], ",", "GreaterEqual", ",", 
+             "Greater"}], "]"}]}], ";", "\n", "\t\t", 
+          RowBox[{"upCompFunc", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"ibOpt", "===", "True"}], ",", "LessEqual", ",", 
+             "Less"}], "]"}]}], ";"}], "\n", "\t", ",", "\n", "\t\t", 
+         RowBox[{
+          RowBox[{"Head", "[", "ibOpt", "]"}], "===", "List"}], ",", "\n", 
+         "\t\t", 
+         RowBox[{
+          RowBox[{"lowCompFunc", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"ibOpt", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "===", "True"}], ",", 
+             "GreaterEqual", ",", "Greater"}], "]"}]}], ";", "\n", "\t\t", 
+          RowBox[{"upCompFunc", "=", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"ibOpt", "[", 
+               RowBox[{"[", "2", "]"}], "]"}], "===", "True"}], ",", 
+             "LessEqual", ",", "Less"}], "]"}]}], ";"}]}], "\n", "\t", "]"}], 
+       ";", "\n", "\t", 
+       RowBox[{
+        RowBox[{"lowCompFunc", "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"range", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "&&", 
+        RowBox[{"upCompFunc", "[", 
+         RowBox[{"x", ",", 
+          RowBox[{"range", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}]}]}], "\n", "]"}]}], 
+   ";"}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
-  3.7345477632606993`*^9, 3.734547822165815*^9}}]
-}, Closed]],
+  3.7345477632606993`*^9, 3.734547822165815*^9}, {3.737779262075577*^9, 
+  3.737779278980308*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -519,7 +525,10 @@ ShiftY, a_ can be a xylist or a list of xylists, in which case the y-values \n\
 used by ScaleY, ScaleX, ShiftY and ShiftX\>\""}], ";"}], "\n", "\n", 
   RowBox[{"(*", 
    RowBox[{"Versions", " ", "for", " ", "various", " ", "inputs"}], "*)"}], 
-  "\t\t\t\t"}], "\n", 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n", 
+  "\t\t\t\t\t\t\t\t"}], "\n", 
  RowBox[{
   RowBox[{"SSXY", "[", 
    RowBox[{
@@ -674,30 +683,7 @@ used by ScaleY, ScaleX, ShiftY and ShiftX\>\""}], ";"}], "\n", "\n",
         RowBox[{"{", 
          RowBox[{"i", ",", 
           RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "\n", "\t", "]"}], 
-      ";", "\n", "\t", "\n", "\t", 
-      RowBox[{"If", "[", 
-       RowBox[{
-        RowBox[{"ListQ", "[", "a", "]"}], ",", "\n", "\t\t", 
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{"ScaleY", "[", 
-           RowBox[{
-            RowBox[{"list", "[", 
-             RowBox[{"[", "i", "]"}], "]"}], ",", 
-            RowBox[{"a", "[", 
-             RowBox[{"[", "i", "]"}], "]"}], ",", "opts"}], "]"}], ",", 
-          RowBox[{"{", 
-           RowBox[{"i", ",", 
-            RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "]"}], ",", "\n",
-         "\t\t", 
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{"SSXY", "[", 
-           RowBox[{"xylist", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}],
-            "]"}], ",", 
-          RowBox[{"{", 
-           RowBox[{"xylist", ",", "list"}], "}"}]}], "]"}]}], "\n", "\t", 
-       "]"}]}]}], "\n", "]"}]}], "\n", "\t\t"}], "\n", 
+      ";"}]}], "\n", "]"}]}], "\n", "\t\t"}], "\n", 
  RowBox[{
   RowBox[{"ScaleY", "[", 
    RowBox[{"list_", ",", " ", 
@@ -783,45 +769,60 @@ used by ScaleY, ScaleX, ShiftY and ShiftX\>\""}], ";"}], "\n", "\n",
       RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
       "]"}]}]}], "\n", "]"}]}], "\n", 
  RowBox[{
-  RowBox[{"ShiftX", "[", 
-   RowBox[{
-    RowBox[{"list_", "?", "XYListQ"}], ",", " ", 
-    RowBox[{"a", ":", 
-     RowBox[{"Except", "[", 
-      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", " ", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"ScaleX", "->", "1"}], ",", 
-       RowBox[{"ScaleY", "\[Rule]", "1"}], ",", 
-       RowBox[{"ShiftY", "->", "0"}]}], "}"}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{"xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], "}"}], ",", "\n", 
-    "\t", 
+  RowBox[{
+   RowBox[{"ShiftX", "[", 
     RowBox[{
-     RowBox[{"xSc", "=", 
-      RowBox[{"OptionValue", "[", "ScaleX", "]"}]}], ";", "\n", "\t", 
-     RowBox[{"ySc", "=", 
-      RowBox[{"OptionValue", "[", "ScaleY", "]"}]}], ";", "\n", "\t", 
-     RowBox[{"xSh", "=", "a"}], ";", "\n", "\t", 
-     RowBox[{"ySh", "=", 
-      RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
-     RowBox[{"SSXY", "[", 
-      RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
-      "]"}]}]}], "\n", "]"}]}]}], "Code",
- CellChangeTimes->CompressedData["
-1:eJwdzV0oQwEABeDbeGC72zIbotTaLOT3RWprrLW0JjJTS0hrGw/KCJkahbTZ
-npQsoyX5iZKQmPwUW6RGtCwexJK08SCTpOWe+3D6Hk6nIzR0a00MgiByqcBA
-UiKYchNVMO2aMKx7EH3CXpErDnW2tqRUSvk1Lwsy3WwhJOvTaFUzAQVs3CeU
-8FS5rIbVJp0eSgw3Jhh7fLbCkhrpGMxwPdL+TP9McCh/ZRYH5BV1BbmUk60j
-YdhZIFCwbqMKvl+sgs51jR32qqYc8ExNeiCxfeWFnSGWgKQU97/nwL2PSiFc
-SM8rh6vGBi3dH0sbIb/ishnm18Za4HnPoQHe+y864HD2hAWSicJBePJ2NArN
-IzIPDDP3vPRuM7IIffqVNTjOtmxA7cDsDjQm3+/Sf3dNB7B0S/wEd8tCL7Bv
-df4VfsvIGPQybLRfQ1V/0J2pppXEiwk25dqcngudbr8ctvkiZuhrJ6yQM9yw
-BP8B2RntFg==
-  "]]
+     RowBox[{"list_", "?", "XYListQ"}], ",", " ", 
+     RowBox[{"a", ":", 
+      RowBox[{"Except", "[", 
+       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", " ", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"ScaleX", "->", "1"}], ",", 
+        RowBox[{"ScaleY", "\[Rule]", "1"}], ",", 
+        RowBox[{"ShiftY", "->", "0"}]}], "}"}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], "}"}], ",", "\n", 
+     "\t", 
+     RowBox[{
+      RowBox[{"xSc", "=", 
+       RowBox[{"OptionValue", "[", "ScaleX", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"ySc", "=", 
+       RowBox[{"OptionValue", "[", "ScaleY", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"xSh", "=", "a"}], ";", "\n", "\t", 
+      RowBox[{"ySh", "=", 
+       RowBox[{"OptionValue", "[", "ShiftY", "]"}]}], ";", "\t", "\n", "\t", 
+      RowBox[{"SSXY", "[", 
+       RowBox[{"list", ",", "xSc", ",", "ySc", ",", "xSh", ",", "ySh"}], 
+       "]"}]}]}], "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.7339971759379606`*^9, 3.7339972503603563`*^9}, {
+   3.7339974571205206`*^9, 3.733997484379327*^9}, {3.733997594952799*^9, 
+   3.73399776058792*^9}, {3.7339978324248095`*^9, 3.7339978325408993`*^9}, {
+   3.7339980942059655`*^9, 3.7339981040226226`*^9}, {3.7339981571957717`*^9, 
+   3.7339982746373596`*^9}, {3.733998382574481*^9, 3.733998543089834*^9}, {
+   3.733998617852439*^9, 3.7339986229858503`*^9}, {3.7340088877683067`*^9, 
+   3.7340089075074434`*^9}, {3.7340115073803797`*^9, 
+   3.7340115879801683`*^9}, {3.7345264726613045`*^9, 
+   3.7345265051490574`*^9}, {3.7345270423646903`*^9, 3.734527052570977*^9}, {
+   3.7345271923840046`*^9, 3.7345272304906006`*^9}, {3.7345281683698006`*^9, 
+   3.7345282234205494`*^9}, {3.7345282657791405`*^9, 3.734528393158646*^9}, {
+   3.734528658543537*^9, 3.7345286658670826`*^9}, {3.7345287263503513`*^9, 
+   3.7345287433842964`*^9}, {3.7345287899201393`*^9, 3.734528830305402*^9}, {
+   3.734528900190734*^9, 3.7345289613435116`*^9}, {3.734529045966034*^9, 
+   3.7345292418905516`*^9}, {3.7345292777513237`*^9, 
+   3.7345293111153297`*^9}, {3.734529365229581*^9, 3.73452939550165*^9}, {
+   3.7345294448269434`*^9, 3.734529462813036*^9}, {3.7345294986825047`*^9, 
+   3.734529801146751*^9}, {3.734529838662196*^9, 3.734529852926813*^9}, {
+   3.7345298883824415`*^9, 3.73452989190657*^9}, {3.734530017983759*^9, 
+   3.73453001828413*^9}, {3.7345300494361753`*^9, 3.734530170769124*^9}, {
+   3.734530550174871*^9, 3.7345308711165*^9}, {3.7345310160118074`*^9, 
+   3.7345313705466375`*^9}, {3.737777037758816*^9, 3.7377770756969323`*^9}, {
+   3.7377788593619275`*^9, 3.7377788741560555`*^9}, 3.737778955563093*^9, {
+   3.7377790283216295`*^9, 3.7377790289214444`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -835,46 +836,50 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"NormalizeY", "::", "usage"}], "=", 
    "\"\<NormalizeY[xylist_]\n\tFunction accepts 2D array of data (xylist) and \
-rescales it along Y coordinate to within [0,1]\>\""}], "\n", "\t"}], "\n", 
+rescales it along Y coordinate to within [0,1]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"NormalizeY", "[", "list_", "]"}], ":=", "\n", "\t", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"ymin", ",", "ymax"}], "}"}], ",", "\n", "\t", 
+   RowBox[{
+    RowBox[{"NormalizeY", "[", "list_", "]"}], ":=", "\n", "\t", 
+    RowBox[{"Module", "[", 
      RowBox[{
-      RowBox[{"ymin", "=", 
-       RowBox[{"Min", "[", 
-        RowBox[{"list", "[", 
-         RowBox[{"[", 
-          RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
-      RowBox[{"ymax", "=", 
-       RowBox[{"Max", "[", 
-        RowBox[{"list", "[", 
-         RowBox[{"[", 
-          RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
-      RowBox[{"Transpose", "[", 
-       RowBox[{"{", 
-        RowBox[{
+      RowBox[{"{", 
+       RowBox[{"ymin", ",", "ymax"}], "}"}], ",", "\n", "\t", 
+      RowBox[{
+       RowBox[{"ymin", "=", 
+        RowBox[{"Min", "[", 
          RowBox[{"list", "[", 
           RowBox[{"[", 
-           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+           RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"ymax", "=", 
+        RowBox[{"Max", "[", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", 
+           RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"Transpose", "[", 
+        RowBox[{"{", 
          RowBox[{
-          RowBox[{"(", 
-           RowBox[{
-            RowBox[{"list", "[", 
-             RowBox[{"[", 
-              RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", 
-            RowBox[{
-             RowBox[{"(", 
-              RowBox[{"ymax", "+", "ymin"}], ")"}], "/", "2"}]}], ")"}], " ", 
-          RowBox[{"2", "/", 
+          RowBox[{"list", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+          RowBox[{
            RowBox[{"(", 
-            RowBox[{"ymax", "-", "ymin"}], ")"}]}]}]}], "}"}], "]"}]}]}], 
-    "\n", "]"}]}], ";"}]}], "Code",
+            RowBox[{
+             RowBox[{"list", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"ymax", "+", "ymin"}], ")"}], "/", "2"}]}], ")"}], " ", 
+           RowBox[{"2", "/", 
+            RowBox[{"(", 
+             RowBox[{"ymax", "-", "ymin"}], ")"}]}]}]}], "}"}], "]"}]}]}], 
+     "\n", "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345905620927925`*^9, 3.734590563503581*^9}, 
-   3.7345935734235616`*^9}],
+   3.7345935734235616`*^9, {3.737779340207268*^9, 3.737779347292903*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -885,93 +890,99 @@ list and does a corresponding decimation of the list.\n\tThe output thus \
 consists of averages over successive intervals of nAvg elements. \n\tThe \
 X-values for each of the averaging intervals are taken close to the centers \
 of the interval\[IndentingNewLine]\n\tlist_ can be\n\t1. a 1D list\n\t2. a \
-xylist\n\t3. a xylistd2\>\""}], "\n"}], "\n", 
+xylist\n\t3. a xylistd2\>\""}], "\n", "\t"}], "\n", 
  RowBox[{
-  RowBox[{"Average", "[", 
-   RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", "\n", 
-  RowBox[{"Which", "[", "\n", "\t", 
-   RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Average", "[", 
+    RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", 
+   RowBox[{"Which", "[", "\n", "\t", 
     RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
-     RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
-    "\n", "\t", 
-    RowBox[{"Take", "[", 
      RowBox[{
-      RowBox[{"MovingAverage", "[", 
-       RowBox[{"list", ",", "nAvg"}], "]"}], ",", 
-      RowBox[{"{", 
-       RowBox[{"1", ",", 
-        RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
-    "\n", "\t", 
-    RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
-     RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n", 
-    "\t", 
-    RowBox[{"Take", "[", 
-     RowBox[{
-      RowBox[{"Transpose", "[", 
+      RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
+     "\n", "\t", 
+     RowBox[{"Take", "[", 
+      RowBox[{
+       RowBox[{"MovingAverage", "[", 
+        RowBox[{"list", ",", "nAvg"}], "]"}], ",", 
        RowBox[{"{", 
-        RowBox[{
-         RowBox[{"list", "[", 
-          RowBox[{"[", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"Ceiling", "[", 
-              RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
-             RowBox[{
-              RowBox[{"-", 
-               RowBox[{"Floor", "[", 
-                RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", "1"}],
-            "]"}], "]"}], ",", 
-         RowBox[{"MovingAverage", "[", 
-          RowBox[{
-           RowBox[{"list", "[", 
-            RowBox[{"[", 
-             RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
-        "}"}], "]"}], ",", 
-      RowBox[{"{", 
-       RowBox[{"1", ",", 
-        RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
-    "\n", "\t", 
-    RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
+        RowBox[{"1", ",", 
+         RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
+     "\n", "\t", 
      RowBox[{
-     "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
-     "*)"}], "\n", "\t", 
-    RowBox[{"Table", "[", 
-     RowBox[{
-      RowBox[{"Take", "[", 
-       RowBox[{
-        RowBox[{"Transpose", "[", 
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"x", "[", 
-            RowBox[{"[", 
-             RowBox[{
-              RowBox[{
-               RowBox[{"Ceiling", "[", 
-                RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
-               RowBox[{
-                RowBox[{"-", 
-                 RowBox[{"Floor", "[", 
-                  RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", 
-              "1"}], "]"}], "]"}], ",", 
-           RowBox[{"MovingAverage", "[", 
-            RowBox[{
-             RowBox[{"x", "[", 
-              RowBox[{"[", 
-               RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}],
-           "}"}], "]"}], ",", 
+      RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n",
+      "\t", 
+     RowBox[{"Take", "[", 
+      RowBox[{
+       RowBox[{"Transpose", "[", 
         RowBox[{"{", 
-         RowBox[{"1", ",", 
-          RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], ",", 
-      RowBox[{"{", 
-       RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], "Code",
+         RowBox[{
+          RowBox[{"list", "[", 
+           RowBox[{"[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Ceiling", "[", 
+               RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
+              RowBox[{
+               RowBox[{"-", 
+                RowBox[{"Floor", "[", 
+                 RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", 
+             "1"}], "]"}], "]"}], ",", 
+          RowBox[{"MovingAverage", "[", 
+           RowBox[{
+            RowBox[{"list", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+         "}"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", 
+         RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], "\n", "\t", ",", 
+     "\n", "\t", 
+     RowBox[{
+      RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+      "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
+      "*)"}], "\n", "\t", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Take", "[", 
+        RowBox[{
+         RowBox[{"Transpose", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"x", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Ceiling", "[", 
+                 RowBox[{"nAvg", "/", "2"}], "]"}], ";;", 
+                RowBox[{
+                 RowBox[{"-", 
+                  RowBox[{"Floor", "[", 
+                   RowBox[{"nAvg", "/", "2"}], "]"}]}], "-", "1"}]}], ",", 
+               "1"}], "]"}], "]"}], ",", 
+            RowBox[{"MovingAverage", "[", 
+             RowBox[{
+              RowBox[{"x", "[", 
+               RowBox[{"[", 
+                RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], 
+             "]"}]}], "}"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", 
+           RowBox[{"-", "1"}], ",", "nAvg"}], "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}], 
+  "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.734590538225938*^9, 3.7345905472177286`*^9}, {
-  3.7345937264864874`*^9, 3.7345937298761635`*^9}}],
+   3.7345937264864874`*^9, 3.7345937298761635`*^9}, {3.7377785722172394`*^9, 
+   3.737778580195632*^9}, 3.737779354882929*^9}],
 
 Cell[BoxData[{
  RowBox[{
@@ -982,61 +993,67 @@ filtered signal. The output thus consists of averages over successive \
 intervals of nAvg elements.\n\nInput:\n\tlist_ can be\n\t1. a 1D list\n\t2. a \
 xylist\n\t3. a xylistd2\n\tIn the latter two cases an appropriate the \
 X-values for each of the averaging intervals are taken close to the centers \
-of the interval\>\""}], "\n"}], "\n", 
+of the interval\>\""}], "\n", "\t"}], "\n", 
  RowBox[{
-  RowBox[{"GaussianAverage", "[", 
-   RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", "\n", 
-  RowBox[{"Which", "[", "\n", "\t", 
-   RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GaussianAverage", "[", 
+    RowBox[{"list_", ",", "nAvg_"}], "]"}], ":=", "\n", 
+   RowBox[{"Which", "[", "\n", "\t", 
     RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
-     RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
-    "\n", "\t", 
-    RowBox[{"GaussianFilter", "[", 
-     RowBox[{"list", ",", "nAvg"}], "]"}], "\n", "\t", ",", "\n", "\t", 
-    RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
-     RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n", 
-    "\t", 
-    RowBox[{"Transpose", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"list", "[", 
-        RowBox[{"[", 
-         RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
-       RowBox[{"GaussianFilter", "[", 
-        RowBox[{
-         RowBox[{"list", "[", 
-          RowBox[{"[", 
-           RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
-      "}"}], "]"}], "\n", "\t", ",", "\n", "\t", 
-    RowBox[{
-     RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
-    RowBox[{"(*", 
      RowBox[{
-     "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
-     "*)"}], "\n", "\t", 
-    RowBox[{"Table", "[", 
+      RowBox[{"Depth", "[", "list", "]"}], "==", "2"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{"single", " ", "1", "D", " ", "list", " ", "input"}], "*)"}], 
+     "\n", "\t", 
+     RowBox[{"GaussianFilter", "[", 
+      RowBox[{"list", ",", "nAvg"}], "]"}], "\n", "\t", ",", "\n", "\t", 
      RowBox[{
-      RowBox[{"Transpose", "[", 
-       RowBox[{"{", 
-        RowBox[{
-         RowBox[{"x", "[", 
-          RowBox[{"[", 
-           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
-         RowBox[{"GaussianFilter", "[", 
-          RowBox[{
-           RowBox[{"x", "[", 
-            RowBox[{"[", 
-             RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
-        "}"}], "]"}], ",", 
+      RowBox[{"Depth", "[", "list", "]"}], "==", "3"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{"single", " ", "XY", " ", "trace", " ", "input"}], "*)"}], "\n",
+      "\t", 
+     RowBox[{"Transpose", "[", 
       RowBox[{"{", 
-       RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], "Code",
+       RowBox[{
+        RowBox[{"list", "[", 
+         RowBox[{"[", 
+          RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+        RowBox[{"GaussianFilter", "[", 
+         RowBox[{
+          RowBox[{"list", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+       "}"}], "]"}], "\n", "\t", ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"Depth", "[", "list", "]"}], "==", "4"}], ",", " ", "\n", "\t", 
+     RowBox[{"(*", 
+      RowBox[{
+      "list", " ", "of", " ", "XY", " ", "traces", " ", "as", " ", "input"}], 
+      "*)"}], "\n", "\t", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Transpose", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"x", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+          RowBox[{"GaussianFilter", "[", 
+           RowBox[{
+            RowBox[{"x", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", "nAvg"}], "]"}]}], 
+         "}"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "list"}], "}"}]}], "]"}]}], "\n", "]"}]}], 
+  "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.73459058125589*^9, 3.73459058446517*^9}, {
-  3.7345936355260553`*^9, 3.734593716937027*^9}}]
-}, Closed]],
+  3.7345936355260553`*^9, 3.734593716937027*^9}, {3.737778558615197*^9, 
+  3.7377785659995627`*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1054,273 +1071,291 @@ FindPeaks that acts on xylists.\n\nOutput:\n\tPeak x position and y values {{\
 determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"FindPeaksXY", "[", 
-    RowBox[{"xylist_", ",", 
-     RowBox[{"\[Sigma]", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
-     RowBox[{"s", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
-     RowBox[{"t", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
-      RowBox[{"-", "\[Infinity]"}]}], ",", 
-     RowBox[{"opts", ":", 
-      RowBox[{"OptionsPattern", "[", 
-       RowBox[{"{", 
-        RowBox[{"FindPeaks", ",", 
-         RowBox[{"sign", "->", " ", "1"}]}], "}"}], "]"}]}]}], "]"}], ":=", 
-   "\n", 
-   RowBox[{"Module", "[", 
+   RowBox[{"Options", "[", "FindPeaksXY", "]"}], "=", 
+   RowBox[{"Join", "[", 
     RowBox[{
+     RowBox[{"Options", "[", "FindPeaks", "]"}], ",", 
      RowBox[{"{", 
-      RowBox[{"peakIndexList", ",", "peakValList", ",", "xInterp"}], "}"}], 
-     ",", "\n", "\t", 
+      RowBox[{"sign", "\[Rule]", "1"}], "}"}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"FindPeaksXY", "[", 
+     RowBox[{"xylist_", ",", 
+      RowBox[{"\[Sigma]", ":", 
+       RowBox[{"Except", "[", 
+        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
+      RowBox[{"s", ":", 
+       RowBox[{"Except", "[", 
+        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "0"}], ",", 
+      RowBox[{"t", ":", 
+       RowBox[{"Except", "[", 
+        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
+       RowBox[{"-", "\[Infinity]"}]}], ",", 
+      RowBox[{"opts", ":", 
+       RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", "\n", 
+    RowBox[{"Module", "[", 
      RowBox[{
+      RowBox[{"{", 
+       RowBox[{"peakIndexList", ",", "peakValList", ",", "xInterp"}], "}"}], 
+      ",", "\n", "\t", 
       RowBox[{
-       RowBox[{"{", 
-        RowBox[{"peakIndexList", ",", "peakValList"}], "}"}], "=", 
-       RowBox[{"Transpose", "[", 
-        RowBox[{"FindPeaks", "[", 
-         RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"peakIndexList", ",", "peakValList"}], "}"}], "=", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"FindPeaks", "[", 
           RowBox[{
-           RowBox[{"Sign", "[", 
-            RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], "*", 
-           RowBox[{"xylist", "[", 
-            RowBox[{"[", 
-             RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ",", "\[Sigma]", ",", 
-          "s", ",", "t"}], "]"}], "]"}]}], ";", "\n", "\t", 
-      RowBox[{"xInterp", "=", 
-       RowBox[{"Interpolation", "[", 
+           RowBox[{
+            RowBox[{"Sign", "[", 
+             RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], "*", 
+            RowBox[{"xylist", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ",", "\[Sigma]", ",", 
+           "s", ",", "t"}], "]"}], "]"}]}], ";", "\n", "\t", 
+       RowBox[{"(*", 
         RowBox[{
-         RowBox[{"xylist", "[", 
-          RowBox[{"[", 
-           RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
-         RowBox[{"InterpolationOrder", "\[Rule]", 
-          RowBox[{"OptionValue", "[", "InterpolationOrder", "]"}]}]}], 
-        "]"}]}], ";", "\n", "\n", "\t", 
-      RowBox[{"Transpose", "[", 
-       RowBox[{"{", 
-        RowBox[{
-         RowBox[{"Thread", "[", 
-          RowBox[{"xInterp", "[", "peakIndexList", "]"}], "]"}], ",", 
-         "peakValList"}], "}"}], "]"}]}]}], "\n", "]"}]}], ";"}]}], "Code",
+         RowBox[{
+         "InterpolationOrder", " ", "is", " ", "an", " ", "option", " ", "of",
+           " ", "basic", " ", "FindPeaks"}], ",", " ", 
+         RowBox[{
+         "so", " ", "it", " ", "also", " ", "can", " ", "be", " ", "used", 
+          " ", "to", " ", "find", " ", "x", " ", "values"}]}], "*)"}], "\n", 
+       "\t", 
+       RowBox[{"xInterp", "=", 
+        RowBox[{"Interpolation", "[", 
+         RowBox[{
+          RowBox[{"xylist", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+          RowBox[{"InterpolationOrder", "\[Rule]", 
+           RowBox[{"OptionValue", "[", "InterpolationOrder", "]"}]}]}], 
+         "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"Transpose", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Thread", "[", 
+           RowBox[{"xInterp", "[", "peakIndexList", "]"}], "]"}], ",", 
+          "peakValList"}], "}"}], "]"}]}]}], "\n", "]"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345906005878644`*^9, 3.734590602787898*^9}, {
    3.734591152093604*^9, 3.734591165385395*^9}, {3.7345911967419157`*^9, 
    3.734591235840968*^9}, {3.7345917556463947`*^9, 3.734591875852747*^9}, {
-   3.7345919083533278`*^9, 3.7345919461751776`*^9}, 3.734593741661647*^9}],
+   3.7345919083533278`*^9, 3.7345919461751776`*^9}, 3.734593741661647*^9, {
+   3.734598807719303*^9, 3.734598811005452*^9}, {3.7345989746188*^9, 
+   3.734599032344412*^9}, {3.7345993711855645`*^9, 3.7345994204271917`*^9}, {
+   3.737778590449899*^9, 3.7377785940613394`*^9}, {3.737779365576934*^9, 
+   3.737779374716672*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"FindPeakCenter", "::", "usage"}], "=", 
-   "\"\<FindPeakCenter[xylist_]\>\""}], "\n"}], "\n", 
+   "\"\<FindPeakCenter[xylist_]\n\tfind x-position of the center of mass of \
+xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"FindPeakCenter", "[", 
-   RowBox[{"XYData_", ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"sign", "->", " ", "1"}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{
-     "YIntegralList", ",", "YIntegralInterpol", ",", "iCOM", ",", "offset", 
-      ",", "dim"}], "}"}], ",", "\n", 
-    RowBox[{"(*", 
-     RowBox[{
-      RowBox[{
-       RowBox[{
-       "Function", " ", "accepts", " ", "an", " ", "interval", " ", "of", " ",
-         "XY", " ", "data", " ", "and", " ", "returns", " ", "x"}], "-", 
-       RowBox[{
-       "position", " ", "of", " ", "its", " ", "center", " ", "of", " ", 
-        "mass"}]}], ",", " ", 
-      RowBox[{
-      "using", " ", "linear", " ", "data", " ", "interpolation", " ", "over", 
-       " ", "x"}]}], "*)"}], "\n", "\n", 
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FindPeakCenter", "[", 
+    RowBox[{"XYData_", ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"sign", "->", " ", "1"}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
     RowBox[{
-     RowBox[{"dim", "=", 
-      RowBox[{"Depth", "[", "XYData", "]"}]}], ";", "\n", 
-     RowBox[{"Which", "[", "\n", 
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"dim", "==", "3"}], " ", 
-       RowBox[{"(*", 
-        RowBox[{"single", " ", "XY", " ", "trace"}], "*)"}], ",", "\n", 
+      "YIntegralList", ",", "YIntegralInterpol", ",", "iCOM", ",", "offset", 
+       ",", "dim"}], "}"}], ",", "\n", 
+     RowBox[{
+      RowBox[{"dim", "=", 
+       RowBox[{"Depth", "[", "XYData", "]"}]}], ";", "\n", 
+      RowBox[{"Which", "[", "\n", 
        RowBox[{
-        RowBox[{"offset", "=", 
-         RowBox[{"If", "[", 
-          RowBox[{
-           RowBox[{
-            RowBox[{"Sign", "[", 
-             RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
-           ",", 
-           RowBox[{"Min", "[", 
-            RowBox[{"XYData", "[", 
-             RowBox[{"[", 
-              RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
-           RowBox[{"Max", "[", 
-            RowBox[{"XYData", "[", 
-             RowBox[{"[", 
-              RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], ";", 
-        "\n", 
-        RowBox[{"YIntegralList", "=", 
-         RowBox[{"Accumulate", "[", 
-          RowBox[{
-           RowBox[{"XYData", "[", 
-            RowBox[{"[", 
-             RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], "]"}]}],
-         ";", "\n", 
-        RowBox[{"YIntegralInterpol", "=", 
-         RowBox[{"Interpolation", "[", 
-          RowBox[{
-           RowBox[{"YIntegralList", "/", 
-            RowBox[{"YIntegralList", "[", 
-             RowBox[{"[", 
-              RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
-           RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n", 
-        "\n", 
+        RowBox[{"dim", "==", "3"}], " ", 
         RowBox[{"(*", 
+         RowBox[{"single", " ", "XY", " ", "trace"}], "*)"}], ",", "\n", 
+        RowBox[{
+         RowBox[{"offset", "=", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Sign", "[", 
+              RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
+            ",", 
+            RowBox[{"Min", "[", 
+             RowBox[{"XYData", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
+            RowBox[{"Max", "[", 
+             RowBox[{"XYData", "[", 
+              RowBox[{"[", 
+               RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], ";", 
+         "\n", 
+         RowBox[{"YIntegralList", "=", 
+          RowBox[{"Accumulate", "[", 
+           RowBox[{
+            RowBox[{"XYData", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], 
+           "]"}]}], ";", "\n", 
+         RowBox[{"YIntegralInterpol", "=", 
+          RowBox[{"Interpolation", "[", 
+           RowBox[{
+            RowBox[{"YIntegralList", "/", 
+             RowBox[{"YIntegralList", "[", 
+              RowBox[{"[", 
+               RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
+            RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n", 
+         "\n", 
+         RowBox[{"(*", 
+          RowBox[{
+          "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
+           " ", "of", " ", "Mass"}], "*)"}], "\n", 
          RowBox[{
-         "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
-          " ", "of", " ", "Mass"}], "*)"}], "\n", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"iCOM", "=", 
-           RowBox[{"0.5", "+", 
-            RowBox[{"(", 
-             RowBox[{"x", "/.", 
-              RowBox[{"FindRoot", "[", 
-               RowBox[{
+          RowBox[{"(", 
+           RowBox[{"iCOM", "=", 
+            RowBox[{"0.5", "+", 
+             RowBox[{"(", 
+              RowBox[{"x", "/.", 
+               RowBox[{"FindRoot", "[", 
                 RowBox[{
-                 RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", "0.5"}], 
-                ",", 
-                RowBox[{"{", 
-                 RowBox[{"x", ",", 
-                  RowBox[{
-                   RowBox[{"Length", "[", "YIntegralList", "]"}], "/", 
-                   "2"}]}], "}"}]}], "]"}]}], ")"}]}]}], ")"}], "//", 
-         "Quiet"}], ";", "\n", 
-        RowBox[{
-         RowBox[{"1", "/", 
+                 RowBox[{
+                  RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", "0.5"}],
+                  ",", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", 
+                   RowBox[{
+                    RowBox[{"Length", "[", "YIntegralList", "]"}], "/", 
+                    "2"}]}], "}"}]}], "]"}]}], ")"}]}]}], ")"}], "//", 
+          "Quiet"}], ";", "\n", 
+         RowBox[{
+          RowBox[{"1", "/", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
+             RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
           RowBox[{"(", 
            RowBox[{
-            RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
-            RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{
-            RowBox[{"XYData", "[", 
-             RowBox[{"[", 
-              RowBox[{
-               RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], "]"}], 
-            RowBox[{"(", 
-             RowBox[{
-              RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], ")"}]}], 
-           "+", 
-           RowBox[{
-            RowBox[{"XYData", "[", 
-             RowBox[{"[", 
-              RowBox[{
-               RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
-             "]"}], 
-            RowBox[{"(", 
-             RowBox[{"iCOM", "-", 
-              RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
-       "\n", "\n", ",", "\n", 
-       RowBox[{"dim", "==", "4"}], " ", 
-       RowBox[{"(*", 
-        RowBox[{"list", " ", "of", " ", "XY", " ", "traces"}], "*)"}], ",", 
-       "\n", 
-       RowBox[{"Table", "[", "\n", 
-        RowBox[{
-         RowBox[{
-          RowBox[{"offset", "=", 
-           RowBox[{"If", "[", 
             RowBox[{
-             RowBox[{
-              RowBox[{"Sign", "[", 
-               RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
-             ",", 
-             RowBox[{"Min", "[", 
-              RowBox[{"y", "[", 
-               RowBox[{"[", 
-                RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
-             RowBox[{"Max", "[", 
-              RowBox[{"y", "[", 
-               RowBox[{"[", 
-                RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], ";",
-           "\n", 
-          RowBox[{"YIntegralList", "=", 
-           RowBox[{"Accumulate", "[", 
-            RowBox[{
-             RowBox[{"y", "[", 
+             RowBox[{"XYData", "[", 
               RowBox[{"[", 
-               RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], 
-            "]"}]}], ";", "\n", 
-          RowBox[{"YIntegralInterpol", "=", 
-           RowBox[{"Interpolation", "[", 
+               RowBox[{
+                RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], "]"}], 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], ")"}]}], 
+            "+", 
             RowBox[{
-             RowBox[{"YIntegralList", "/", 
-              RowBox[{"YIntegralList", "[", 
-               RowBox[{"[", 
-                RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
-             RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n", 
-          "\n", 
-          RowBox[{"(*", 
-           RowBox[{
-           "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
-            " ", "of", " ", "Mass"}], "*)"}], "\n", 
+             RowBox[{"XYData", "[", 
+              RowBox[{"[", 
+               RowBox[{
+                RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+              "]"}], 
+             RowBox[{"(", 
+              RowBox[{"iCOM", "-", 
+               RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
+        "\n", "\n", ",", "\n", 
+        RowBox[{"dim", "==", "4"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"list", " ", "of", " ", "XY", " ", "traces"}], "*)"}], ",", 
+        "\n", 
+        RowBox[{"Table", "[", "\n", 
+         RowBox[{
           RowBox[{
-           RowBox[{"(", 
-            RowBox[{"iCOM", "=", 
-             RowBox[{"0.5", "+", 
-              RowBox[{"(", 
-               RowBox[{"x", "/.", 
-                RowBox[{"FindRoot", "[", 
-                 RowBox[{
+           RowBox[{"offset", "=", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Sign", "[", 
+                RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}],
+               ",", 
+              RowBox[{"Min", "[", 
+               RowBox[{"y", "[", 
+                RowBox[{"[", 
+                 RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}], ",", 
+              RowBox[{"Max", "[", 
+               RowBox[{"y", "[", 
+                RowBox[{"[", 
+                 RowBox[{";;", ",", "2"}], "]"}], "]"}], "]"}]}], "]"}]}], 
+           ";", "\n", 
+           RowBox[{"YIntegralList", "=", 
+            RowBox[{"Accumulate", "[", 
+             RowBox[{
+              RowBox[{"y", "[", 
+               RowBox[{"[", 
+                RowBox[{";;", ",", "2"}], "]"}], "]"}], "-", "offset"}], 
+             "]"}]}], ";", "\n", 
+           RowBox[{"YIntegralInterpol", "=", 
+            RowBox[{"Interpolation", "[", 
+             RowBox[{
+              RowBox[{"YIntegralList", "/", 
+               RowBox[{"YIntegralList", "[", 
+                RowBox[{"[", 
+                 RowBox[{"-", "1"}], "]"}], "]"}]}], ",", 
+              RowBox[{"InterpolationOrder", "->", "1"}]}], "]"}]}], ";", "\n",
+            "\n", 
+           RowBox[{"(*", 
+            RowBox[{
+            "fractional", " ", "index", " ", "of", " ", "the", " ", "Center", 
+             " ", "of", " ", "Mass"}], "*)"}], "\n", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"iCOM", "=", 
+              RowBox[{"0.5", "+", 
+               RowBox[{"(", 
+                RowBox[{"x", "/.", 
+                 RowBox[{"FindRoot", "[", 
                   RowBox[{
-                   RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", 
-                   "0.5"}], ",", 
-                  RowBox[{"{", 
-                   RowBox[{"x", ",", 
+                   RowBox[{
+                    RowBox[{"YIntegralInterpol", "[", "x", "]"}], "==", 
+                    "0.5"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"x", ",", 
                     RowBox[{
                     RowBox[{"Length", "[", "YIntegralList", "]"}], "/", 
                     "2"}]}], "}"}]}], "]"}]}], ")"}]}]}], ")"}], "//", 
-           "Quiet"}], ";", "\n", 
-          RowBox[{
-           RowBox[{"1", "/", 
+            "Quiet"}], ";", "\n", 
+           RowBox[{
+            RowBox[{"1", "/", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
+               RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
             RowBox[{"(", 
              RowBox[{
-              RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", 
-              RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}], " ", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"y", "[", 
-               RowBox[{"[", 
+              RowBox[{
+               RowBox[{"y", "[", 
+                RowBox[{"[", 
+                 RowBox[{
+                  RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+                "]"}], 
+               RowBox[{"(", 
                 RowBox[{
-                 RowBox[{"Floor", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
-               "]"}], 
-              RowBox[{"(", 
-               RowBox[{
-                RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], ")"}]}],
-              "+", 
-             RowBox[{
-              RowBox[{"y", "[", 
-               RowBox[{"[", 
-                RowBox[{
-                 RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
-               "]"}], 
-              RowBox[{"(", 
-               RowBox[{"iCOM", "-", 
-                RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
-         "\n", ",", 
-         RowBox[{"{", 
-          RowBox[{"y", ",", "XYData"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], 
-   "\n", "]"}]}]}], "Code",
- CellChangeTimes->{{3.73459062376963*^9, 3.7345906263393307`*^9}}]
-}, Closed]]
+                 RowBox[{"Ceiling", "[", "iCOM", "]"}], "-", "iCOM"}], 
+                ")"}]}], "+", 
+              RowBox[{
+               RowBox[{"y", "[", 
+                RowBox[{"[", 
+                 RowBox[{
+                  RowBox[{"Ceiling", "[", "iCOM", "]"}], ",", "1"}], "]"}], 
+                "]"}], 
+               RowBox[{"(", 
+                RowBox[{"iCOM", "-", 
+                 RowBox[{"Floor", "[", "iCOM", "]"}]}], ")"}]}]}], ")"}]}]}], 
+          "\n", ",", 
+          RowBox[{"{", 
+           RowBox[{"y", ",", "XYData"}], "}"}]}], "]"}]}], "\n", "]"}]}]}], 
+    "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.73459062376963*^9, 3.7345906263393307`*^9}, {
+  3.734600618874716*^9, 3.73460065928522*^9}, {3.7377768552476034`*^9, 
+  3.7377768768528147`*^9}, {3.7377771448419437`*^9, 3.73777714834396*^9}, {
+  3.7377772697897663`*^9, 3.737777272274147*^9}}]
+}, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1401,7 +1436,7 @@ Cell[BoxData[{
      RowBox[{"IntervalUnion", "[", "b", "]"}]}]}], "]"}]}]}], "Code",
  CellChangeTimes->{{3.733996540845982*^9, 3.7339965487865243`*^9}, {
   3.733996609586728*^9, 3.73399661666479*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1479,14 +1514,19 @@ LogYPlot\[Rule]False\n\tLogXPlot\[Rule]False\>\""}], "\n"}], "\n",
      RowBox[{"LogYPlot", "\[Rule]", "False"}], ",", 
      RowBox[{"LogXPlot", "\[Rule]", "False"}]}], "}"}]}], ";"}], "\n", 
  RowBox[{
-  RowBox[{"SetAttributes", "[", 
-   RowBox[{"FitRangeSelector", ",", "HoldFirst"}], "]"}], ";", 
+  RowBox[{
+   RowBox[{"SetAttributes", "[", 
+    RowBox[{"FitRangeSelector", ",", "HoldFirst"}], "]"}], ";"}], 
   RowBox[{"(*", 
    RowBox[{
    "Hold", " ", "attribute", " ", "for", " ", "the", " ", "\"\<fitRanges\>\"",
      " ", "variable", " ", "is", " ", "needed", " ", "for", " ", "being", " ",
      "able", " ", "to", " ", "clear", " ", "the", " ", "variable", " ", "if", 
-    " ", "it", " ", "was", " ", "already", " ", "defined"}], "*)"}], "\n", 
+    " ", "it", " ", "was", " ", "already", " ", "defined"}], "*)"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
   RowBox[{
    RowBox[{"FitRangeSelector", "[", 
     RowBox[{"fitRanges_", ",", "traceList_", ",", 
@@ -1699,7 +1739,8 @@ LogYPlot\[Rule]False\n\tLogXPlot\[Rule]False\>\""}], "\n"}], "\n",
          RowBox[{"i", ",", "1", ",", 
           RowBox[{"Length", "[", "traceList", "]"}], ",", "1"}], "}"}]}], 
        "\n", "\t", "]"}]}], ",", "\n", 
-     RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]}]}]}], "Code",
+     RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7339178387628145`*^9, 3.7339178414528418`*^9}, {
   3.7339182639670424`*^9, 3.73391826830243*^9}, {3.733918500368207*^9, 
   3.733918500792617*^9}, {3.7345335624034114`*^9, 3.734533566823221*^9}, {
@@ -1708,7 +1749,8 @@ LogYPlot\[Rule]False\n\tLogXPlot\[Rule]False\>\""}], "\n"}], "\n",
   3.734534003755744*^9, 3.7345341891978064`*^9}, {3.7345342202960467`*^9, 
   3.734534352966386*^9}, {3.734534385598068*^9, 3.7345344302903857`*^9}, {
   3.7345345061404667`*^9, 3.7345346192457333`*^9}, {3.734539821170328*^9, 
-  3.734539839144967*^9}, {3.734539933051652*^9, 3.7345399382268367`*^9}}],
+  3.734539839144967*^9}, {3.734539933051652*^9, 3.7345399382268367`*^9}, {
+  3.737778618457055*^9, 3.7377786262625203`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -1730,213 +1772,222 @@ replacement rules for each trace in traceList_\n\nOptions: \n\tFitFunction\
   "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"Options", "[", "ThreadFindFit", "]"}], "=", 
-   RowBox[{"{", 
-    RowBox[{"FitFunction", "\[Rule]", "FindFit"}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Options", "[", "ThreadFindFit", "]"}], "=", 
+    RowBox[{"{", 
+     RowBox[{"FitFunction", "\[Rule]", "FindFit"}], "}"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"ThreadFindFit", "[", 
-    RowBox[{"traceList_", ",", "fitModel_", ",", "pars_", ",", "vars_", ",", 
-     RowBox[{"fitRanges", ":", 
-      RowBox[{"Except", "[", 
-       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "Full"}], ",", 
-     RowBox[{"OptionsPattern", "[", 
-      RowBox[{"{", "ThreadFindFit", "}"}], "]"}]}], "]"}], ":=", 
-   RowBox[{"Module", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{
-      "dataList", ",", "fitModelsList", ",", "parsList", ",", 
-       "frIntervalsList"}], "}"}], ",", "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{
-       "reduce", " ", "the", " ", "input", " ", "parameters", " ", "from", 
-        " ", "all", " ", "the", " ", "various", " ", "acceptable", " ", 
-        "forms", " ", "to", " ", "a", " ", "single", " ", "one"}], " ", 
-       "\[Dash]", " ", "lists"}], "*)"}], "\n", "\t", 
+   RowBox[{
+    RowBox[{"ThreadFindFit", "[", 
+     RowBox[{"traceList_", ",", "fitModel_", ",", "pars_", ",", "vars_", ",", 
+      RowBox[{"fitRanges", ":", 
+       RowBox[{"Except", "[", 
+        RowBox[{"_", "?", "OptionQ"}], "]"}], ":", "Full"}], ",", 
+      RowBox[{"OptionsPattern", "[", 
+       RowBox[{"{", "ThreadFindFit", "}"}], "]"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
      RowBox[{
-      RowBox[{"If", "[", 
+      RowBox[{"{", 
        RowBox[{
-        RowBox[{"fitRanges", "===", "Full"}], ",", "\n", "\t\t", 
-        RowBox[{"(*", 
-         RowBox[{
-         "if", " ", "the", " ", "entire", " ", "traces", " ", "are", " ", 
-          "to", " ", "be", " ", "fitted"}], "*)"}], "\n", "\t\t", 
-        RowBox[{"dataList", "=", "traceList"}], ",", "\n", "\t\t", "\n", 
-        "\t\t", 
-        RowBox[{"(*", 
-         RowBox[{
-          RowBox[{"if", " ", "some", " ", "range", " ", "of", " ", "x"}], "-", 
-          RowBox[{
-          "values", " ", "is", " ", "to", " ", "be", " ", "selected", " ", 
-           "first"}]}], "*)"}], "\n", "\t\t", 
+       "dataList", ",", "fitModelsList", ",", "parsList", ",", 
+        "frIntervalsList"}], "}"}], ",", "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
         RowBox[{
-         RowBox[{"frIntervalsList", "=", 
-          RowBox[{"Which", "[", "\n", "\t\t", 
-           RowBox[{"(*", 
-            RowBox[{
-            "case", " ", "of", " ", "single", " ", "fit", " ", "interval", 
-             " ", "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], 
-           "\n", "\t\t", 
+        "reduce", " ", "the", " ", "input", " ", "parameters", " ", "from", 
+         " ", "all", " ", "the", " ", "various", " ", "acceptable", " ", 
+         "forms", " ", "to", " ", "a", " ", "single", " ", "one"}], " ", 
+        "\[Dash]", " ", "lists"}], "*)"}], "\n", "\t", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"fitRanges", "===", "Full"}], ",", "\n", "\t\t", 
+         RowBox[{"(*", 
+          RowBox[{
+          "if", " ", "the", " ", "entire", " ", "traces", " ", "are", " ", 
+           "to", " ", "be", " ", "fitted"}], "*)"}], "\n", "\t\t", 
+         RowBox[{"dataList", "=", "traceList"}], ",", "\n", "\t\t", "\n", 
+         "\t\t", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"if", " ", "some", " ", "range", " ", "of", " ", "x"}], 
+           "-", 
            RowBox[{
-            RowBox[{"(", 
-             RowBox[{
-              RowBox[{"Head", "[", "fitRanges", "]"}], "===", "Interval"}], 
-             ")"}], ",", "\n", "\t\t\t", 
-            RowBox[{"Table", "[", 
-             RowBox[{"fitRanges", ",", 
-              RowBox[{"{", 
-               RowBox[{"i", ",", 
-                RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
-            ",", "\n", "\t\t", 
+           "values", " ", "is", " ", "to", " ", "be", " ", "selected", " ", 
+            "first"}]}], "*)"}], "\n", "\t\t", 
+         RowBox[{
+          RowBox[{"frIntervalsList", "=", 
+           RowBox[{"Which", "[", "\n", "\t\t", 
             RowBox[{"(*", 
              RowBox[{
-             "case", " ", "of", " ", "individual", " ", "fit", " ", 
-              "intervals"}], "*)"}], "\n", "\t\t", 
+             "case", " ", "of", " ", "single", " ", "fit", " ", "interval", 
+              " ", "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], 
+            "\n", "\t\t", 
             RowBox[{
              RowBox[{"(", 
               RowBox[{
-               RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
-              ")"}], "&&", 
-             RowBox[{"(", 
+               RowBox[{"Head", "[", "fitRanges", "]"}], "===", "Interval"}], 
+              ")"}], ",", "\n", "\t\t\t", 
+             RowBox[{"Table", "[", 
+              RowBox[{"fitRanges", ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", 
+                 RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
+             ",", "\n", "\t\t", 
+             RowBox[{"(*", 
               RowBox[{
-               RowBox[{"Head", "[", 
-                RowBox[{"fitRanges", "[", 
-                 RowBox[{"[", "1", "]"}], "]"}], "]"}], "===", "Interval"}], 
-              ")"}]}], ",", "\n", "\t\t\t", "fitRanges", ",", "\n", "\t\t", 
-            RowBox[{"(*", 
+              "case", " ", "of", " ", "individual", " ", "fit", " ", 
+               "intervals"}], "*)"}], "\n", "\t\t", 
              RowBox[{
-             "case", " ", "of", " ", "single", " ", "fit", " ", "range", " ", 
-              "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], "\n", 
-            "\t\t", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
+               ")"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", 
+                 RowBox[{"fitRanges", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "]"}], "===", "Interval"}], 
+               ")"}]}], ",", "\n", "\t\t\t", "fitRanges", ",", "\n", "\t\t", 
+             RowBox[{"(*", 
+              RowBox[{
+              "case", " ", "of", " ", "single", " ", "fit", " ", "range", " ",
+                "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], "\n", 
+             "\t\t", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
+               ")"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", 
+                 RowBox[{"fitRanges", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "]"}], "=!=", "Interval"}], 
+               ")"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "2"}], 
+               ")"}]}], ",", " ", "\n", "\t\t\t", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Interval", "[", "fitRanges", "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", 
+                 RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
+             ",", "\n", "\t\t", 
+             RowBox[{"(*", 
+              RowBox[{
+              "case", " ", "of", " ", "individual", " ", "fit", " ", 
+               "ranges"}], "*)"}], "\n", "\t\t", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
+               ")"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Head", "[", 
+                 RowBox[{"fitRanges", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "]"}], "===", "List"}], 
+               ")"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "3"}], 
+               ")"}]}], ",", " ", "\n", "\t\t\t", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{"Interval", "[", 
+                RowBox[{"fitRanges", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"i", ",", 
+                 RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], 
+              "]"}]}], "\n", "\t\t", "]"}]}], ";", "\n", "\t\t", 
+          RowBox[{"dataList", "=", 
+           RowBox[{"Table", "[", 
             RowBox[{
-             RowBox[{"(", 
+             RowBox[{"Select", "[", 
               RowBox[{
-               RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
-              ")"}], "&&", 
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Head", "[", 
-                RowBox[{"fitRanges", "[", 
-                 RowBox[{"[", "1", "]"}], "]"}], "]"}], "=!=", "Interval"}], 
-              ")"}], "&&", 
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "2"}], 
-              ")"}]}], ",", " ", "\n", "\t\t\t", 
-            RowBox[{"Table", "[", 
-             RowBox[{
-              RowBox[{"Interval", "[", "fitRanges", "]"}], ",", 
-              RowBox[{"{", 
-               RowBox[{"i", ",", 
-                RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
-            ",", "\n", "\t\t", 
-            RowBox[{"(*", 
-             RowBox[{
-             "case", " ", "of", " ", "individual", " ", "fit", " ", 
-              "ranges"}], "*)"}], "\n", "\t\t", 
+               RowBox[{"traceList", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], ",", 
+               RowBox[{
+                RowBox[{"IntervalMemberQ", "[", 
+                 RowBox[{
+                  RowBox[{"frIntervalsList", "[", 
+                   RowBox[{"[", "i", "]"}], "]"}], ",", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "&"}]}], "]"}], 
+             ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", 
+               RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], 
+          ";"}]}], "\n", "\t", "]"}], ";", "\n", "\t", 
+       RowBox[{"fitModelsList", "=", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Head", "[", "fitModel", "]"}], "=!=", " ", "List"}], ",", 
+          "\n", "\t\t", 
+          RowBox[{"Table", "[", 
+           RowBox[{"fitModel", ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", 
+              RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
+          ",", "\n", "\t\t", "fitModel"}], "\n", "\t", "]"}]}], ";", "\n", 
+       "\t", 
+       RowBox[{"parsList", "=", 
+        RowBox[{"If", "[", "\n", "\t\t", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"Depth", "[", "pars", "]"}], "<=", "2"}], " ", "||", 
+           RowBox[{"(", 
             RowBox[{
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Head", "[", "fitRanges", "]"}], "===", "List"}], 
-              ")"}], "&&", 
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Head", "[", 
-                RowBox[{"fitRanges", "[", 
-                 RowBox[{"[", "1", "]"}], "]"}], "]"}], "===", "List"}], 
-              ")"}], "&&", 
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "3"}], 
-              ")"}]}], ",", " ", "\n", "\t\t\t", 
-            RowBox[{"Table", "[", 
              RowBox[{
-              RowBox[{"Interval", "[", 
-               RowBox[{"fitRanges", "[", 
-                RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
-              RowBox[{"{", 
-               RowBox[{"i", ",", 
-                RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}],
-            "\n", "\t\t", "]"}]}], ";", "\n", "\t\t", 
-         RowBox[{"dataList", "=", 
+              RowBox[{"Depth", "[", "pars", "]"}], "==", "3"}], " ", "&&", 
+             " ", 
+             RowBox[{
+              RowBox[{"DeleteDuplicates", "[", 
+               RowBox[{"Head", "/@", 
+                RowBox[{"Flatten", "[", "pars", "]"}]}], "]"}], "=!=", " ", 
+              RowBox[{"{", "Symbol", "}"}]}]}], ")"}]}], " ", ",", " ", 
+          RowBox[{"Table", "[", 
+           RowBox[{"pars", ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", 
+              RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], 
+          ",", "\n", "\t\t", 
           RowBox[{"Table", "[", 
            RowBox[{
-            RowBox[{"Select", "[", 
-             RowBox[{
-              RowBox[{"traceList", "[", 
-               RowBox[{"[", "i", "]"}], "]"}], ",", 
-              RowBox[{
-               RowBox[{"IntervalMemberQ", "[", 
-                RowBox[{
-                 RowBox[{"frIntervalsList", "[", 
-                  RowBox[{"[", "i", "]"}], "]"}], ",", 
-                 RowBox[{"#", "[", 
-                  RowBox[{"[", "1", "]"}], "]"}]}], "]"}], "&"}]}], "]"}], 
-            ",", 
+            RowBox[{"pars", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], ",", 
             RowBox[{"{", 
              RowBox[{"i", ",", 
               RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], 
-         ";"}]}], "\n", "\t", "]"}], ";", "\n", "\t", 
-      RowBox[{"fitModelsList", "=", 
-       RowBox[{"If", "[", 
+         "\n", "\t", "]"}]}], ";", "\n", "\n", "\t", 
+       RowBox[{"(*", 
+        RowBox[{"perform", " ", "fitting"}], "*)"}], "\n", "\t", 
+       RowBox[{"Table", "[", 
         RowBox[{
          RowBox[{
-          RowBox[{"Head", "[", "fitModel", "]"}], "=!=", " ", "List"}], ",", 
-         "\n", "\t\t", 
-         RowBox[{"Table", "[", 
-          RowBox[{"fitModel", ",", 
-           RowBox[{"{", 
-            RowBox[{"i", ",", 
-             RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], ",",
-          "\n", "\t\t", "fitModel"}], "\n", "\t", "]"}]}], ";", "\n", "\t", 
-      RowBox[{"parsList", "=", 
-       RowBox[{"If", "[", "\n", "\t\t", 
-        RowBox[{
-         RowBox[{
+          RowBox[{"OptionValue", "[", "FitFunction", "]"}], "[", 
           RowBox[{
-           RowBox[{"Depth", "[", "pars", "]"}], "<=", "2"}], " ", "||", 
-          RowBox[{"(", 
-           RowBox[{
-            RowBox[{
-             RowBox[{"Depth", "[", "pars", "]"}], "==", "3"}], " ", "&&", " ", 
-            RowBox[{
-             RowBox[{"DeleteDuplicates", "[", 
-              RowBox[{"Head", "/@", 
-               RowBox[{"Flatten", "[", "pars", "]"}]}], "]"}], "=!=", " ", 
-             RowBox[{"{", "Symbol", "}"}]}]}], ")"}]}], " ", ",", " ", 
-         RowBox[{"Table", "[", 
-          RowBox[{"pars", ",", 
-           RowBox[{"{", 
-            RowBox[{"i", ",", 
-             RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], ",",
-          "\n", "\t\t", 
-         RowBox[{"Table", "[", 
-          RowBox[{
-           RowBox[{"pars", "[", 
+           RowBox[{"dataList", "[", 
             RowBox[{"[", "i", "]"}], "]"}], ",", 
-           RowBox[{"{", 
-            RowBox[{"i", ",", 
-             RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], 
-        "\n", "\t", "]"}]}], ";", "\n", "\n", "\t", 
-      RowBox[{"(*", 
-       RowBox[{"perform", " ", "fitting"}], "*)"}], "\n", "\t", 
-      RowBox[{"Table", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"OptionValue", "[", "FitFunction", "]"}], "[", 
-         RowBox[{
-          RowBox[{"dataList", "[", 
-           RowBox[{"[", "i", "]"}], "]"}], ",", 
-          RowBox[{"fitModelsList", "[", 
-           RowBox[{"[", "i", "]"}], "]"}], ",", 
-          RowBox[{"parsList", "[", 
-           RowBox[{"[", "i", "]"}], "]"}], ",", "vars"}], "]"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"i", ",", 
-          RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}]}], 
-    "\n", "]"}]}], ";"}], "\n"}], "Code",
+           RowBox[{"fitModelsList", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", 
+           RowBox[{"parsList", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", "vars"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", 
+           RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}]}], 
+     "\n", "]"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7339178705336475`*^9, 3.733917913339658*^9}, {
   3.7345373464141545`*^9, 3.7345373513228006`*^9}, {3.7345374935210767`*^9, 
   3.7345375173398075`*^9}, {3.7345376080581307`*^9, 3.7345377423062515`*^9}, {
@@ -1944,7 +1995,8 @@ replacement rules for each trace in traceList_\n\nOptions: \n\tFitFunction\
   3.7345399161963816`*^9}, {3.7345457586289034`*^9, 3.734545760570993*^9}, {
   3.7345458526177034`*^9, 3.7345458537245045`*^9}, {3.734545930823085*^9, 
   3.734545932008355*^9}, {3.73454622819354*^9, 3.7345462921981087`*^9}, {
-  3.73454638684256*^9, 3.734546390175509*^9}}],
+  3.73454638684256*^9, 3.734546390175509*^9}, {3.737778629650143*^9, 
+  3.7377786359271965`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -1958,171 +2010,182 @@ fitting intervals for traceList[[i]]\n\nOptions:\n\tLogYPlot\[Rule]False,\n\t\
 LogXPlot\[Rule]False\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"Options", "[", "FitQualityCheck", "]"}], "=", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"LogYPlot", "->", "False"}], ",", 
-     RowBox[{"LogXPlot", "->", " ", "False"}]}], "}"}]}], ";"}], "\n", 
- RowBox[{
-  RowBox[{"FitQualityCheck", "[", 
    RowBox[{
-   "traceList_", ",", "fitRanges_", ",", "fitModel_", ",", "fitParameters_", 
-    ",", "fitVar_", ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", "FitQualityCheck", "}"}], "]"}]}], "]"}], ":=", "\n", 
-  RowBox[{"Module", "[", 
-   RowBox[{
+    RowBox[{"Options", "[", "FitQualityCheck", "]"}], "=", 
     RowBox[{"{", 
-     RowBox[{"xPlotRanges", ",", "cPlotF", ",", "dPlotF"}], "}"}], ",", "\n", 
-    "\t", 
+     RowBox[{
+      RowBox[{"LogYPlot", "->", "False"}], ",", 
+      RowBox[{"LogXPlot", "->", " ", "False"}]}], "}"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FitQualityCheck", "[", 
     RowBox[{
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"Head", "[", "fitRanges", "]"}], "=!=", "List"}], ",", " ", 
-       RowBox[{
-        RowBox[{"Print", "[", "\"\<Fit ranges is not a list\>\"", "]"}], ";", 
-        RowBox[{"Return", "[", "]"}]}]}], "]"}], ";", "\n", "\t\t", 
-     RowBox[{"xPlotRanges", "=", 
-      RowBox[{"Which", "[", "\n", "\t\t\t", 
+    "traceList_", ",", "fitRanges_", ",", "fitModel_", ",", "fitParameters_", 
+     ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"{", "FitQualityCheck", "}"}], "]"}]}], "]"}], ":=", "\n", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"xPlotRanges", ",", "cPlotF", ",", "dPlotF"}], "}"}], ",", "\n",
+      "\t", 
+     RowBox[{
+      RowBox[{"If", "[", 
        RowBox[{
         RowBox[{
-         RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "2"}], ",", " ", 
-        RowBox[{"(*", 
+         RowBox[{"Head", "[", "fitRanges", "]"}], "=!=", "List"}], ",", " ", 
+        RowBox[{
+         RowBox[{"Print", "[", "\"\<Fit ranges is not a list\>\"", "]"}], ";", 
+         RowBox[{"Return", "[", "]"}]}]}], "]"}], ";", "\n", "\t\t", 
+      RowBox[{"xPlotRanges", "=", 
+       RowBox[{"Which", "[", "\n", "\t\t\t", 
+        RowBox[{
          RowBox[{
-         "case", " ", "of", " ", "single", " ", "fit", " ", "range", " ", 
-          "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], "\n", 
-        "\t\t\t", 
-        RowBox[{"Table", "[", 
-         RowBox[{"fitRanges", ",", 
-          RowBox[{"{", 
-           RowBox[{"i", ",", 
-            RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], ",", 
-        "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "3"}], ",", " ", 
-        RowBox[{"(*", 
-         RowBox[{
-         "case", " ", "of", " ", "individual", " ", "fit", " ", "ranges"}], 
-         "*)"}], "\n", "\t\t\t", 
-        RowBox[{"Table", "[", 
-         RowBox[{
-          RowBox[{"fitRanges", "[", 
-           RowBox[{"[", "i", "]"}], "]"}], ",", 
-          RowBox[{"{", 
-           RowBox[{"i", ",", 
-            RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], 
-       "\n", "\t\t", "]"}]}], ";", "\n", "\n", "\t\t", 
-     RowBox[{"cPlotF", "=", 
-      RowBox[{"Which", "[", " ", 
-       RowBox[{"(*", 
-        RowBox[{
-        "chose", " ", "continuous", " ", "plotting", " ", "function"}], 
-        "*)"}], "\n", "\t\t\t", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
-         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", "LogLogPlot", 
-        ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
-        "LogPlot", ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
-        "LogLinearPlot", ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
-        "Plot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\t\t", 
-     RowBox[{"dPlotF", "=", 
-      RowBox[{"Which", "[", " ", 
-       RowBox[{"(*", 
-        RowBox[{"chose", " ", "discrete", " ", "plotting", " ", "function"}], 
-        "*)"}], "\n", "\t\t\t", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
-         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
-        "ListLogLogPlot", ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
-        "ListLogPlot", ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
-        "ListLogLinearPlot", ",", "\n", "\t\t\t", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
-         RowBox[{"(", 
-          RowBox[{"!", 
-           RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
-        "ListPlot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\n", "\t\t", 
-     RowBox[{"Do", "[", "\n", "\t\t\t", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"Print", "[", "i", "]"}], ";", "\n", "\t\t\t", 
-        RowBox[{"Print", "[", "\n", "\t\t\t\t", 
-         RowBox[{"Show", "[", "\n", "\t\t\t\t\t", 
+          RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "2"}], ",", 
+         " ", 
+         RowBox[{"(*", 
           RowBox[{
-           RowBox[{"dPlotF", "[", 
-            RowBox[{
-             RowBox[{"traceList", "[", 
-              RowBox[{"[", "i", "]"}], "]"}], ",", 
-             RowBox[{"PlotRange", "->", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"xPlotRanges", "[", 
-                 RowBox[{"[", "i", "]"}], "]"}], ",", "Full"}], "}"}]}]}], 
-            "]"}], ",", "\n", "\t\t\t\t\t", 
-           RowBox[{"cPlotF", "[", 
-            RowBox[{
+          "case", " ", "of", " ", "single", " ", "fit", " ", "range", " ", 
+           "for", " ", "all", " ", "the", " ", "traces"}], "*)"}], "\n", 
+         "\t\t\t", 
+         RowBox[{"Table", "[", 
+          RowBox[{"fitRanges", ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", 
+             RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}], ",",
+          "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"Depth", "[", "fitRanges", "]"}], "==", " ", "3"}], ",", 
+         " ", 
+         RowBox[{"(*", 
+          RowBox[{
+          "case", " ", "of", " ", "individual", " ", "fit", " ", "ranges"}], 
+          "*)"}], "\n", "\t\t\t", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"fitRanges", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", 
+             RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}], 
+        "\n", "\t\t", "]"}]}], ";", "\n", "\n", "\t\t", 
+      RowBox[{"cPlotF", "=", 
+       RowBox[{"Which", "[", " ", 
+        RowBox[{"(*", 
+         RowBox[{
+         "chose", " ", "continuous", " ", "plotting", " ", "function"}], 
+         "*)"}], "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", "LogLogPlot", 
+         ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
+         "LogPlot", ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
+         "LogLinearPlot", ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
+         "Plot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\t\t", 
+      RowBox[{"dPlotF", "=", 
+       RowBox[{"Which", "[", " ", 
+        RowBox[{"(*", 
+         RowBox[{"chose", " ", "discrete", " ", "plotting", " ", "function"}],
+          "*)"}], "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
+         "ListLogLogPlot", ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"OptionValue", "[", "LogYPlot", "]"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
+         "ListLogPlot", ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+          RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ",", 
+         "ListLogLinearPlot", ",", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogYPlot", "]"}]}], ")"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{"!", 
+            RowBox[{"OptionValue", "[", "LogXPlot", "]"}]}], ")"}]}], ",", 
+         "ListPlot"}], "\n", "\t\t", "]"}]}], ";", "\n", "\n", "\t\t", 
+      RowBox[{"Do", "[", "\n", "\t\t\t", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Print", "[", "i", "]"}], ";", "\n", "\t\t\t", 
+         RowBox[{"Print", "[", "\n", "\t\t\t\t", 
+          RowBox[{"Show", "[", "\n", "\t\t\t\t\t", 
+           RowBox[{
+            RowBox[{"dPlotF", "[", 
              RowBox[{
-              RowBox[{"(", "fitModel", ")"}], "/.", 
-              RowBox[{"fitParameters", "[", 
-               RowBox[{"[", "i", "]"}], "]"}]}], ",", 
-             RowBox[{"{", 
-              RowBox[{"fitVar", ",", 
-               RowBox[{"xPlotRanges", "[", 
-                RowBox[{"[", 
-                 RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
-               RowBox[{"xPlotRanges", "[", 
-                RowBox[{"[", 
-                 RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "}"}], ",", 
-             RowBox[{"PlotStyle", "->", 
-              RowBox[{"Directive", "[", 
-               RowBox[{"Red", ",", "Thin"}], "]"}]}], ",", 
-             RowBox[{"PlotRange", "->", "Full"}]}], "]"}]}], "\n", "\t\t\t\t",
-           "]"}], "\n", "\t\t\t", "]"}]}], ",", "\n", "\t\t", 
-       RowBox[{"{", 
-        RowBox[{"i", ",", 
-         RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}]}], 
-   "\n", "]"}]}]}], "Code",
+              RowBox[{"traceList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ",", 
+              RowBox[{"PlotRange", "->", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"xPlotRanges", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], ",", "Full"}], "}"}]}]}], 
+             "]"}], ",", "\n", "\t\t\t\t\t", 
+            RowBox[{"cPlotF", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"(", "fitModel", ")"}], "/.", 
+               RowBox[{"fitParameters", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}], ",", 
+              RowBox[{"{", 
+               RowBox[{"Global`x", ",", 
+                RowBox[{"xPlotRanges", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+                RowBox[{"xPlotRanges", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"i", ",", "2"}], "]"}], "]"}]}], "}"}], ",", 
+              RowBox[{"PlotStyle", "->", 
+               RowBox[{"Directive", "[", 
+                RowBox[{"Red", ",", "Thin"}], "]"}]}], ",", 
+              RowBox[{"PlotRange", "->", "Full"}]}], "]"}]}], "\n", 
+           "\t\t\t\t", "]"}], "\n", "\t\t\t", "]"}]}], ",", "\n", "\t\t", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", 
+          RowBox[{"Length", "[", "traceList", "]"}]}], "}"}]}], "]"}]}]}], 
+    "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.733917931615965*^9, 3.7339179675239677`*^9}, {
-  3.7339180576504264`*^9, 3.733918236197213*^9}, {3.733918727317361*^9, 
-  3.733918762591159*^9}, {3.7339188058385124`*^9, 3.7339188440587387`*^9}, {
-  3.7345336679514303`*^9, 3.7345336781558027`*^9}, {3.7345337702243547`*^9, 
-  3.7345337739129915`*^9}, {3.7345391406094456`*^9, 3.734539150722803*^9}, {
-  3.734539216142032*^9, 3.7345392265377836`*^9}, {3.734539314258649*^9, 
-  3.734539314833763*^9}, {3.7345393595407877`*^9, 3.7345393763688483`*^9}, {
-  3.7345394340843024`*^9, 3.734539454541932*^9}, {3.73453952479661*^9, 
-  3.7345395462154975`*^9}, {3.7345395807278595`*^9, 3.734539733632825*^9}}]
+   3.7339180576504264`*^9, 3.733918236197213*^9}, {3.733918727317361*^9, 
+   3.733918762591159*^9}, {3.7339188058385124`*^9, 3.7339188440587387`*^9}, {
+   3.7345336679514303`*^9, 3.7345336781558027`*^9}, {3.7345337702243547`*^9, 
+   3.7345337739129915`*^9}, {3.7345391406094456`*^9, 3.734539150722803*^9}, {
+   3.734539216142032*^9, 3.7345392265377836`*^9}, {3.734539314258649*^9, 
+   3.734539314833763*^9}, {3.7345393595407877`*^9, 3.7345393763688483`*^9}, {
+   3.7345394340843024`*^9, 3.734539454541932*^9}, {3.73453952479661*^9, 
+   3.7345395462154975`*^9}, {3.7345395807278595`*^9, 3.734539733632825*^9}, {
+   3.737776687708971*^9, 3.7377767093826647`*^9}, {3.7377767612653317`*^9, 
+   3.737776786497325*^9}, 3.7377771575889406`*^9, {3.737778655226861*^9, 
+   3.737778657945129*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -2145,153 +2208,165 @@ parList={\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\
 \(1\)]\)},..} in the case of multiple\n\t\nOptions:\n\tBy default the \
 measurement files are loaded as Import[fileName,\\\"Table\\\"], custom \
 loading function can be specified using FileLoadingFunction option, \n\twhich \
-should return data if applied to file name\n\tBy default the parameters are \
-interpreted as numbers, if they should remain in text format, the \
-InterpretParameter option should be set to False.\n\nExample: \n\t\
+should return data if applied to file name\n\tBy default the parameters in \
+file names are interpreted as numbers, they can also be kept in text format \
+by setting the InterpretParameter\[Rule]False.\n\nExample: \n\t\
 LoadDataSeries[x__~~\\\" nW pickoff.txt\\\"]\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"Options", "[", "LoadDataSeries", "]"}], "=", 
-  RowBox[{"{", 
-   RowBox[{
-    RowBox[{"InterpretParameter", "\[Rule]", "True"}], ",", 
-    RowBox[{"FileLoadingFunction", "\[Rule]", "Automatic"}], ",", 
-    RowBox[{"BaseDirectory", "\[Rule]", 
-     RowBox[{"Directory", "[", "]"}]}]}], "}"}]}], "\n", 
- RowBox[{
-  RowBox[{"LoadDataSeries", "[", 
-   RowBox[{"namePattern_", ",", 
-    RowBox[{"parNamesList", ":", 
-     RowBox[{"Except", "[", 
-      RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
-     RowBox[{"{", "Global`x", "}"}]}], ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"{", "LoadDataSeries", "}"}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{
-     "fileNamesList", ",", "dir", ",", "FLF", ",", "parList", ",", "dataList",
-       ",", "ret"}], "}"}], ",", "\n", "\t", 
+  RowBox[{
+   RowBox[{"Options", "[", "LoadDataSeries", "]"}], "=", 
+   RowBox[{"{", 
     RowBox[{
-     RowBox[{"dir", "=", 
-      RowBox[{"OptionValue", "[", "BaseDirectory", "]"}]}], ";", "\n", "\t", 
-     RowBox[{"fileNamesList", "=", 
-      RowBox[{"FileNames", "[", 
-       RowBox[{"namePattern", ",", "dir", ",", "Infinity"}], "]"}]}], 
-     RowBox[{"(*", 
+     RowBox[{"InterpretParameter", "\[Rule]", "True"}], ",", 
+     RowBox[{"FileLoadingFunction", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"BaseDirectory", "\[Rule]", 
+      RowBox[{"Directory", "[", "]"}]}]}], "}"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"LoadDataSeries", "[", 
+    RowBox[{"namePattern_", ",", 
+     RowBox[{"parNamesList", ":", 
+      RowBox[{"Except", "[", 
+       RowBox[{"_", "?", "OptionQ"}], "]"}], ":", 
+      RowBox[{"{", "Global`x", "}"}]}], ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"{", "LoadDataSeries", "}"}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
       RowBox[{
-      "read", " ", "file", " ", "names", " ", "and", " ", "extract", " ", 
-       "parameters", " ", "from", " ", "them"}], "*)"}], ";", "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"parList", "=", 
-        RowBox[{"Flatten", "[", 
-         RowBox[{
-          RowBox[{"ToExpression", "@", 
-           RowBox[{"StringCases", "[", 
-            RowBox[{"fileNamesList", ",", 
-             RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}]}], ",", 
-          "1"}], "]"}]}], ";"}], "*)"}], "\n", "\t", 
-     RowBox[{"parList", "=", 
-      RowBox[{"Table", "[", "\n", "\t\t", 
+      "fileNamesList", ",", "dir", ",", "FLF", ",", "parList", ",", 
+       "dataList", ",", "ret"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"dir", "=", 
+       RowBox[{"OptionValue", "[", "BaseDirectory", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"fileNamesList", "=", 
+       RowBox[{"FileNames", "[", 
+        RowBox[{"namePattern", ",", "dir", ",", "Infinity"}], "]"}]}], 
+      RowBox[{"(*", 
        RowBox[{
-        RowBox[{"If", "[", 
-         RowBox[{
-          RowBox[{"OptionValue", "[", "InterpretParameter", "]"}], ",", "\n", 
-          "\t\t\t", 
+       "read", " ", "file", " ", "names", " ", "and", " ", "extract", " ", 
+        "parameters", " ", "from", " ", "them"}], "*)"}], ";", "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"parList", "=", 
+         RowBox[{"Flatten", "[", 
           RowBox[{
-           RowBox[{"Interpreter", "[", "\"\<Number\>\"", "]"}], "[", 
+           RowBox[{"ToExpression", "@", 
+            RowBox[{"StringCases", "[", 
+             RowBox[{"fileNamesList", ",", 
+              RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}]}], ",", 
+           "1"}], "]"}]}], ";"}], "*)"}], "\n", "\t", 
+      RowBox[{"parList", "=", 
+       RowBox[{"Table", "[", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"OptionValue", "[", "InterpretParameter", "]"}], ",", "\n",
+            "\t\t\t", 
+           RowBox[{
+            RowBox[{"Interpreter", "[", "\"\<Number\>\"", "]"}], "[", 
+            RowBox[{
+             RowBox[{"StringCases", "[", 
+              RowBox[{"fileName", ",", 
+               RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}], "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\n", "\t\t\t", 
            RowBox[{
             RowBox[{"StringCases", "[", 
              RowBox[{"fileName", ",", 
               RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}], "[", 
-            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\n", "\t\t\t", 
-          RowBox[{
-           RowBox[{"StringCases", "[", 
-            RowBox[{"fileName", ",", 
-             RowBox[{"namePattern", "->", "parNamesList"}]}], "]"}], "[", 
-           RowBox[{"[", "1", "]"}], "]"}]}], "\n", "\t\t", "]"}], ",", "\n", 
-        "\t\t", 
-        RowBox[{"{", 
-         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
-     "\n", "\t", "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{"read", " ", "data", " ", "from", " ", "the", " ", "files"}], 
-      "*)"}], "\n", "\t", 
-     RowBox[{"If", "[", 
-      RowBox[{
-       RowBox[{"FunctionQ", "[", 
-        RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}], "]"}], ",", 
-       "\n", "\t\t", 
-       RowBox[{"FLF", "=", 
-        RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}]}], ",", "\n",
-        "\t\t", 
-       RowBox[{"FLF", "=", 
-        RowBox[{"(", 
-         RowBox[{
-          RowBox[{"Import", "[", 
-           RowBox[{"#", ",", "\"\<Table\>\""}], "]"}], "&"}], ")"}]}]}], 
-      "]"}], ";", "\n", "\t", 
-     RowBox[{"dataList", "=", 
-      RowBox[{"Table", "[", 
-       RowBox[{
-        RowBox[{"FLF", "[", "fileName", "]"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
-     "\n", "\t", "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{
-      "sort", " ", "parameters", " ", "and", " ", "data", " ", "sets", " ", 
-       "according", " ", "to", " ", "increase", " ", "in", " ", "the", " ", 
-       "first", " ", "parameter", " ", "in", " ", "parList"}], "*)"}], "\n", 
-     "\t", 
-     RowBox[{"ret", "=", 
-      RowBox[{"Transpose", "@", 
-       RowBox[{"Sort", "[", 
-        RowBox[{
-         RowBox[{"Transpose", "[", 
-          RowBox[{"{", 
-           RowBox[{"parList", ",", "dataList"}], "}"}], "]"}], ",", 
-         RowBox[{
-          RowBox[{
-           RowBox[{"#1", "[", 
-            RowBox[{"[", 
-             RowBox[{"1", ",", "1"}], "]"}], "]"}], "<", 
-           RowBox[{"#2", "[", 
-            RowBox[{"[", 
-             RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "&"}]}], "]"}]}]}], ";",
+            RowBox[{"[", "1", "]"}], "]"}]}], "\n", "\t\t", "]"}], ",", "\n", 
+         "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
       "\n", "\t", "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"If", " ", "only", " ", "one", " ", "parameter"}], ",", " ", 
-       RowBox[{"flatten", " ", "the", " ", "parList"}]}], "*)"}], "\n", "\t", 
-     RowBox[{"If", "[", 
-      RowBox[{
+      RowBox[{"(*", 
+       RowBox[{"read", " ", "data", " ", "from", " ", "the", " ", "files"}], 
+       "*)"}], "\n", "\t", 
+      RowBox[{"If", "[", 
        RowBox[{
-        RowBox[{"Length", "[", "parNamesList", "]"}], ">", "1"}], ",", "ret", 
-       ",", 
-       RowBox[{"{", 
+        RowBox[{"FunctionQ", "[", 
+         RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}], "]"}], ",",
+         "\n", "\t\t", 
+        RowBox[{"FLF", "=", 
+         RowBox[{"OptionValue", "[", "FileLoadingFunction", "]"}]}], ",", 
+        "\n", "\t\t", 
+        RowBox[{"FLF", "=", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Import", "[", 
+            RowBox[{"#", ",", "\"\<Table\>\""}], "]"}], "&"}], ")"}]}]}], 
+       "]"}], ";", "\n", "\t", 
+      RowBox[{"dataList", "=", 
+       RowBox[{"Table", "[", 
         RowBox[{
-         RowBox[{"Flatten", "[", 
+         RowBox[{"FLF", "[", "fileName", "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"fileName", ",", "fileNamesList"}], "}"}]}], "]"}]}], ";", 
+      "\n", "\t", "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+       "sort", " ", "parameters", " ", "and", " ", "data", " ", "sets", " ", 
+        "according", " ", "to", " ", "increase", " ", "in", " ", "the", " ", 
+        "first", " ", "parameter", " ", "in", " ", "parList"}], "*)"}], "\n", 
+      "\t", 
+      RowBox[{"ret", "=", 
+       RowBox[{"Transpose", "@", 
+        RowBox[{"Sort", "[", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{"parList", ",", "dataList"}], "}"}], "]"}], ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"#1", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}], "<", 
+            RowBox[{"#2", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "1"}], "]"}], "]"}]}], "&"}]}], "]"}]}]}], 
+      ";", "\n", "\t", "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"If", " ", "only", " ", "one", " ", "parameter"}], ",", " ", 
+        RowBox[{"flatten", " ", "the", " ", "parList"}]}], "*)"}], "\n", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "parNamesList", "]"}], ">", "1"}], ",", "ret",
+         ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Flatten", "[", 
+           RowBox[{"ret", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
           RowBox[{"ret", "[", 
-           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", 
-         RowBox[{"ret", "[", 
-          RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}]}], "\n", 
-   "]"}]}]}], "Code",
+           RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}]}], "\n", 
+    "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345465955852985`*^9, 3.734546598245433*^9}, {
-  3.734549085480486*^9, 3.734549287809987*^9}, {3.7345498469823484`*^9, 
-  3.7345499036338263`*^9}, {3.7345903481113367`*^9, 3.7345903603916545`*^9}}],
+   3.734549085480486*^9, 3.734549287809987*^9}, {3.7345498469823484`*^9, 
+   3.7345499036338263`*^9}, {3.7345903481113367`*^9, 
+   3.7345903603916545`*^9}, {3.7345973424514256`*^9, 3.734597386153448*^9}, {
+   3.7377761303527155`*^9, 3.7377761484650373`*^9}, 3.7377762241846237`*^9, {
+   3.7377762661553736`*^9, 3.737776286883362*^9}, 3.7377771659298873`*^9, {
+   3.7377786609785604`*^9, 3.7377786653975105`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"SelectRange", "::", "usage"}], "=", 
    "\"\<SelectRange[xylist_,xRange_], SelectRange[xylistd2_,xRange_]\n\t\
-Return subset of xylist_ with x values within xRange_\n\nOptions:\n\tSame as \
-InRangeQ\>\""}], "\n"}], "\n", 
+Return subset of xylist_ with x values within xRange_\n\nOptions:\n\tAccepts \
+options of InRangeQ\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"Options", "[", "SelectRange", "]"}], "=", 
-  RowBox[{"Options", "[", "InRangeQ", "]"}]}], "\n", 
+  RowBox[{
+   RowBox[{"Options", "[", "SelectRange", "]"}], "=", 
+   RowBox[{"Options", "[", "InRangeQ", "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"SelectRange", "[", 
@@ -2311,39 +2386,43 @@ InRangeQ\>\""}], "\n"}], "\n",
         ")"}], "&"}]}], "]"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"SelectRange", "[", 
-    RowBox[{
-     RowBox[{"xylistd2_", "?", 
-      RowBox[{"(", 
-       RowBox[{
-        RowBox[{"XYListQ", "[", 
-         RowBox[{"#", ",", "2"}], "]"}], "&"}], ")"}]}], ",", "xRange_", ",", 
-     RowBox[{"opts", ":", 
-      RowBox[{"OptionsPattern", "[", 
-       RowBox[{"{", "SelectRange", "}"}], "]"}]}]}], "]"}], ":=", 
-   RowBox[{"Table", "[", 
-    RowBox[{
-     RowBox[{"Select", "[", 
-      RowBox[{"xylist", ",", 
-       RowBox[{
-        RowBox[{"(", 
-         RowBox[{"InRangeQ", "[", 
-          RowBox[{
-           RowBox[{"#", "[", 
-            RowBox[{"[", "1", "]"}], "]"}], ",", "xRange", ",", "opts"}], 
-          "]"}], ")"}], "&"}]}], "]"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"xylist", ",", "xylistd2"}], "}"}]}], "]"}]}], ";"}]}], "Code",
+   RowBox[{
+    RowBox[{"SelectRange", "[", 
+     RowBox[{
+      RowBox[{"xylistd2_", "?", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"XYListQ", "[", 
+          RowBox[{"#", ",", "2"}], "]"}], "&"}], ")"}]}], ",", "xRange_", ",", 
+      RowBox[{"opts", ":", 
+       RowBox[{"OptionsPattern", "[", 
+        RowBox[{"{", "SelectRange", "}"}], "]"}]}]}], "]"}], ":=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Select", "[", 
+       RowBox[{"xylist", ",", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"InRangeQ", "[", 
+           RowBox[{
+            RowBox[{"#", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], ",", "xRange", ",", "opts"}], 
+           "]"}], ")"}], "&"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"xylist", ",", "xylistd2"}], "}"}]}], "]"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.734546627865629*^9, 3.7345466295478487`*^9}, {
    3.734547425049396*^9, 3.7345474331763906`*^9}, {3.734547867239811*^9, 
    3.734548125546877*^9}, {3.7345481625783978`*^9, 3.7345481875924163`*^9}, {
    3.734548279897182*^9, 3.7345483147403464`*^9}, {3.7345486982210283`*^9, 
-   3.7345487717640295`*^9}, 3.73455005322637*^9}]
-}, Open  ]]
+   3.7345487717640295`*^9}, 3.73455005322637*^9, {3.7345986350734935`*^9, 
+   3.7345986549329605`*^9}, {3.7377786996065073`*^9, 3.737778706812752*^9}}]
+}, Closed]]
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1282, 772},
-WindowMargins->{{Automatic, 113}, {Automatic, 3}},
+WindowMargins->{{36, Automatic}, {Automatic, 108}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2364,58 +2443,58 @@ Cell[1179, 37, 771, 21, 69, "Code"],
 Cell[CellGroupData[{
 Cell[1975, 62, 159, 2, 70, "Section"],
 Cell[2137, 66, 832, 20, 159, "Code"]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[3006, 91, 116, 1, 70, "Section"],
+Cell[3006, 91, 116, 1, 56, "Section"],
 Cell[3125, 94, 1291, 36, 142, "Code"],
 Cell[4419, 132, 620, 16, 87, "Code"],
 Cell[5042, 150, 992, 17, 196, "Code"],
 Cell[6037, 169, 1492, 36, 141, "Code"],
 Cell[7532, 207, 1007, 27, 123, "Code",
  InitializationCell->True],
-Cell[8542, 236, 3000, 76, 411, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[11579, 317, 126, 1, 56, "Section"],
-Cell[CellGroupData[{
-Cell[11730, 322, 121, 1, 49, "Subsection"],
-Cell[11854, 325, 626, 16, 69, "Code"],
-Cell[12483, 343, 4186, 136, 285, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[16706, 484, 124, 1, 41, "Subsection"],
-Cell[16833, 487, 12813, 336, 1419, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[29683, 828, 170, 2, 41, "Subsection"],
-Cell[29856, 832, 1586, 44, 195, "Code"],
-Cell[31445, 878, 3554, 95, 465, "Code"],
-Cell[35002, 975, 2459, 62, 465, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[37498, 1042, 102, 1, 41, "Subsection"],
-Cell[37603, 1045, 2747, 66, 340, "Code"],
-Cell[40353, 1113, 7702, 208, 555, "Code"]
-}, Closed]]
+Cell[8542, 236, 3262, 82, 501, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[48104, 1327, 113, 1, 70, "Section"],
-Cell[48220, 1330, 455, 13, 50, "Code"],
-Cell[48678, 1345, 1458, 41, 105, "Code"],
-Cell[50139, 1388, 600, 14, 87, "Code"]
-}, Open  ]],
+Cell[11841, 323, 126, 1, 70, "Section"],
 Cell[CellGroupData[{
-Cell[50776, 1407, 96, 1, 70, "Section"],
-Cell[50875, 1410, 1941, 50, 231, "Code"],
-Cell[52819, 1462, 10484, 248, 987, "Code"],
-Cell[63306, 1712, 10078, 234, 1024, "Code"],
-Cell[73387, 1948, 7480, 176, 843, "Code"]
+Cell[11992, 328, 121, 1, 49, "Subsection"],
+Cell[12116, 331, 626, 16, 69, "Code"],
+Cell[12745, 349, 4186, 136, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[80904, 2129, 40, 0, 56, "Section"],
-Cell[80947, 2131, 6473, 151, 807, "Code"],
-Cell[87423, 2284, 2105, 56, 195, "Code"]
+Cell[16968, 490, 124, 1, 41, "Subsection"],
+Cell[17095, 493, 13303, 331, 1419, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[30435, 829, 170, 2, 41, "Subsection"],
+Cell[30608, 833, 1793, 48, 267, "Code"],
+Cell[32404, 883, 3849, 101, 519, "Code"],
+Cell[36256, 986, 2700, 68, 537, "Code"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[38993, 1059, 102, 1, 49, "Subsection"],
+Cell[39098, 1062, 3706, 88, 466, "Code"],
+Cell[42807, 1152, 7842, 204, 609, "Code"]
 }, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50698, 1362, 113, 1, 70, "Section"],
+Cell[50814, 1365, 455, 13, 50, "Code"],
+Cell[51272, 1380, 1458, 41, 105, "Code"],
+Cell[52733, 1423, 600, 14, 87, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[53370, 1442, 96, 1, 56, "Section"],
+Cell[53469, 1445, 1941, 50, 231, "Code"],
+Cell[55413, 1497, 10689, 255, 1077, "Code"],
+Cell[66105, 1754, 10519, 244, 1096, "Code"],
+Cell[76627, 2000, 7981, 187, 933, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[84645, 2192, 40, 0, 56, "Section"],
+Cell[84688, 2194, 7018, 160, 897, "Code"],
+Cell[91709, 2356, 2397, 63, 285, "Code"]
+}, Closed]]
 }
 ]
 *)

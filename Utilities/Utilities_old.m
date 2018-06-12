@@ -8,7 +8,7 @@
 (*Begin*)
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*BeginPackage[], set directory and list data directories, import other packages*)
 
 
@@ -26,17 +26,6 @@ If[
 
 (*A fix for usage messages, from http://mathematica.stackexchange.com/questions/3943/usage-displays-properly-only-after-second-call/27671#27671*)
 System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
-
-
-(* ::Subsection:: *)
-(*Global definition*)
-
-
-(* ::Subsubsection::Closed:: *)
-(*Sets of settings*)
-
-
-compilationOptionsC::usage=""
 
 
 (* ::Subsection:: *)
@@ -103,17 +92,6 @@ where \[Eta] is detection efficiency, is the optomechanical multi-photon coopera
 
 
 Begin["`Private`"]
-
-
-(* ::Subsection:: *)
-(*Sets of settings*)
-
-
-compilationOptionsC=Sequence[
-	CompilationTarget->"C",
-	CompilationOptions->{"InlineExternalDefinitions"->True},
-	RuntimeOptions->{"EvaluateSymbolically"->False}
-];
 
 
 (* ::Subsection:: *)
