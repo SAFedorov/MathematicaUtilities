@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     10706,        247]
-NotebookOptionsPosition[     10244,        226]
-NotebookOutlinePosition[     10621,        242]
-CellTagsIndexPosition[     10578,        239]
+NotebookDataLength[     11483,        264]
+NotebookOptionsPosition[     11021,        243]
+NotebookOutlinePosition[     11398,        259]
+CellTagsIndexPosition[     11355,        256]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -79,10 +79,10 @@ case of continuous variables) or the lists of discrete values (in the case of \
 discrete variables).\[IndentingNewLine]\tnIterations - number of random \
 points\n\nOutput:\n\t{\!\(\*SubscriptBox[\(f\), \(max\)]\), {.., \
 \!\(\*SubscriptBox[\(x\), \(i\)]\)\[Rule]\!\(\*SubscriptBox[\(x\), \(i . max \
-. val\)]\), ...}}\>\""}], "\[IndentingNewLine]", "\t"}], "\n", 
+. val\)]\), ...}}\>\""}], "\n", "\t"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], 
-  "\[IndentingNewLine]"}], "\n", 
+  "\n"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"RSMaximize", "[", 
@@ -90,15 +90,27 @@ points\n\nOutput:\n\t{\!\(\*SubscriptBox[\(f\), \(max\)]\), {.., \
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", 
-      RowBox[{"tmpVarRuleList", ",", "tmpFOM", ",", "bestSol"}], "}"}], ",", 
-     "\[IndentingNewLine]", "\t", 
+      RowBox[{
+      "tmpVarRuleList", ",", "tmpFOM", ",", "bestSol", ",", "exitNowQ"}], 
+      "}"}], ",", "\[IndentingNewLine]", "\t", 
      RowBox[{"(*", 
       RowBox[{
       "the", " ", "temporary", " ", "maximim", " ", "value", " ", "of", " ", 
        "f", " ", "and", " ", "the", " ", "set", " ", "of", " ", "parameters", 
        " ", "at", " ", "which", " ", "it", " ", "is", " ", "achieved"}], 
-      "*)"}], "\[IndentingNewLine]", "\t", 
+      "*)"}], "\n", "\t", 
      RowBox[{
+      RowBox[{"exitNowQ", "=", "False"}], ";", "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Make", " ", "button", " ", "to", " ", "break", " ", "search", " ", 
+        "midway", " ", "without", " ", "loosing", " ", "result"}], "*)"}], 
+      "\[IndentingNewLine]", "\t", 
+      RowBox[{"PrintTemporary", "[", "\[IndentingNewLine]", "\t\t", 
+       RowBox[{"Button", "[", 
+        RowBox[{"\"\<Stop search\>\"", ",", 
+         RowBox[{"exitNowQ", "=", "True"}]}], "]"}], "\[IndentingNewLine]", 
+       "\t", "]"}], ";", "\[IndentingNewLine]", "\t", 
       RowBox[{"bestSol", "=", 
        RowBox[{"{", 
         RowBox[{"0", ",", 
@@ -189,7 +201,11 @@ points\n\nOutput:\n\t{\!\(\*SubscriptBox[\(f\), \(max\)]\), {.., \
              RowBox[{
              "\"\<Iteration=\>\"", ",", "i", ",", "\"\<, solution=\>\"", ",", 
               "bestSol"}], "]"}], ";"}]}], "\[IndentingNewLine]", "\t\t", 
-          "]"}], ";"}], ",", "\n", "\t\t", 
+          "]"}], ";", "\n", "\t\t", 
+         RowBox[{"If", "[", 
+          RowBox[{"exitNowQ", ",", 
+           RowBox[{"Break", "[", "]"}]}], "]"}], ";"}], "\n", "\t\t", ",", 
+        "\n", "\t\t", 
         RowBox[{"{", 
          RowBox[{"i", ",", "nIterations"}], "}"}]}], "\[IndentingNewLine]", 
        "\t", "]"}], ";", "\[IndentingNewLine]", "\t", "bestSol"}]}], 
@@ -219,7 +235,8 @@ points\n\nOutput:\n\t{\!\(\*SubscriptBox[\(f\), \(max\)]\), {.., \
    3.6857887629090014`*^9, {3.687064512988511*^9, 3.687064518260001*^9}, {
    3.7377806590986185`*^9, 3.7377806630210457`*^9}, {3.737780707620885*^9, 
    3.737780846185777*^9}, {3.7377808787692833`*^9, 3.7377810207036295`*^9}, {
-   3.737781072541125*^9, 3.737781136460743*^9}},
+   3.737781072541125*^9, 3.737781136460743*^9}, {3.737794981065689*^9, 
+   3.737795062745352*^9}},
  CellID->420829507,
  ExpressionUUID -> "1ec46cbe-dc80-47c0-804f-e61c45f43918"]
 }, Open  ]]
@@ -246,7 +263,7 @@ Cell[558, 20, 618, 15, 50, "Input",
 Cell[1179, 37, 771, 21, 69, "Code"],
 Cell[CellGroupData[{
 Cell[1975, 62, 120, 1, 70, "Section"],
-Cell[2098, 65, 8130, 158, 772, "Code",
+Cell[2098, 65, 8907, 175, 898, "Code",
  CellID->420829507]
 }, Open  ]]
 }

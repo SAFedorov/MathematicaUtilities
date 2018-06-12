@@ -35,8 +35,13 @@ Output:
 	
 Begin["`Privite`"]
 
-RSMaximize[f_,varIntervalList_,nIterations_]:=Module[{tmpVarRuleList,tmpFOM,bestSol},
+RSMaximize[f_,varIntervalList_,nIterations_]:=Module[{tmpVarRuleList,tmpFOM,bestSol,exitNowQ},
 	(*the temporary maximim value of f and the set of parameters at which it is achieved*)
+	exitNowQ=False;
+	(*Make button to break search midway without loosing result*)
+	PrintTemporary[
+		Button["Stop search",exitNowQ=True]
+	];
 	bestSol={0,{}};
 	Do[
 	(*Compose the replacement rules from lists of discrete and continuous variables*)
@@ -55,7 +60,9 @@ RSMaximize[f_,varIntervalList_,nIterations_]:=Module[{tmpVarRuleList,tmpFOM,best
 		If[(i==1||tmpFOM>bestSol[[1]]),
 			bestSol={tmpFOM,tmpVarRuleList};
 			PrintTemporary["Iteration=",i,", solution=",bestSol];
-		];,
+		];
+		If[exitNowQ,Break[]];
+		,
 		{i,nIterations}
 	];
 	bestSol
