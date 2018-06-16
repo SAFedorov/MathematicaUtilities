@@ -23,10 +23,9 @@
 System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 
 
-ComsolImport::usage = 
-	"ComsolImport[file] imports the .txt file with table results exported by COMSOL.
-	 ComsolImport[file, \"Headers\"] imports column headers of the table.
-	 ComsolImport[file, \"Info\"] gives the additional information stored in the file."
+ComsolImport::usage = "ComsolImport[file] imports the .txt file with table results exported by COMSOL.
+	ComsolImport[file, \"Headers\"] imports column headers of the table.
+	ComsolImport[file, \"Info\"] gives the additional information stored in the file."
 	 
 Begin["`Private`"]
 
@@ -110,9 +109,12 @@ End[]
 
 TriangularElementMeshIntegrate::usage = "TriangularElementMeshIntegrate[fList_,mesh_] 
 	Integrate the function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.
-	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh triangles. The aim of this function is to provide\[IndentingNewLine]	1. a fast and simple routine for integration of 2D functions, specified on mesh vertices\[IndentingNewLine]	2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh triangles\[IndentingNewLine]
+	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh triangles. The aim of this function is to provide
+		1. a fast and simple routine for integration of 2D functions, specified on mesh vertices
+		2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh triangles\[IndentingNewLine]
 Input:
-	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]\[IndentingNewLine]	mesh_ is an ElementMesh object
+	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]
+	mesh_ is an ElementMesh object
 
 Options:\[IndentingNewLine]	SelectedMeshElements is the list of indices of the mesh triangles to be included in the integration region. All elements are included by default\[IndentingNewLine]"
 
@@ -134,9 +136,12 @@ End[]
 
 TetrahedralElementMeshIntegrate::usage = "TetrahedralElementMeshIntegrate[fList_,mesh_] 
 	Integrate the function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.
-	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh tetrahedrons. The aim of this function is to provide\[IndentingNewLine]	1. a fast and simple routine for integration of 3D functions, specified on mesh vertices\[IndentingNewLine]	2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh tetrahedrons\[IndentingNewLine]
+	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh tetrahedrons. The aim of this function is to provide
+		1. a fast and simple routine for integration of 3D functions, specified on mesh vertices
+		2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh tetrahedrons\[IndentingNewLine]
 Input:
-	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]\[IndentingNewLine]	mesh_ is an ElementMesh object
+	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]
+	mesh_ is an ElementMesh object
 
 Options:\[IndentingNewLine]	SelectedMeshElements is the list of indices of the mesh triangles to be included in the integration region. All elements are included by default\[IndentingNewLine]"
 

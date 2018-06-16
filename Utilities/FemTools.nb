@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     42457,        899]
-NotebookOptionsPosition[     41700,        869]
-NotebookOutlinePosition[     42076,        885]
-CellTagsIndexPosition[     42033,        882]
+NotebookDataLength[     42854,        905]
+NotebookOptionsPosition[     42096,        875]
+NotebookOutlinePosition[     42473,        891]
+CellTagsIndexPosition[     42430,        888]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -91,10 +91,10 @@ Cell["COMSOL output processing", "Section",
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"ComsolImport", "::", "usage"}], " ", "=", " ", "\n", "\t", 
+   RowBox[{"ComsolImport", "::", "usage"}], " ", "=", " ", 
    "\"\<ComsolImport[file] imports the .txt file with table results exported \
-by COMSOL.\n\t ComsolImport[file, \\\"Headers\\\"] imports column headers of \
-the table.\n\t ComsolImport[file, \\\"Info\\\"] gives the additional \
+by COMSOL.\n\tComsolImport[file, \\\"Headers\\\"] imports column headers of \
+the table.\n\tComsolImport[file, \\\"Info\\\"] gives the additional \
 information stored in the file.\>\""}], "\n", "\t "}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n", "\n", 
@@ -232,7 +232,8 @@ information stored in the file.\>\""}], "\n", "\t "}], "\n",
           "]"}]}], "}"}]}], "]"}]}]}], " ", ";"}], "\n", "\t"}], "\n", 
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7346812043050838`*^9, 3.73468120431409*^9}, 
-   3.734681531420359*^9, {3.7346839859531565`*^9, 3.7346840108219433`*^9}}],
+   3.734681531420359*^9, {3.7346839859531565`*^9, 3.7346840108219433`*^9}, {
+   3.738165922015665*^9, 3.7381659337036715`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -415,17 +416,16 @@ function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\
 \) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \
 \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.\n\t\
 Integral is computed using the 1-st order formula, i.e. as a sum over the \
-mesh triangles. The aim of this function is to provide\[IndentingNewLine]\t1. \
-a fast and simple routine for integration of 2D functions, specified on mesh \
-vertices\[IndentingNewLine]\t2. without a loss of efficiency, provide a way \
-to limit the integration region by selecting only specific mesh triangles\
-\[IndentingNewLine]\nInput:\n\tfList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\
-\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the \
-vertices given by the mesh[\\\"Coordinates\\\"]\[IndentingNewLine]\tmesh_ is \
-an ElementMesh object\n\nOptions:\[IndentingNewLine]\tSelectedMeshElements is \
-the list of indices of the mesh triangles to be included in the integration \
-region. All elements are included by default\[IndentingNewLine]\>\""}], 
-  "\n"}], "\n", 
+mesh triangles. The aim of this function is to provide\n\t\t1. a fast and \
+simple routine for integration of 2D functions, specified on mesh vertices\n\t\
+\t2. without a loss of efficiency, provide a way to limit the integration \
+region by selecting only specific mesh triangles\[IndentingNewLine]\nInput:\n\
+\tfList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\
+\)]\)} is the list of function values on the vertices given by the \
+mesh[\\\"Coordinates\\\"]\n\tmesh_ is an ElementMesh object\n\nOptions:\
+\[IndentingNewLine]\tSelectedMeshElements is the list of indices of the mesh \
+triangles to be included in the integration region. All elements are included \
+by default\[IndentingNewLine]\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -787,7 +787,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABPx/o5/tsA==
    3.7381637066644554`*^9, {3.738163917306733*^9, 3.7381640979554176`*^9}, {
    3.7381641475322523`*^9, 3.7381641491299543`*^9}, {3.7381642796783285`*^9, 
    3.7381645584193993`*^9}, {3.738164610993788*^9, 3.7381646134107227`*^9}, {
-   3.7381646638475266`*^9, 3.738164670953585*^9}},
+   3.7381646638475266`*^9, 3.738164670953585*^9}, {3.738165231128352*^9, 
+   3.7381652335441203`*^9}, {3.7381652668588343`*^9, 
+   3.7381652694300585`*^9}, {3.7381655770223475`*^9, 
+   3.7381656099337583`*^9}, {3.738165811085109*^9, 3.738165817611135*^9}},
  CellID->3975420,
  ExpressionUUID -> "9c8cab6c-563b-4e93-b4a5-a1c432e64794"],
 
@@ -800,17 +803,17 @@ function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\
 \) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \
 \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.\n\t\
 Integral is computed using the 1-st order formula, i.e. as a sum over the \
-mesh tetrahedrons. The aim of this function is to provide\[IndentingNewLine]\t\
-1. a fast and simple routine for integration of 3D functions, specified on \
-mesh vertices\[IndentingNewLine]\t2. without a loss of efficiency, provide a \
-way to limit the integration region by selecting only specific mesh \
-tetrahedrons\[IndentingNewLine]\nInput:\n\tfList={\!\(\*SubscriptBox[\(f\), \
+mesh tetrahedrons. The aim of this function is to provide\n\t\t1. a fast and \
+simple routine for integration of 3D functions, specified on mesh vertices\n\t\
+\t2. without a loss of efficiency, provide a way to limit the integration \
+region by selecting only specific mesh tetrahedrons\[IndentingNewLine]\n\
+Input:\n\tfList={\!\(\*SubscriptBox[\(f\), \
 \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function \
-values on the vertices given by the mesh[\\\"Coordinates\\\"]\
-\[IndentingNewLine]\tmesh_ is an ElementMesh object\n\nOptions:\
-\[IndentingNewLine]\tSelectedMeshElements is the list of indices of the mesh \
-triangles to be included in the integration region. All elements are included \
-by default\[IndentingNewLine]\>\""}], "\n"}], "\n", 
+values on the vertices given by the mesh[\\\"Coordinates\\\"]\n\tmesh_ is an \
+ElementMesh object\n\nOptions:\[IndentingNewLine]\tSelectedMeshElements is \
+the list of indices of the mesh triangles to be included in the integration \
+region. All elements are included by default\[IndentingNewLine]\>\""}], 
+  "\n"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -862,14 +865,17 @@ by default\[IndentingNewLine]\>\""}], "\n"}], "\n",
  CellChangeTimes->{{3.706208545514648*^9, 3.7062086769310875`*^9}, {
    3.706208961062505*^9, 3.70620896237386*^9}, 3.7062090558589764`*^9, {
    3.7381645633336964`*^9, 3.7381646078613377`*^9}, {3.7381646457454863`*^9, 
-   3.7381647092466474`*^9}},
+   3.7381647092466474`*^9}, {3.7381652180413065`*^9, 3.738165222288952*^9}, {
+   3.738165629562699*^9, 3.738165636891343*^9}, {3.7381657129561977`*^9, 
+   3.7381657167742147`*^9}, {3.738165822353035*^9, 3.738165827705001*^9}, {
+   3.738165866842641*^9, 3.738165887118698*^9}},
  CellID->37021619,
  ExpressionUUID -> "0b83d4c4-2f70-4ac4-bebd-d8df84c0e611"]
 }, Open  ]]
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1354, 657},
-WindowMargins->{{Automatic, 42}, {25, Automatic}},
+WindowMargins->{{Automatic, 27}, {-88, Automatic}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -890,15 +896,15 @@ Cell[1179, 37, 771, 21, 69, "Code"],
 Cell[1953, 60, 907, 23, 107, "Input"],
 Cell[CellGroupData[{
 Cell[2885, 87, 109, 1, 70, "Section"],
-Cell[2997, 90, 5711, 144, 772, "Code"],
-Cell[8711, 236, 4904, 111, 519, "Code"],
-Cell[13618, 349, 2115, 48, 231, "Code"]
+Cell[2997, 90, 5749, 145, 754, "Code"],
+Cell[8749, 237, 4904, 111, 519, "Code"],
+Cell[13656, 350, 2115, 48, 231, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15770, 402, 187, 4, 70, "Section"],
-Cell[15960, 408, 22285, 383, 620, "Code",
+Cell[15808, 403, 187, 4, 70, "Section"],
+Cell[15998, 409, 22441, 385, 620, "Code",
  CellID->3975420],
-Cell[38248, 793, 3436, 73, 465, "Code",
+Cell[38442, 796, 3638, 76, 465, "Code",
  CellID->37021619]
 }, Open  ]]
 }

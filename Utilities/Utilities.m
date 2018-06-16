@@ -11,4 +11,32 @@ Get[FileNameJoin[{"Utilities","Compatibility.m"}]]
 Get[FileNameJoin[{"Utilities","FemTools.m"}]]
 Get[FileNameJoin[{"Utilities","Optimization.m"}]]
 
+utilitiesStyleGuide="
+Variables are named camelCase 
+Functions and options are names CamelCase 
+Long abbreviations like FEM, GUI in names are written as regular words with a single first capital letter 
+
+
+Description of functions follows the template:
+
+FunctionName[arg1_, arg2_]
+	General description
+
+Input:
+	arg1_ is ...
+	arg2_ is ...
+
+Interactive operation:
+	If the function has any interative elements, they are described here
+
+Output:
+	{x1,x2,x3} - list of values ...
+
+Options:
+	Opt1 -> Default - the options sets ...
+
+Example:
+	Usage examples
+"
+
 EndPackage[]
