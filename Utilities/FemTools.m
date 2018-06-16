@@ -68,7 +68,13 @@ End[]
 
 SplitParametricSweepTable::usage = "SplitParametricSweepTable[list_,nPars_]
 	Transform table {{\!\(\*SubscriptBox[\(s\), \(1\)]\), \!\(\*SubscriptBox[\(s\), \(2\)]\), ..., \!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...},...} to a new form {\!\(\*SubscriptBox[\(s\), \(1\)]\), {..{\!\(\*SubscriptBox[\(s\), \(n\)]\),{\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...},...}...}} 
-	where each of the parameters \!\(\*SubscriptBox[\(s\), \(1\)]\) runs over its own list dimension. nPar_ is the number of parameters \!\(\*SubscriptBox[\(s\), \(i\)]\)"
+	where each of the parameters \!\(\*SubscriptBox[\(s\), \(1\)]\) runs over its own list dimension. Useful for processing results of COMSOL
+	parametric sweep. 
+
+Input:
+	nPar_ is the number of parameters \!\(\*SubscriptBox[\(s\), \(i\)]\)"
+	
+Begin["`Private`"]
 
 SplitParametricSweepTable[list_?MatrixQ, 1]:=Module[{par1ValList},
 	par1ValList=DeleteDuplicates[list[[;;,1]]];
@@ -86,10 +92,61 @@ SplitParametricSweepTable[list_?MatrixQ,nPars_?((#>1)&)]:=Module[{par1ValList,su
 	]
 ]
 
+End[]
 
-SplitByModes::usage = "SplitByModes[list_]"
+
+SplitByModes::usage = "SplitByModes[list_] Useful for processing results of COMSOL parametric sweep."
+
+Begin["`Private`"]
+
 SplitByModes[list_]:=Module[{par1, nModes},
 	par1=list[[1,1]];
 	nModes=Count[list,{par1,__},1];
 	Table[Take[list,{i,-1,nModes}],{i,1,nModes}]
 ]
+
+End[]
+
+
+TriangularElementMeshIntegrate::usage = "TriangularElementMeshIntegrate[fList_,mesh_] 
+	Integrate the function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.
+	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh triangles. The aim of this function is to provide\[IndentingNewLine]	1. a fast and simple routine for integration of 2D functions, specified on mesh vertices\[IndentingNewLine]	2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh triangles\[IndentingNewLine]
+Input:
+	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]\[IndentingNewLine]	mesh_ is an ElementMesh object
+
+Options:\[IndentingNewLine]	SelectedMeshElements is the list of indices of the mesh triangles to be included in the integration region. All elements are included by default\[IndentingNewLine]"
+
+Begin["`Private`"]
+
+TriangularElementMeshIntegrate[fList_,mesh_,OptionsPattern[{SelectedMeshElements-> All}]]:=Module[{indices,measures,selMeshElements},
+(*
+For integration use the 1-st order formula:;
+*)
+
+	selMeshElements=OptionValue[SelectedMeshElements];
+	indices=mesh["MeshElements"]/.{TriangleElement[t_]}:>Flatten[t[[selMeshElements]]];
+	measures=mesh["MeshElementMeasure"][[1,selMeshElements]];
+	Total[Total[Partition[fList[[indices]],3],{2}]*measures/3]
+]
+
+End[]
+
+
+TetrahedralElementMeshIntegrate::usage = "TetrahedralElementMeshIntegrate[fList_,mesh_] 
+	Integrate the function f which is given as a set of values \!\(\*SubscriptBox[\(f\), \(i\)]\) on vertices {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} of a mesh over all the 2D triangular elements of the mesh.
+	Integral is computed using the 1-st order formula, i.e. as a sum over the mesh tetrahedrons. The aim of this function is to provide\[IndentingNewLine]	1. a fast and simple routine for integration of 3D functions, specified on mesh vertices\[IndentingNewLine]	2. without a loss of efficiency, provide a way to limit the integration region by selecting only specific mesh tetrahedrons\[IndentingNewLine]
+Input:
+	fList={\!\(\*SubscriptBox[\(f\), \(1\)]\),...,\!\(\*SubscriptBox[\(f\), \(n\)]\)} is the list of function values on the vertices given by the mesh[\"Coordinates\"]\[IndentingNewLine]	mesh_ is an ElementMesh object
+
+Options:\[IndentingNewLine]	SelectedMeshElements is the list of indices of the mesh triangles to be included in the integration region. All elements are included by default\[IndentingNewLine]"
+
+Begin["`Private`"]
+
+TetrahedralElementMeshIntegrate[fList_,mesh_,OptionsPattern[{SelectedMeshElements-> All}]]:=Module[{indices,measures,selMeshElements},
+	selMeshElements=OptionValue[SelectedMeshElements];
+	indices=mesh["MeshElements"]/.{TetrahedronElement[t_]}:>Flatten[t[[selMeshElements]]];
+	measures=mesh["MeshElementMeasure"][[1,selMeshElements]];
+	Total[Total[Partition[fList[[indices]],4],{2}]*measures/4]
+]
+
+End[]
