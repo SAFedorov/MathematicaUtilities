@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    106309,       2744]
-NotebookOptionsPosition[    103933,       2664]
-NotebookOutlinePosition[    104308,       2680]
-CellTagsIndexPosition[    104265,       2677]
+NotebookDataLength[    117157,       2971]
+NotebookOptionsPosition[    114610,       2886]
+NotebookOutlinePosition[    114985,       2902]
+CellTagsIndexPosition[    114942,       2899]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -57,6 +57,228 @@ Cell[BoxData[
    RowBox[{"System`Dump`fixmessagestring", "[", "System`Dump`s_", "]"}], ":=", 
    RowBox[{"ToString", "@", 
     RowBox[{"InputForm", "@", "System`Dump`s"}]}]}]}]], "Code"],
+
+Cell[CellGroupData[{
+
+Cell["Notebook ", "Section",
+ CellChangeTimes->{{3.738225070211116*^9, 3.7382250744950686`*^9}, {
+  3.7382251249615803`*^9, 3.7382251360607133`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetRamRestriction", "::", "usage"}], " ", "=", " ", 
+   "\"\<SetRamRestriction[maxMemAllowedGB_:2,intervalBetweenTests_:5]\n\tRun \
+a task that checks every intervalBetweenTests the amount of memory used by \
+Mathematica kernel and aborts it if the limit is exceeded. \n\tThe function \
+is used to prevent unlimited memory allocation by Mathematica that arises \
+with certain programming mistakes when processing \n\tlarge amounts of data \
+and irreversibly hangs the entire computer.\n\tThe function uses global \
+variable ramBelowThresholdSignal as counter.\n\nOutput:\n\t\
+ScheduledTaskObject which can be used stop the memory monitoring by \
+RemoveScheduledTask[]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetRamRestriction", "[", 
+    RowBox[{
+     RowBox[{"maxMemAllowedGB_:", "2"}], ",", 
+     RowBox[{"intervalBetweenTests_:", "5"}]}], "]"}], ":=", 
+   RowBox[{"(", "\n", "\t", 
+    RowBox[{
+     RowBox[{"ramBelowThresholdSignal", "=", "0"}], ";", "\n", "\t", 
+     RowBox[{"Print", "[", 
+      RowBox[{"Dynamic", "[", "ramBelowThresholdSignal", "]"}], "]"}], ";", 
+     "\n", "\t", 
+     RowBox[{"RunScheduledTask", "[", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"MemoryInUse", "[", "]"}], ">", 
+          RowBox[{"(", 
+           RowBox[{"maxMemAllowedGB", " ", 
+            RowBox[{"1024", "^", "3"}]}], ")"}]}], ",", 
+         RowBox[{"Quit", "[", "]"}], ",", 
+         RowBox[{"ramBelowThresholdSignal", "++"}]}], "]"}], ",", 
+       "intervalBetweenTests"}], "]"}]}], "\n", ")"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.7382255882493253`*^9, 3.738225627562111*^9}, {
+   3.738226442798326*^9, 3.73822680363955*^9}, {3.7382272753308554`*^9, 
+   3.738227323401458*^9}, {3.7382274337685575`*^9, 3.738227505259996*^9}, 
+   3.7382275462849417`*^9, {3.7382278348798895`*^9, 3.738227867178049*^9}, {
+   3.738227900968325*^9, 3.7382279054477425`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"PrintDefaultHeader", "::", "usage"}], " ", "=", " ", 
+   "\"\<PrintDefaultHeader[]\n\tPrint sequence of typical commands used in \
+the beginning of notebook\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"PrintDefaultHeader", "[", "]"}], ":=", 
+   RowBox[{"NotebookWrite", "[", 
+    RowBox[{
+     RowBox[{"InputNotebook", "[", "]"}], ",", 
+     RowBox[{"{", "\n", 
+      RowBox[{
+       RowBox[{"Cell", "[", 
+        RowBox[{"CellGroupData", "[", 
+         RowBox[{
+          RowBox[{"{", "\n", 
+           RowBox[{
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Header\>\"", ",", " ", "\"\<Section\>\""}], "]"}], 
+            ",", "\n", "\n", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", "\n", " ", 
+               RowBox[{"RowBox", "[", 
+                RowBox[{"{", 
+                 RowBox[{
+                 "\"\<SetDirectory\>\"", ",", " ", "\"\<[\>\"", ",", " ", 
+                  "\n", "  ", 
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    "\"\<NotebookDirectory\>\"", ",", " ", "\"\<[\>\"", ",", 
+                    " ", "\"\<]\>\""}], "}"}], "]"}], ",", " ", "\"\<]\>\""}],
+                  "}"}], "]"}], "]"}], ",", " ", "\"\<Input\>\""}], "]"}], 
+            ",", "\n", "\n", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", "\n", " ", 
+               RowBox[{"RowBox", "[", 
+                RowBox[{"{", "\n", "  ", 
+                 RowBox[{
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    "\"\<Get\>\"", ",", " ", "\"\<[\>\"", ",", " ", 
+                    "\"\<\\\"\\<savedWorkspace.wdx\\>\\\"\>\"", ",", " ", 
+                    "\"\<]\>\""}], "}"}], "]"}], ",", " ", "\n", "  ", 
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{"\"\<(*\>\"", ",", " ", "\n", "   ", 
+                    RowBox[{"RowBox", "[", 
+                    RowBox[{"{", "\n", "   ", 
+                    RowBox[{
+                    "\"\<load\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<definitions\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<of\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<variables\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\n", "    ", "\"\<from\>\"", ",", " ", "\"\< \>\"", ",", 
+                    " ", "\"\<file\>\""}], "}"}], "]"}], ",", " ", 
+                    "\"\<*)\>\""}], "}"}], "]"}], ",", " ", "\"\<;\>\""}], 
+                 "}"}], "]"}], "]"}], ",", " ", "\"\<Input\>\""}], "]"}], ",",
+             "\n", "\n", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", "\n", " ", 
+               RowBox[{"RowBox", "[", 
+                RowBox[{"{", "\n", "  ", 
+                 RowBox[{
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    "\"\<DumpSave\>\"", ",", " ", "\"\<[\>\"", ",", " ", "\n",
+                     "   ", 
+                    RowBox[{"RowBox", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<\\\"\\<savedWorkspace.wdx\\>\\\"\>\"", ",", " ", 
+                    "\"\<,\>\"", ",", " ", "\"\<\\\"\\<Global`\\>\\\"\>\""}], 
+                    "}"}], "]"}], ",", " ", "\n", "   ", "\"\<]\>\""}], "}"}],
+                    "]"}], ",", " ", "\n", "  ", 
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{"\"\<(*\>\"", ",", " ", "\n", "   ", 
+                    RowBox[{"RowBox", "[", 
+                    RowBox[{"{", "\n", "   ", 
+                    RowBox[{
+                    "\"\<save\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<all\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<the\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<definitions\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<of\>\"", ",", " ", "\"\< \>\"", ",", "\n", "     ", 
+                    "\"\<variables\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<to\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<a\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<file\>\""}], "}"}], "]"}], ",", " ", "\"\<*)\>\""}], 
+                    "}"}], "]"}], ",", " ", "\n", "  ", "\"\<;\>\""}], "}"}], 
+                "]"}], "]"}], ",", " ", "\"\<Input\>\""}], "]"}], ",", "\n", 
+            "\n", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", "\n", " ", 
+               RowBox[{"RowBox", "[", 
+                RowBox[{"{", "\n", "  ", 
+                 RowBox[{
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    "\"\<CreateCellIDs\>\"", ",", " ", "\"\<[\>\"", ",", " ", 
+                    "\"\<]\>\""}], "}"}], "]"}], ",", " ", "\n", "  ", 
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{"\"\<(*\>\"", ",", " ", "\n", "   ", 
+                    RowBox[{"RowBox", "[", 
+                    RowBox[{"{", "\n", "   ", 
+                    RowBox[{
+                    "\"\<assign\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<IDs\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<to\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<notebook\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<cells\>\"", ",", " ", "\n", "    ", "\"\< \>\"", ",",
+                     " ", "\"\<for\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<use\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<with\>\"", ",", " ", "\"\< \>\"", ",", " ", 
+                    "\"\<ReEvaluateCells\>\""}], "}"}], "]"}], ",", " ", "\n",
+                     "   ", "\"\<*)\>\""}], "}"}], "]"}], ",", " ", 
+                  "\"\<;\>\""}], "}"}], "]"}], "]"}], ",", " ", 
+              "\"\<Input\>\""}], "]"}], ",", "\n", "\n", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", "\n", " ", 
+               RowBox[{"RowBox", "[", 
+                RowBox[{"{", "\n", "  ", 
+                 RowBox[{
+                  RowBox[{"RowBox", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    "\"\<ramMonitoringTask\>\"", ",", " ", "\"\<=\>\"", ",", 
+                    " ", "\n", "   ", 
+                    RowBox[{"RowBox", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "\"\<SetRamRestriction\>\"", ",", " ", "\"\<[\>\"", ",", 
+                    " ", "\"\<]\>\""}], "}"}], "]"}]}], "}"}], "]"}], ",", 
+                  " ", "\"\<;\>\""}], "}"}], "]"}], "]"}], ",", " ", 
+              "\"\<Input\>\""}], "]"}]}], "\n", "}"}], ",", " ", "Open"}], 
+         "  ", "]"}], "]"}], ",", "\n", "\n", 
+       RowBox[{"Cell", "[", 
+        RowBox[{"\"\<Workspace\>\"", ",", " ", "\"\<Section\>\""}], "]"}]}], 
+      "\n", "}"}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.738225172204089*^9, 3.7382251746509247`*^9}, {
+   3.738225459633831*^9, 3.738225572752694*^9}, {3.7382256320602255`*^9, 
+   3.7382256596810694`*^9}, {3.738225900315097*^9, 3.738226001026579*^9}, {
+   3.7382260398808165`*^9, 3.7382260429344006`*^9}, 3.738226173456236*^9, {
+   3.7382262083779893`*^9, 3.7382262124846473`*^9}, {3.7382262828521256`*^9, 
+   3.7382262907793045`*^9}, {3.7382263243212733`*^9, 
+   3.7382263532776723`*^9}, {3.7382268279781733`*^9, 
+   3.7382268296473246`*^9}, {3.7382268752884707`*^9, 3.738226895609139*^9}, {
+   3.7382269326258106`*^9, 3.738226937479662*^9}, {3.7382269779332976`*^9, 
+   3.7382270170622663`*^9}, {3.7382270597685857`*^9, 3.738227101678228*^9}, {
+   3.73822713265335*^9, 3.7382271563875*^9}, 3.738227975625029*^9, {
+   3.7382281773475323`*^9, 3.738228208037817*^9}, {3.7382282797345495`*^9, 
+   3.738228283460053*^9}, {3.7382283667319946`*^9, 3.7382283737059917`*^9}, 
+   3.7382284102191105`*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -317,7 +539,7 @@ correspondingly.\>\""}], "\n"}], "\n",
  CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
   3.7345477632606993`*^9, 3.734547822165815*^9}, {3.737779262075577*^9, 
   3.737779278980308*^9}, {3.738216976139803*^9, 3.7382169868608627`*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -2663,8 +2885,8 @@ options of InRangeQ\>\""}], "\n"}], "\n",
 }, Closed]]
 },
 AutoGeneratedPackage->Automatic,
-WindowSize->{1282, 772},
-WindowMargins->{{Automatic, 8}, {Automatic, 15}},
+WindowSize->{1301, 772},
+WindowMargins->{{Automatic, 69}, {Automatic, 9}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2683,68 +2905,73 @@ Cell[558, 20, 618, 15, 50, "Input",
  CellID->484687852],
 Cell[1179, 37, 771, 21, 69, "Code"],
 Cell[CellGroupData[{
-Cell[1975, 62, 159, 2, 70, "Section"],
-Cell[2137, 66, 832, 20, 159, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[3006, 91, 116, 1, 56, "Section"],
-Cell[3125, 94, 1291, 36, 142, "Code"],
-Cell[4419, 132, 620, 16, 87, "Code"],
-Cell[5042, 150, 992, 17, 196, "Code"],
-Cell[6037, 169, 1492, 36, 141, "Code"],
-Cell[7532, 207, 1007, 27, 123, "Code",
- InitializationCell->True],
-Cell[8542, 236, 3310, 82, 501, "Code"]
+Cell[1975, 62, 149, 2, 70, "Section"],
+Cell[2127, 66, 2088, 44, 357, "Code"],
+Cell[4218, 112, 8397, 167, 951, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[11889, 323, 126, 1, 70, "Section"],
-Cell[CellGroupData[{
-Cell[12040, 328, 121, 1, 49, "Subsection"],
-Cell[12164, 331, 626, 16, 69, "Code"],
-Cell[12793, 349, 4186, 136, 285, "Code"]
+Cell[12652, 284, 159, 2, 70, "Section"],
+Cell[12814, 288, 832, 20, 159, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[17016, 490, 124, 1, 41, "Subsection"],
-Cell[17143, 493, 13303, 331, 1419, "Code"]
+Cell[13683, 313, 116, 1, 56, "Section"],
+Cell[13802, 316, 1291, 36, 142, "Code"],
+Cell[15096, 354, 620, 16, 87, "Code"],
+Cell[15719, 372, 992, 17, 196, "Code"],
+Cell[16714, 391, 1492, 36, 141, "Code"],
+Cell[18209, 429, 1007, 27, 123, "Code",
+ InitializationCell->True],
+Cell[19219, 458, 3310, 82, 501, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[30483, 829, 170, 2, 41, "Subsection"],
-Cell[30656, 833, 1793, 48, 267, "Code"],
-Cell[32452, 883, 3849, 101, 519, "Code"],
-Cell[36304, 986, 2700, 68, 537, "Code"],
-Cell[39007, 1056, 1817, 47, 285, "Code"]
+Cell[22566, 545, 126, 1, 56, "Section"],
+Cell[CellGroupData[{
+Cell[22717, 550, 121, 1, 49, "Subsection"],
+Cell[22841, 553, 626, 16, 69, "Code"],
+Cell[23470, 571, 4186, 136, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[40861, 1108, 102, 1, 41, "Subsection"],
-Cell[40966, 1111, 3706, 88, 466, "Code"],
-Cell[44675, 1201, 7842, 204, 609, "Code"]
+Cell[27693, 712, 124, 1, 41, "Subsection"],
+Cell[27820, 715, 13303, 331, 1419, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[52554, 1410, 99, 1, 41, "Subsection"],
-Cell[52656, 1413, 6881, 155, 519, "Code"]
+Cell[41160, 1051, 170, 2, 41, "Subsection"],
+Cell[41333, 1055, 1793, 48, 267, "Code"],
+Cell[43129, 1105, 3849, 101, 519, "Code"],
+Cell[46981, 1208, 2700, 68, 537, "Code"],
+Cell[49684, 1278, 1817, 47, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[59574, 1573, 93, 1, 41, "Subsection"],
-Cell[59670, 1576, 790, 22, 123, "Code"]
+Cell[51538, 1330, 102, 1, 41, "Subsection"],
+Cell[51643, 1333, 3706, 88, 466, "Code"],
+Cell[55352, 1423, 7842, 204, 609, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[63231, 1632, 99, 1, 41, "Subsection"],
+Cell[63333, 1635, 6881, 155, 519, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[70251, 1795, 93, 1, 41, "Subsection"],
+Cell[70347, 1798, 790, 22, 123, "Code"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[60509, 1604, 113, 1, 70, "Section"],
-Cell[60625, 1607, 455, 13, 50, "Code"],
-Cell[61083, 1622, 1458, 41, 105, "Code"],
-Cell[62544, 1665, 600, 14, 87, "Code"]
+Cell[71186, 1826, 113, 1, 70, "Section"],
+Cell[71302, 1829, 455, 13, 50, "Code"],
+Cell[71760, 1844, 1458, 41, 105, "Code"],
+Cell[73221, 1887, 600, 14, 87, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[63181, 1684, 96, 1, 56, "Section"],
-Cell[63280, 1687, 1941, 50, 231, "Code"],
-Cell[65224, 1739, 10689, 255, 1077, "Code"],
-Cell[75916, 1996, 10519, 244, 1096, "Code"],
-Cell[86438, 2242, 7981, 187, 933, "Code"]
+Cell[73858, 1906, 96, 1, 56, "Section"],
+Cell[73957, 1909, 1941, 50, 231, "Code"],
+Cell[75901, 1961, 10689, 255, 1077, "Code"],
+Cell[86593, 2218, 10519, 244, 1096, "Code"],
+Cell[97115, 2464, 7981, 187, 933, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[94456, 2434, 40, 0, 56, "Section"],
-Cell[94499, 2436, 7018, 160, 897, "Code"],
-Cell[101520, 2598, 2397, 63, 285, "Code"]
+Cell[105133, 2656, 40, 0, 56, "Section"],
+Cell[105176, 2658, 7018, 160, 897, "Code"],
+Cell[112197, 2820, 2397, 63, 285, "Code"]
 }, Closed]]
 }
 ]

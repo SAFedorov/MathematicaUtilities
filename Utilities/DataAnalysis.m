@@ -23,6 +23,79 @@
 System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 
 
+SetRamRestriction::usage = "SetRamRestriction[maxMemAllowedGB_:2,intervalBetweenTests_:5]
+	Run a task that checks every intervalBetweenTests the amount of memory used by Mathematica kernel and aborts it if the limit is exceeded. 
+	The function is used to prevent unlimited memory allocation by Mathematica that arises with certain programming mistakes when processing 
+	large amounts of data and irreversibly hangs the entire computer.
+	The function uses global variable ramBelowThresholdSignal as counter.
+
+Output:
+	ScheduledTaskObject which can be used stop the memory monitoring by RemoveScheduledTask[]"
+
+Begin["`Privite`"]
+
+SetRamRestriction[maxMemAllowedGB_:2,intervalBetweenTests_:5]:=(
+	ramBelowThresholdSignal=0;
+	Print[Dynamic[ramBelowThresholdSignal]];
+	RunScheduledTask[If[MemoryInUse[]>(maxMemAllowedGB 1024^3),Quit[],ramBelowThresholdSignal++],intervalBetweenTests]
+)
+
+End[]
+
+
+PrintDefaultHeader::usage = "PrintDefaultHeader[]
+	Print sequence of typical commands used in the beginning of notebook"
+
+Begin["`Privite`"]
+
+PrintDefaultHeader[]:=NotebookWrite[InputNotebook[],{
+Cell[CellGroupData[{
+Cell["Header", "Section"],
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<savedWorkspace.wdx\>\"", "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+   "load", " ", "definitions", " ", "of", " ", "variables", " ", 
+    "from", " ", "file"}], "*)"}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DumpSave", "[", 
+   RowBox[{"\"\<savedWorkspace.wdx\>\"", ",", "\"\<Global`\>\""}], 
+   "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+   "save", " ", "all", " ", "the", " ", "definitions", " ", "of", " ",
+     "variables", " ", "to", " ", "a", " ", "file"}], "*)"}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"CreateCellIDs", "[", "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+   "assign", " ", "IDs", " ", "to", " ", "notebook", " ", "cells", 
+    " ", "for", " ", "use", " ", "with", " ", "ReEvaluateCells"}], 
+   "*)"}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ramMonitoringTask", "=", 
+   RowBox[{"SetRamRestriction", "[", "]"}]}], ";"}]], "Input"]
+}, Open  ]],
+
+Cell["Workspace", "Section"]
+}]
+
+End[]
+
+
 compilationOptionsC::"Settings for Compile that result in ultimate speedup of the compiled code. Use C code as targer and thus require a C compiler installed."
 
 compilationOptionsC=Sequence[
