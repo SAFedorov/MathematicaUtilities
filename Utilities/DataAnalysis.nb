@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    103405,       2660]
-NotebookOptionsPosition[    101190,       2585]
-NotebookOutlinePosition[    101565,       2601]
-CellTagsIndexPosition[    101522,       2598]
+NotebookDataLength[    106309,       2744]
+NotebookOptionsPosition[    103933,       2664]
+NotebookOutlinePosition[    104308,       2680]
+CellTagsIndexPosition[    104265,       2677]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1052,7 +1052,56 @@ of the interval\>\""}], "\n", "\t"}], "\n",
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.73459058125589*^9, 3.73459058446517*^9}, {
   3.7345936355260553`*^9, 3.734593716937027*^9}, {3.737778558615197*^9, 
-  3.7377785659995627`*^9}}]
+  3.7377785659995627`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"AverageXYLists", "::", "usage"}], "=", 
+   "\"\<AverageXYLists[xylistd2_]\n\tComputes average of y values for a set \
+of xylists. Lists are aligned by the first element and trimmed to the minimum \
+length among them. \n\t\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"AverageXYLists", "[", "xylists_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"nMin", ",", "nLists", ",", "ylist"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"nMin", "=", 
+       RowBox[{"Min", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{"Length", ",", "xylists"}], "]"}], "]"}]}], 
+      RowBox[{"(*", 
+       RowBox[{"find", " ", "minimum", " ", "trace", " ", "length"}], "*)"}], 
+      ";", "\n", "\t", 
+      RowBox[{"nLists", "=", 
+       RowBox[{"Length", "[", "xylists", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"ylist", "=", 
+       RowBox[{
+        RowBox[{"Total", "[", 
+         RowBox[{
+          RowBox[{"xylists", "[", 
+           RowBox[{"[", 
+            RowBox[{";;", ",", 
+             RowBox[{";;", "nMin"}], ",", "2"}], "]"}], "]"}], ",", 
+          RowBox[{"{", "1", "}"}]}], "]"}], "/", "nLists"}]}], ";", "\n", 
+      "\t", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"xylists", "[", 
+          RowBox[{"[", 
+           RowBox[{"1", ",", 
+            RowBox[{";;", "nMin"}], ",", "1"}], "]"}], "]"}], ",", "ylist"}], 
+        "}"}], "]"}]}]}], "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.7382235584295545`*^9, 3.738223598279683*^9}, {
+  3.7382236317359543`*^9, 3.738223787032261*^9}, {3.7382238948738074`*^9, 
+  3.7382239421779785`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -1518,6 +1567,36 @@ values.\n\nInput:\n\txylist\n\tintRange - integration range specified as \
    3.738222342151638*^9, 3.7382223753385153`*^9}, {3.738222442702842*^9, 
    3.738222528809622*^9}, {3.7382226562457914`*^9, 3.7382227444719963`*^9}, {
    3.738222833688799*^9, 3.7382228622538753`*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Misc", "Subsection",
+ CellChangeTimes->{{3.73822399315635*^9, 3.7382239937164207`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"ReflectX", "::", "usage"}], " ", "=", " ", 
+   "\"\<ReflectX[xylist_,x0_] reflects the x values of xylist with respect to \
+x0\>\""}], "\n"}], "\n", 
+ RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"ReflectX", "[", 
+   RowBox[{"xylist_", ",", "x0_"}], "]"}], ":=", 
+  RowBox[{"Transpose", "[", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"2", "x0"}], "-", 
+      RowBox[{"xylist", "[", 
+       RowBox[{"[", 
+        RowBox[{";;", ",", "1"}], "]"}], "]"}]}], ",", 
+     RowBox[{"xylist", "[", 
+      RowBox[{"[", 
+       RowBox[{";;", ",", "2"}], "]"}], "]"}]}], "}"}], "]"}]}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.7382240090955963`*^9, 3.7382240843475494`*^9}}]
 }, Open  ]]
 }, Open  ]],
 
@@ -2632,35 +2711,40 @@ Cell[CellGroupData[{
 Cell[30483, 829, 170, 2, 41, "Subsection"],
 Cell[30656, 833, 1793, 48, 267, "Code"],
 Cell[32452, 883, 3849, 101, 519, "Code"],
-Cell[36304, 986, 2700, 68, 537, "Code"]
+Cell[36304, 986, 2700, 68, 537, "Code"],
+Cell[39007, 1056, 1817, 47, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[39041, 1059, 102, 1, 41, "Subsection"],
-Cell[39146, 1062, 3706, 88, 466, "Code"],
-Cell[42855, 1152, 7842, 204, 609, "Code"]
+Cell[40861, 1108, 102, 1, 41, "Subsection"],
+Cell[40966, 1111, 3706, 88, 466, "Code"],
+Cell[44675, 1201, 7842, 204, 609, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[50734, 1361, 99, 1, 41, "Subsection"],
-Cell[50836, 1364, 6881, 155, 519, "Code"]
+Cell[52554, 1410, 99, 1, 41, "Subsection"],
+Cell[52656, 1413, 6881, 155, 519, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[59574, 1573, 93, 1, 41, "Subsection"],
+Cell[59670, 1576, 790, 22, 123, "Code"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[57766, 1525, 113, 1, 70, "Section"],
-Cell[57882, 1528, 455, 13, 50, "Code"],
-Cell[58340, 1543, 1458, 41, 105, "Code"],
-Cell[59801, 1586, 600, 14, 87, "Code"]
+Cell[60509, 1604, 113, 1, 70, "Section"],
+Cell[60625, 1607, 455, 13, 50, "Code"],
+Cell[61083, 1622, 1458, 41, 105, "Code"],
+Cell[62544, 1665, 600, 14, 87, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[60438, 1605, 96, 1, 56, "Section"],
-Cell[60537, 1608, 1941, 50, 231, "Code"],
-Cell[62481, 1660, 10689, 255, 1077, "Code"],
-Cell[73173, 1917, 10519, 244, 1096, "Code"],
-Cell[83695, 2163, 7981, 187, 933, "Code"]
+Cell[63181, 1684, 96, 1, 56, "Section"],
+Cell[63280, 1687, 1941, 50, 231, "Code"],
+Cell[65224, 1739, 10689, 255, 1077, "Code"],
+Cell[75916, 1996, 10519, 244, 1096, "Code"],
+Cell[86438, 2242, 7981, 187, 933, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[91713, 2355, 40, 0, 56, "Section"],
-Cell[91756, 2357, 7018, 160, 897, "Code"],
-Cell[98777, 2519, 2397, 63, 285, "Code"]
+Cell[94456, 2434, 40, 0, 56, "Section"],
+Cell[94499, 2436, 7018, 160, 897, "Code"],
+Cell[101520, 2598, 2397, 63, 285, "Code"]
 }, Closed]]
 }
 ]

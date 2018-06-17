@@ -272,6 +272,22 @@ Which[
 End[]
 
 
+AverageXYLists::usage="AverageXYLists[xylistd2_]
+	Computes average of y values for a set of xylists. Lists are aligned by the first element and trimmed to the minimum length among them. 
+	"
+
+Begin["`Private`"]
+
+AverageXYLists[xylists_]:=Module[{nMin,nLists,ylist},
+	nMin=Min[Map[Length,xylists]](*find minimum trace length*);
+	nLists=Length[xylists];
+	ylist=Total[xylists[[;;,;;nMin,2]],{1}]/nLists;
+	Transpose[{xylists[[1,;;nMin,1]],ylist}]
+]
+
+End[]
+
+
 FindPeaksXY::usage="FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]
 	Analog of FindPeaks that acts on xylists.
 
@@ -358,6 +374,13 @@ IntegrateXY[xylist_?XYListQ, intRange_Interval, opts:OptionsPattern[]]:=Sum[Inte
 (*Integration range specified as {{Subscript[x, min1], Subscript[x, max1]}, {Subscript[x, min2], Subscript[x, max2]}} (in fact identical to the case of Interval)*)
 IntegrateXY[xylist_?XYListQ, intRange_?XYListQ, opts:OptionsPattern[]]:=Sum[IntegrateXY[xylist,intRange[[i]],opts],{i,Length[intRange]}]
 
+End[]
+
+
+ReflectX::usage = "ReflectX[xylist_,x0_] reflects the x values of xylist with respect to x0"
+
+Begin["`Privite`"]
+ReflectX[xylist_,x0_]:=Transpose[ {2x0-xylist[[;;,1]],xylist[[;;,2]]}]
 End[]
 
 
