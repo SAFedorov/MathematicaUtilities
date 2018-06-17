@@ -96,7 +96,7 @@ Cell["Workspace", "Section"]
 End[]
 
 
-compilationOptionsC::"Settings for Compile that result in ultimate speedup of the compiled code. Use C code as targer and thus require a C compiler installed."
+compilationOptionsC::usage="Settings for Compile[] that are aimed for ultimate speedup of the compiled code. Use C code as target requires a C compiler to be installed on computer."
 
 compilationOptionsC=Sequence[
 	CompilationTarget->"C",
@@ -146,7 +146,7 @@ XYZListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYZListQ,d-1]
 
 
 InRangeQ::usage="InRangeQ[x_, range_, IncludeBoundary\[Rule]True]
-	Check if x_ belongs to the interval range_={\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}.
+	Check if x belongs to the interval range={\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}.
 
 Options:
 	IncludeBoundary\[Rule]True - regulate if the boundary points are included in the interval. 
@@ -369,15 +369,16 @@ Output:
 
 Options:
 	Those of standard FindPeaks plus
-	sign\[Rule]1, determining if look for peaks (1) or valleys (-1)"
+	PeakSign\[Rule]1, determining if look for peaks (1) or valleys (-1)"
 
-Options[FindPeaksXY]=Join[Options[FindPeaks],{sign->1}]
+Options[FindPeaksXY]=Join[Options[FindPeaks],{PeakSign->1}]
 
 Begin["`Privite`"]
 
 FindPeaksXY[xylist_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[]]:=
-Module[{peakIndexList,peakValList,xInterp},
-	{peakIndexList,peakValList}=Transpose[FindPeaks[Sign[OptionValue[sign]]*xylist[[;;,2]],\[Sigma],s,t]];
+Module[{peakIndexList,peakValList,xInterp,peakSign},
+	peakSign=Sign[OptionValue[PeakSign]];
+	{peakIndexList,peakValList}=Transpose[FindPeaks[peakSign*xylist[[;;,2]],\[Sigma],s,t]];
 	(*InterpolationOrder is an option of basic FindPeaks, so it also can be used to find x values*)
 	xInterp=Interpolation[xylist[[;;,1]],InterpolationOrder->OptionValue[InterpolationOrder]];
 
@@ -388,15 +389,15 @@ End[]
 
 
 FindPeakCenter::usage="FindPeakCenter[xylist_]
-	find x-position of the center of mass of xylist_ using linear data interpolation over x"
+	find x-position of the center of mass of xylist using linear data interpolation over x"
 
 Begin["`Private`"]
 
-FindPeakCenter[XYData_,OptionsPattern[sign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
+FindPeakCenter[XYData_,OptionsPattern[PeakSign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
 dim=Depth[XYData];
 Which[
 dim==3 (*single XY trace*),
-offset=If[Sign[OptionValue[sign]]>=0,Min[XYData[[;;,2]]],Max[XYData[[;;,2]]]];
+offset=If[Sign[OptionValue[PeakSign]]>=0,Min[XYData[[;;,2]]],Max[XYData[[;;,2]]]];
 YIntegralList=Accumulate[XYData[[;;,2]]-offset];
 YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
 
@@ -407,7 +408,7 @@ YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationO
 ,
 dim==4 (*list of XY traces*),
 Table[
-offset=If[Sign[OptionValue[sign]]>=0,Min[y[[;;,2]]],Max[y[[;;,2]]]];
+offset=If[Sign[OptionValue[PeakSign]]>=0,Min[y[[;;,2]]],Max[y[[;;,2]]]];
 YIntegralList=Accumulate[y[[;;,2]]-offset];
 YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
 
@@ -426,7 +427,10 @@ IntegrateXY::usage = "IntegrateXY[xylist_, intRange_]
 
 Input:
 	xylist
-	intRange - integration range specified as {\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}, {{\!\(\*SubscriptBox[\(x\), \(min1\)]\), \!\(\*SubscriptBox[\(x\), \(max1\)]\)}, {\!\(\*SubscriptBox[\(x\), \(min2\)]\), \!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object 
+	intRange - integration range specified as {\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}, {{\!\(\*SubscriptBox[\(x\), \(min1\)]\), \!\(\*SubscriptBox[\(x\), \(max1\)]\)}, {\!\(\*SubscriptBox[\(x\), \(min2\)]\), \!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object
+
+Options:
+	Options of Interpolation[] 
 "
 
 Options[IntegrateXY]=Options[Interpolation]

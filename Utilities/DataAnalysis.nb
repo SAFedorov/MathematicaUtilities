@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    117157,       2971]
-NotebookOptionsPosition[    114610,       2886]
-NotebookOutlinePosition[    114985,       2902]
-CellTagsIndexPosition[    114942,       2899]
+NotebookDataLength[    117720,       2980]
+NotebookOptionsPosition[    115172,       2895]
+NotebookOutlinePosition[    115548,       2911]
+CellTagsIndexPosition[    115505,       2908]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -278,7 +278,7 @@ the beginning of notebook\>\""}], "\n"}], "\n",
    3.7382281773475323`*^9, 3.738228208037817*^9}, {3.7382282797345495`*^9, 
    3.738228283460053*^9}, {3.7382283667319946`*^9, 3.7382283737059917`*^9}, 
    3.7382284102191105`*^9}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -289,10 +289,10 @@ Cell["Sequences of settings", "Section",
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-  "compilationOptionsC", "::", 
-   "\"\<Settings for Compile that result in ultimate speedup of the compiled \
-code. Use C code as targer and thus require a C compiler installed.\>\""}], 
-  "\n"}], "\n", 
+   RowBox[{"compilationOptionsC", "::", "usage"}], "=", 
+   "\"\<Settings for Compile[] that are aimed for ultimate speedup of the \
+compiled code. Use C code as target requires a C compiler to be installed on \
+computer.\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"compilationOptionsC", "=", 
    RowBox[{"Sequence", "[", "\n", "\t", 
@@ -306,7 +306,8 @@ code. Use C code as targer and thus require a C compiler installed.\>\""}],
       RowBox[{"{", 
        RowBox[{"\"\<EvaluateSymbolically\>\"", "->", "False"}], "}"}]}]}], 
     "\n", "]"}]}], ";"}]}], "Code",
- CellChangeTimes->{{3.7345940329071417`*^9, 3.734594270299597*^9}}]
+ CellChangeTimes->{{3.7345940329071417`*^9, 3.734594270299597*^9}, {
+  3.738248629308561*^9, 3.7382487177896895`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -460,8 +461,8 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"InRangeQ", "::", "usage"}], "=", 
-   "\"\<InRangeQ[x_, range_, IncludeBoundary\[Rule]True]\n\tCheck if x_ \
-belongs to the interval range_={\!\(\*SubscriptBox[\(x\), \(min\)]\), \
+   "\"\<InRangeQ[x_, range_, IncludeBoundary\[Rule]True]\n\tCheck if x \
+belongs to the interval range={\!\(\*SubscriptBox[\(x\), \(min\)]\), \
 \!\(\*SubscriptBox[\(x\), \(max\)]\)}.\n\nOptions:\n\t\
 IncludeBoundary\[Rule]True - regulate if the boundary points are included in \
 the interval. \n\tThe option can be a single logical value or a list of 2 \
@@ -538,7 +539,8 @@ correspondingly.\>\""}], "\n"}], "\n",
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
   3.7345477632606993`*^9, 3.734547822165815*^9}, {3.737779262075577*^9, 
-  3.737779278980308*^9}, {3.738216976139803*^9, 3.7382169868608627`*^9}}]
+  3.737779278980308*^9}, {3.738216976139803*^9, 3.7382169868608627`*^9}, {
+  3.7382487502828455`*^9, 3.7382487526227818`*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -1338,8 +1340,9 @@ Cell[BoxData[{
    "\"\<FindPeaksXY[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]\n\tAnalog of \
 FindPeaks that acts on xylists.\n\nOutput:\n\tPeak x position and y values {{\
 \!\(\*SubscriptBox[\(x\), \(peak, i\)]\), \!\(\*SubscriptBox[\(y\), \(peak, i\
-\)]\)},...}\n\nOptions:\n\tThose of standard FindPeaks plus\n\tsign\[Rule]1, \
-determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n", 
+\)]\)},...}\n\nOptions:\n\tThose of standard FindPeaks plus\n\t\
+PeakSign\[Rule]1, determining if look for peaks (1) or valleys (-1)\>\""}], 
+  "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"Options", "[", "FindPeaksXY", "]"}], "=", 
@@ -1347,7 +1350,7 @@ determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n",
     RowBox[{
      RowBox[{"Options", "[", "FindPeaks", "]"}], ",", 
      RowBox[{"{", 
-      RowBox[{"sign", "\[Rule]", "1"}], "}"}]}], "]"}]}], "\n"}], "\n", 
+      RowBox[{"PeakSign", "\[Rule]", "1"}], "}"}]}], "]"}]}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -1370,18 +1373,21 @@ determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n",
     RowBox[{"Module", "[", 
      RowBox[{
       RowBox[{"{", 
-       RowBox[{"peakIndexList", ",", "peakValList", ",", "xInterp"}], "}"}], 
-      ",", "\n", "\t", 
+       RowBox[{
+       "peakIndexList", ",", "peakValList", ",", "xInterp", ",", "peakSign"}],
+        "}"}], ",", "\n", "\t", 
       RowBox[{
+       RowBox[{"peakSign", "=", 
+        RowBox[{"Sign", "[", 
+         RowBox[{"OptionValue", "[", "PeakSign", "]"}], "]"}]}], ";", "\n", 
+       "\t", 
        RowBox[{
         RowBox[{"{", 
          RowBox[{"peakIndexList", ",", "peakValList"}], "}"}], "=", 
         RowBox[{"Transpose", "[", 
          RowBox[{"FindPeaks", "[", 
           RowBox[{
-           RowBox[{
-            RowBox[{"Sign", "[", 
-             RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], "*", 
+           RowBox[{"peakSign", "\[Times]", 
             RowBox[{"xylist", "[", 
              RowBox[{"[", 
               RowBox[{";;", ",", "2"}], "]"}], "]"}]}], ",", "\[Sigma]", ",", 
@@ -1419,14 +1425,15 @@ determining if look for peaks (1) or valleys (-1)\>\""}], "\n"}], "\n",
    3.734598807719303*^9, 3.734598811005452*^9}, {3.7345989746188*^9, 
    3.734599032344412*^9}, {3.7345993711855645`*^9, 3.7345994204271917`*^9}, {
    3.737778590449899*^9, 3.7377785940613394`*^9}, {3.737779365576934*^9, 
-   3.737779374716672*^9}}],
+   3.737779374716672*^9}, {3.738248831624709*^9, 3.73824883529587*^9}, {
+   3.7382488712346983`*^9, 3.7382489588241377`*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"FindPeakCenter", "::", "usage"}], "=", 
    "\"\<FindPeakCenter[xylist_]\n\tfind x-position of the center of mass of \
-xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n", 
+xylist using linear data interpolation over x\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -1434,7 +1441,7 @@ xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n",
    RowBox[{"FindPeakCenter", "[", 
     RowBox[{"XYData_", ",", 
      RowBox[{"OptionsPattern", "[", 
-      RowBox[{"sign", "->", " ", "1"}], "]"}]}], "]"}], ":=", 
+      RowBox[{"PeakSign", "->", " ", "1"}], "]"}]}], "]"}], ":=", 
    RowBox[{"Module", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -1455,8 +1462,8 @@ xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n",
            RowBox[{
             RowBox[{
              RowBox[{"Sign", "[", 
-              RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}], 
-            ",", 
+              RowBox[{"OptionValue", "[", "PeakSign", "]"}], "]"}], ">=", 
+             "0"}], ",", 
             RowBox[{"Min", "[", 
              RowBox[{"XYData", "[", 
               RowBox[{"[", 
@@ -1542,8 +1549,8 @@ xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n",
              RowBox[{
               RowBox[{
                RowBox[{"Sign", "[", 
-                RowBox[{"OptionValue", "[", "sign", "]"}], "]"}], ">=", "0"}],
-               ",", 
+                RowBox[{"OptionValue", "[", "PeakSign", "]"}], "]"}], ">=", 
+               "0"}], ",", 
               RowBox[{"Min", "[", 
                RowBox[{"y", "[", 
                 RowBox[{"[", 
@@ -1623,10 +1630,11 @@ xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n",
     "\n", "]"}]}], "\n"}], "\n", 
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.73459062376963*^9, 3.7345906263393307`*^9}, {
-  3.734600618874716*^9, 3.73460065928522*^9}, {3.7377768552476034`*^9, 
-  3.7377768768528147`*^9}, {3.7377771448419437`*^9, 3.73777714834396*^9}, {
-  3.7377772697897663`*^9, 3.737777272274147*^9}}]
-}, Closed]],
+   3.734600618874716*^9, 3.73460065928522*^9}, {3.7377768552476034`*^9, 
+   3.7377768768528147`*^9}, {3.7377771448419437`*^9, 3.73777714834396*^9}, {
+   3.7377772697897663`*^9, 3.737777272274147*^9}, 3.7382489463988695`*^9, 
+   3.7382489882716208`*^9, {3.738249257120103*^9, 3.7382492633063755`*^9}}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1644,8 +1652,8 @@ values.\n\nInput:\n\txylist\n\tintRange - integration range specified as \
 {\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}, \
 {{\!\(\*SubscriptBox[\(x\), \(min1\)]\), \!\(\*SubscriptBox[\(x\), \
 \(max1\)]\)}, {\!\(\*SubscriptBox[\(x\), \(min2\)]\), \
-\!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object \n\>\""}], 
-  "\n"}], "\n", 
+\!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object\n\nOptions:\n\t\
+Options of Interpolation[] \n\>\""}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"Options", "[", "IntegrateXY", "]"}], "=", 
@@ -1788,7 +1796,8 @@ values.\n\nInput:\n\txylist\n\tintRange - integration range specified as \
    3.7382217953638053`*^9, {3.738221859905034*^9, 3.7382218889188285`*^9}, {
    3.738222342151638*^9, 3.7382223753385153`*^9}, {3.738222442702842*^9, 
    3.738222528809622*^9}, {3.7382226562457914`*^9, 3.7382227444719963`*^9}, {
-   3.738222833688799*^9, 3.7382228622538753`*^9}}]
+   3.738222833688799*^9, 3.7382228622538753`*^9}, {3.7382491096527476`*^9, 
+   3.738249159621318*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -1819,7 +1828,7 @@ x0\>\""}], "\n"}], "\n",
        RowBox[{";;", ",", "2"}], "]"}], "]"}]}], "}"}], "]"}]}], "\n", 
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7382240090955963`*^9, 3.7382240843475494`*^9}}]
-}, Open  ]]
+}, Closed]]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2885,8 +2894,8 @@ options of InRangeQ\>\""}], "\n"}], "\n",
 }, Closed]]
 },
 AutoGeneratedPackage->Automatic,
-WindowSize->{1301, 772},
-WindowMargins->{{Automatic, 69}, {Automatic, 9}},
+WindowSize->{1372, 772},
+WindowMargins->{{45, Automatic}, {Automatic, 15}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2908,70 +2917,70 @@ Cell[CellGroupData[{
 Cell[1975, 62, 149, 2, 70, "Section"],
 Cell[2127, 66, 2088, 44, 357, "Code"],
 Cell[4218, 112, 8397, 167, 951, "Code"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[12652, 284, 159, 2, 70, "Section"],
-Cell[12814, 288, 832, 20, 159, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[13683, 313, 116, 1, 56, "Section"],
-Cell[13802, 316, 1291, 36, 142, "Code"],
-Cell[15096, 354, 620, 16, 87, "Code"],
-Cell[15719, 372, 992, 17, 196, "Code"],
-Cell[16714, 391, 1492, 36, 141, "Code"],
-Cell[18209, 429, 1007, 27, 123, "Code",
+Cell[12652, 284, 159, 2, 56, "Section"],
+Cell[12814, 288, 923, 21, 159, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[13774, 314, 116, 1, 56, "Section"],
+Cell[13893, 317, 1291, 36, 142, "Code"],
+Cell[15187, 355, 620, 16, 87, "Code"],
+Cell[15810, 373, 992, 17, 196, "Code"],
+Cell[16805, 392, 1492, 36, 141, "Code"],
+Cell[18300, 430, 1007, 27, 123, "Code",
  InitializationCell->True],
-Cell[19219, 458, 3310, 82, 501, "Code"]
+Cell[19310, 459, 3361, 83, 501, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[22566, 545, 126, 1, 56, "Section"],
+Cell[22708, 547, 126, 1, 56, "Section"],
 Cell[CellGroupData[{
-Cell[22717, 550, 121, 1, 49, "Subsection"],
-Cell[22841, 553, 626, 16, 69, "Code"],
-Cell[23470, 571, 4186, 136, 285, "Code"]
+Cell[22859, 552, 121, 1, 49, "Subsection"],
+Cell[22983, 555, 626, 16, 69, "Code"],
+Cell[23612, 573, 4186, 136, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[27693, 712, 124, 1, 41, "Subsection"],
-Cell[27820, 715, 13303, 331, 1419, "Code"]
+Cell[27835, 714, 124, 1, 41, "Subsection"],
+Cell[27962, 717, 13303, 331, 1419, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[41160, 1051, 170, 2, 41, "Subsection"],
-Cell[41333, 1055, 1793, 48, 267, "Code"],
-Cell[43129, 1105, 3849, 101, 519, "Code"],
-Cell[46981, 1208, 2700, 68, 537, "Code"],
-Cell[49684, 1278, 1817, 47, 285, "Code"]
+Cell[41302, 1053, 170, 2, 41, "Subsection"],
+Cell[41475, 1057, 1793, 48, 267, "Code"],
+Cell[43271, 1107, 3849, 101, 519, "Code"],
+Cell[47123, 1210, 2700, 68, 537, "Code"],
+Cell[49826, 1280, 1817, 47, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[51538, 1330, 102, 1, 41, "Subsection"],
-Cell[51643, 1333, 3706, 88, 466, "Code"],
-Cell[55352, 1423, 7842, 204, 609, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[63231, 1632, 99, 1, 41, "Subsection"],
-Cell[63333, 1635, 6881, 155, 519, "Code"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[70251, 1795, 93, 1, 41, "Subsection"],
-Cell[70347, 1798, 790, 22, 123, "Code"]
-}, Open  ]]
+Cell[51680, 1332, 102, 1, 41, "Subsection"],
+Cell[51785, 1335, 3917, 93, 484, "Code"],
+Cell[55705, 1430, 7958, 205, 609, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[71186, 1826, 113, 1, 70, "Section"],
-Cell[71302, 1829, 455, 13, 50, "Code"],
-Cell[71760, 1844, 1458, 41, 105, "Code"],
-Cell[73221, 1887, 600, 14, 87, "Code"]
+Cell[63700, 1640, 99, 1, 49, "Subsection"],
+Cell[63802, 1643, 6974, 156, 573, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[73858, 1906, 96, 1, 56, "Section"],
-Cell[73957, 1909, 1941, 50, 231, "Code"],
-Cell[75901, 1961, 10689, 255, 1077, "Code"],
-Cell[86593, 2218, 10519, 244, 1096, "Code"],
-Cell[97115, 2464, 7981, 187, 933, "Code"]
+Cell[70813, 1804, 93, 1, 41, "Subsection"],
+Cell[70909, 1807, 790, 22, 123, "Code"]
+}, Closed]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[71748, 1835, 113, 1, 70, "Section"],
+Cell[71864, 1838, 455, 13, 50, "Code"],
+Cell[72322, 1853, 1458, 41, 105, "Code"],
+Cell[73783, 1896, 600, 14, 87, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[105133, 2656, 40, 0, 56, "Section"],
-Cell[105176, 2658, 7018, 160, 897, "Code"],
-Cell[112197, 2820, 2397, 63, 285, "Code"]
+Cell[74420, 1915, 96, 1, 56, "Section"],
+Cell[74519, 1918, 1941, 50, 231, "Code"],
+Cell[76463, 1970, 10689, 255, 1077, "Code"],
+Cell[87155, 2227, 10519, 244, 1096, "Code"],
+Cell[97677, 2473, 7981, 187, 933, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[105695, 2665, 40, 0, 56, "Section"],
+Cell[105738, 2667, 7018, 160, 897, "Code"],
+Cell[112759, 2829, 2397, 63, 285, "Code"]
 }, Closed]]
 }
 ]
