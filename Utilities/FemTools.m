@@ -66,7 +66,7 @@ End[]
 
 
 SplitParametricSweepTable::usage = "SplitParametricSweepTable[list_,nPars_]
-	Transform table {{\!\(\*SubscriptBox[\(s\), \(1\)]\), \!\(\*SubscriptBox[\(s\), \(2\)]\), ..., \!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...},...} to a new form {\!\(\*SubscriptBox[\(s\), \(1\)]\), {..{\!\(\*SubscriptBox[\(s\), \(n\)]\),{\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...},...}...}} 
+	Transform table {{\!\(\*SubscriptBox[\(s\), \(1\)]\), \!\(\*SubscriptBox[\(s\), \(2\)]\), ..., \!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...},...} to a new form {\!\(\*SubscriptBox[\(s\), \(1\)]\), {..{\!\(\*SubscriptBox[\(s\), \(n\)]\),{\!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \(2\)]\),...}}}} 
 	where each of the parameters \!\(\*SubscriptBox[\(s\), \(1\)]\) runs over its own list dimension. Useful for processing results of COMSOL
 	parametric sweep. 
 
@@ -94,7 +94,8 @@ SplitParametricSweepTable[list_?MatrixQ,nPars_?((#>1)&)]:=Module[{par1ValList,su
 End[]
 
 
-SplitByModes::usage = "SplitByModes[list_] Useful for processing results of COMSOL parametric sweep."
+SplitByModes::usage = "SplitByModes[list_] 
+	Split list {\!\(\*SubscriptBox[\(s\), \(i\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(i\)]\)} into {{{\!\(\*SubscriptBox[\(s\), \(1\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(1\)]\)},{\!\(\*SubscriptBox[\(s\), \(2\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(1\)]\)},...},...,{{\!\(\*SubscriptBox[\(s\), \(1\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\)},{\!\(\*SubscriptBox[\(s\), \(2\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\)},...}}, where s is parameter and \[Nu] is the eigenmode frequency. Useful for processing results of COMSOL parametric sweep."
 
 Begin["`Private`"]
 

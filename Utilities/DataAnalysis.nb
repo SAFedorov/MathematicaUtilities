@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     96219,       2493]
-NotebookOptionsPosition[     94122,       2422]
-NotebookOutlinePosition[     94499,       2438]
-CellTagsIndexPosition[     94456,       2435]
+NotebookDataLength[    103405,       2660]
+NotebookOptionsPosition[    101190,       2585]
+NotebookOutlinePosition[    101565,       2601]
+CellTagsIndexPosition[    101522,       2598]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -316,7 +316,7 @@ correspondingly.\>\""}], "\n"}], "\n",
  RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7345475350108614`*^9, 3.734547732803196*^9}, {
   3.7345477632606993`*^9, 3.734547822165815*^9}, {3.737779262075577*^9, 
-  3.737779278980308*^9}}]
+  3.737779278980308*^9}, {3.738216976139803*^9, 3.7382169868608627`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -1053,7 +1053,7 @@ of the interval\>\""}], "\n", "\t"}], "\n",
  CellChangeTimes->{{3.73459058125589*^9, 3.73459058446517*^9}, {
   3.7345936355260553`*^9, 3.734593716937027*^9}, {3.737778558615197*^9, 
   3.7377785659995627`*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1355,6 +1355,169 @@ xylist_ using linear data interpolation over x\>\""}], "\n"}], "\n",
   3.734600618874716*^9, 3.73460065928522*^9}, {3.7377768552476034`*^9, 
   3.7377768768528147`*^9}, {3.7377771448419437`*^9, 3.73777714834396*^9}, {
   3.7377772697897663`*^9, 3.737777272274147*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Integration", "Subsection",
+ CellChangeTimes->{{3.738213311213112*^9, 3.738213313243672*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"IntegrateXY", "::", "usage"}], " ", "=", " ", 
+   "\"\<IntegrateXY[xylist_, intRange_]\n\tEfficient interpolation-based \
+numerical integration of a function represented as a list of \
+{\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} \
+values.\n\nInput:\n\txylist\n\tintRange - integration range specified as \
+{\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}, \
+{{\!\(\*SubscriptBox[\(x\), \(min1\)]\), \!\(\*SubscriptBox[\(x\), \
+\(max1\)]\)}, {\!\(\*SubscriptBox[\(x\), \(min2\)]\), \
+\!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object \n\>\""}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "IntegrateXY", "]"}], "=", 
+   RowBox[{"Options", "[", "Interpolation", "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Integration", " ", "range", " ", "specified", " ", "as", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["x", "min"], ",", " ", 
+      SubscriptBox["x", "max"]}], "}"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"IntegrateXY", "[", 
+    RowBox[{
+     RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
+     RowBox[{"intRange", ":", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"_", "?", "NumericQ"}], ",", 
+        RowBox[{"_", "?", "NumericQ"}]}], "}"}]}], ",", " ", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"interpData", ",", "interpOpts"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"interpOpts", "=", 
+       RowBox[{"FilterRules", "[", 
+        RowBox[{
+         RowBox[{"{", "opts", "}"}], ",", " ", 
+         RowBox[{"Options", "[", "Interpolation", "]"}]}], "]"}]}], ";", "\n",
+       "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"Interpolate", " ", "the", " ", "entire", " ", "data", " ", 
+         RowBox[{"set", ".", " ", "Pre"}]}], "-", 
+        RowBox[{
+        "selection", " ", "of", " ", "points", " ", "around", " ", "the", " ",
+          "integration", " ", "range", " ", "in", " ", "fact", " ", "makes", 
+         " ", "the", " ", "overall", " ", "procedure", " ", "to", " ", 
+         "consume", " ", "more", " ", 
+         RowBox[{"time", "."}]}]}], "*)"}], "\n", "\t", 
+      RowBox[{"interpData", "=", 
+       RowBox[{"Interpolation", "[", 
+        RowBox[{"xylist", ",", " ", "interpOpts"}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"Integrate", "[", 
+       RowBox[{
+        RowBox[{"interpData", "[", "x", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"x", ",", 
+          RowBox[{"intRange", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", 
+          RowBox[{"intRange", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}]}], "\n", 
+    "]"}]}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Integration", " ", "range", " ", "specified", " ", "as", " ", 
+    "Interval"}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"IntegrateXY", "[", 
+    RowBox[{
+     RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", "intRange_Interval", ",", 
+     " ", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{"IntegrateXY", "[", 
+      RowBox[{"xylist", ",", 
+       RowBox[{"intRange", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], ",", "opts"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", 
+       RowBox[{"Length", "[", "intRange", "]"}]}], "}"}]}], "]"}]}], "\n", 
+  "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Integration", " ", "range", " ", "specified", " ", "as", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        SubscriptBox["x", "min1"], ",", " ", 
+        SubscriptBox["x", "max1"]}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        SubscriptBox["x", "min2"], ",", " ", 
+        SubscriptBox["x", "max2"]}], "}"}]}], "}"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+     "in", " ", "fact", " ", "identical", " ", "to", " ", "the", " ", "case", 
+      " ", "of", " ", "Interval"}], ")"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"IntegrateXY", "[", 
+    RowBox[{
+     RowBox[{"xylist_", "?", "XYListQ"}], ",", " ", 
+     RowBox[{"intRange_", "?", "XYListQ"}], ",", " ", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{"IntegrateXY", "[", 
+      RowBox[{"xylist", ",", 
+       RowBox[{"intRange", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], ",", "opts"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", 
+       RowBox[{"Length", "[", "intRange", "]"}]}], "}"}]}], "]"}]}], 
+  "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
+ CellChangeTimes->{{3.738213343613731*^9, 3.738213383733551*^9}, {
+   3.738213438113205*^9, 3.738213599820448*^9}, {3.7382136587370663`*^9, 
+   3.7382137218442187`*^9}, 3.7382138389725904`*^9, {3.7382144698549795`*^9, 
+   3.7382144722661285`*^9}, {3.73821542158757*^9, 3.738215482477045*^9}, {
+   3.7382155569362707`*^9, 3.7382155950511928`*^9}, {3.7382156432918243`*^9, 
+   3.7382157366830482`*^9}, 3.738215928673651*^9, {3.7382159917474613`*^9, 
+   3.7382162047923193`*^9}, {3.7382163640211053`*^9, 
+   3.7382164526379733`*^9}, {3.738216494537056*^9, 3.7382166185060034`*^9}, {
+   3.738217206033435*^9, 3.7382172521576905`*^9}, {3.738217368010651*^9, 
+   3.738217384807575*^9}, {3.7382174220208125`*^9, 3.738217451169891*^9}, {
+   3.738217505757492*^9, 3.738217511525223*^9}, {3.7382175679815288`*^9, 
+   3.7382176318566904`*^9}, {3.738217719934263*^9, 3.7382177282227373`*^9}, {
+   3.738217781572501*^9, 3.7382177994679127`*^9}, 3.738217841720883*^9, {
+   3.7382178820020113`*^9, 3.7382178868854895`*^9}, {3.73821792489552*^9, 
+   3.7382179250524206`*^9}, {3.73821795759206*^9, 3.738217992167078*^9}, 
+   3.7382181236998844`*^9, {3.7382188750360355`*^9, 3.738218889990445*^9}, {
+   3.7382192716054535`*^9, 3.7382193148651557`*^9}, {3.7382200938912363`*^9, 
+   3.738220113762624*^9}, {3.7382201879402747`*^9, 3.738220195577365*^9}, {
+   3.738220312264577*^9, 3.7382203137490425`*^9}, {3.73822040293526*^9, 
+   3.738220461790995*^9}, {3.738220535029953*^9, 3.7382205816981015`*^9}, {
+   3.738220761728782*^9, 3.738220804036755*^9}, {3.738220931838522*^9, 
+   3.738220973964198*^9}, {3.738221125568592*^9, 3.738221265162817*^9}, {
+   3.738221377156937*^9, 3.738221399878132*^9}, {3.7382214613176937`*^9, 
+   3.738221575611921*^9}, 3.738221637508195*^9, 3.7382216984162903`*^9, 
+   3.7382217953638053`*^9, {3.738221859905034*^9, 3.7382218889188285`*^9}, {
+   3.738222342151638*^9, 3.7382223753385153`*^9}, {3.738222442702842*^9, 
+   3.738222528809622*^9}, {3.7382226562457914`*^9, 3.7382227444719963`*^9}, {
+   3.738222833688799*^9, 3.7382228622538753`*^9}}]
 }, Open  ]]
 }, Open  ]],
 
@@ -2422,7 +2585,7 @@ options of InRangeQ\>\""}], "\n"}], "\n",
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1282, 772},
-WindowMargins->{{36, Automatic}, {Automatic, 108}},
+WindowMargins->{{Automatic, 8}, {Automatic, 15}},
 FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
 StyleDefinitions->"Default.nb"
 ]
@@ -2452,48 +2615,52 @@ Cell[5042, 150, 992, 17, 196, "Code"],
 Cell[6037, 169, 1492, 36, 141, "Code"],
 Cell[7532, 207, 1007, 27, 123, "Code",
  InitializationCell->True],
-Cell[8542, 236, 3262, 82, 501, "Code"]
+Cell[8542, 236, 3310, 82, 501, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[11841, 323, 126, 1, 70, "Section"],
+Cell[11889, 323, 126, 1, 70, "Section"],
 Cell[CellGroupData[{
-Cell[11992, 328, 121, 1, 49, "Subsection"],
-Cell[12116, 331, 626, 16, 69, "Code"],
-Cell[12745, 349, 4186, 136, 285, "Code"]
+Cell[12040, 328, 121, 1, 49, "Subsection"],
+Cell[12164, 331, 626, 16, 69, "Code"],
+Cell[12793, 349, 4186, 136, 285, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[16968, 490, 124, 1, 41, "Subsection"],
-Cell[17095, 493, 13303, 331, 1419, "Code"]
+Cell[17016, 490, 124, 1, 41, "Subsection"],
+Cell[17143, 493, 13303, 331, 1419, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[30435, 829, 170, 2, 41, "Subsection"],
-Cell[30608, 833, 1793, 48, 267, "Code"],
-Cell[32404, 883, 3849, 101, 519, "Code"],
-Cell[36256, 986, 2700, 68, 537, "Code"]
-}, Open  ]],
+Cell[30483, 829, 170, 2, 41, "Subsection"],
+Cell[30656, 833, 1793, 48, 267, "Code"],
+Cell[32452, 883, 3849, 101, 519, "Code"],
+Cell[36304, 986, 2700, 68, 537, "Code"]
+}, Closed]],
 Cell[CellGroupData[{
-Cell[38993, 1059, 102, 1, 49, "Subsection"],
-Cell[39098, 1062, 3706, 88, 466, "Code"],
-Cell[42807, 1152, 7842, 204, 609, "Code"]
+Cell[39041, 1059, 102, 1, 41, "Subsection"],
+Cell[39146, 1062, 3706, 88, 466, "Code"],
+Cell[42855, 1152, 7842, 204, 609, "Code"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[50734, 1361, 99, 1, 41, "Subsection"],
+Cell[50836, 1364, 6881, 155, 519, "Code"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[50698, 1362, 113, 1, 70, "Section"],
-Cell[50814, 1365, 455, 13, 50, "Code"],
-Cell[51272, 1380, 1458, 41, 105, "Code"],
-Cell[52733, 1423, 600, 14, 87, "Code"]
+Cell[57766, 1525, 113, 1, 70, "Section"],
+Cell[57882, 1528, 455, 13, 50, "Code"],
+Cell[58340, 1543, 1458, 41, 105, "Code"],
+Cell[59801, 1586, 600, 14, 87, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[53370, 1442, 96, 1, 56, "Section"],
-Cell[53469, 1445, 1941, 50, 231, "Code"],
-Cell[55413, 1497, 10689, 255, 1077, "Code"],
-Cell[66105, 1754, 10519, 244, 1096, "Code"],
-Cell[76627, 2000, 7981, 187, 933, "Code"]
+Cell[60438, 1605, 96, 1, 56, "Section"],
+Cell[60537, 1608, 1941, 50, 231, "Code"],
+Cell[62481, 1660, 10689, 255, 1077, "Code"],
+Cell[73173, 1917, 10519, 244, 1096, "Code"],
+Cell[83695, 2163, 7981, 187, 933, "Code"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[84645, 2192, 40, 0, 56, "Section"],
-Cell[84688, 2194, 7018, 160, 897, "Code"],
-Cell[91709, 2356, 2397, 63, 285, "Code"]
+Cell[91713, 2355, 40, 0, 56, "Section"],
+Cell[91756, 2357, 7018, 160, 897, "Code"],
+Cell[98777, 2519, 2397, 63, 285, "Code"]
 }, Closed]]
 }
 ]

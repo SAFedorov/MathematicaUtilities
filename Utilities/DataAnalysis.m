@@ -332,6 +332,35 @@ YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationO
 End[]
 
 
+IntegrateXY::usage = "IntegrateXY[xylist_, intRange_]
+	Efficient interpolation-based numerical integration of a function represented as a list of {\!\(\*SubscriptBox[\(x\), \(i\)]\),\!\(\*SubscriptBox[\(y\), \(i\)]\)} values.
+
+Input:
+	xylist
+	intRange - integration range specified as {\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)}, {{\!\(\*SubscriptBox[\(x\), \(min1\)]\), \!\(\*SubscriptBox[\(x\), \(max1\)]\)}, {\!\(\*SubscriptBox[\(x\), \(min2\)]\), \!\(\*SubscriptBox[\(x\), \(max2\)]\)}} or Interval object 
+"
+
+Options[IntegrateXY]=Options[Interpolation]
+
+Begin["`Privite`"]
+
+(*Integration range specified as {Subscript[x, min], Subscript[x, max]}*)
+IntegrateXY[xylist_?XYListQ, intRange:{_?NumericQ,_?NumericQ}, opts:OptionsPattern[]]:=Module[{interpData,interpOpts},
+	interpOpts=FilterRules[{opts}, Options[Interpolation]];
+	(*Interpolate the entire data set. Pre-selection of points around the integration range in fact makes the overall procedure to consume more time.*)
+	interpData=Interpolation[xylist, interpOpts];
+	Integrate[interpData[x],{x,intRange[[1]],intRange[[2]]}]
+]
+
+(*Integration range specified as Interval*)
+IntegrateXY[xylist_?XYListQ, intRange_Interval, opts:OptionsPattern[]]:=Sum[IntegrateXY[xylist,intRange[[i]],opts],{i,Length[intRange]}]
+
+(*Integration range specified as {{Subscript[x, min1], Subscript[x, max1]}, {Subscript[x, min2], Subscript[x, max2]}} (in fact identical to the case of Interval)*)
+IntegrateXY[xylist_?XYListQ, intRange_?XYListQ, opts:OptionsPattern[]]:=Sum[IntegrateXY[xylist,intRange[[i]],opts],{i,Length[intRange]}]
+
+End[]
+
+
 (*From http://mathematica.stackexchange.com/questions/11345/can-mathematica-handle-open-intervals-interval-complements*)
 
 

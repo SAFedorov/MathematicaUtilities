@@ -14,10 +14,11 @@ Get[FileNameJoin[{"Utilities","Optimization.m"}]]
 utilitiesStyleGuide="
 Variables are named camelCase 
 Functions and options are names CamelCase 
-Long abbreviations like FEM, GUI in names are written as regular words with a single first capital letter 
+Long abbreviations like FEM, GUI in names are written as regular words starting from a single capital letter,
+e.g. FemTools, ComsolImport etc.
 
 
-Description of functions follows the template:
+Usage messages for functions (called by ?FunctionName) follow the template:
 
 FunctionName[arg1_, arg2_]
 	General description

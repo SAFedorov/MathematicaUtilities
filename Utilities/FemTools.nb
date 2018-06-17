@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     42854,        905]
-NotebookOptionsPosition[     42096,        875]
-NotebookOutlinePosition[     42473,        891]
-CellTagsIndexPosition[     42430,        888]
+NotebookDataLength[     43492,        914]
+NotebookOptionsPosition[     42734,        884]
+NotebookOutlinePosition[     43111,        900]
+CellTagsIndexPosition[     43068,        897]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -244,11 +244,11 @@ Cell[BoxData[{
 ..., \!\(\*SubscriptBox[\(x\), \(1\)]\), \!\(\*SubscriptBox[\(x\), \
 \(2\)]\),...},...} to a new form {\!\(\*SubscriptBox[\(s\), \(1\)]\), \
 {..{\!\(\*SubscriptBox[\(s\), \(n\)]\),{\!\(\*SubscriptBox[\(x\), \(1\)]\), \
-\!\(\*SubscriptBox[\(x\), \(2\)]\),...},...}...}} \n\twhere each of the \
-parameters \!\(\*SubscriptBox[\(s\), \(1\)]\) runs over its own list \
-dimension. Useful for processing results of COMSOL\n\tparametric sweep. \n\n\
-Input:\n\tnPar_ is the number of parameters \!\(\*SubscriptBox[\(s\), \
-\(i\)]\)\>\""}], "\n", "\t"}], "\n", 
+\!\(\*SubscriptBox[\(x\), \(2\)]\),...}}}} \n\twhere each of the parameters \
+\!\(\*SubscriptBox[\(s\), \(1\)]\) runs over its own list dimension. Useful \
+for processing results of COMSOL\n\tparametric sweep. \n\nInput:\n\tnPar_ is \
+the number of parameters \!\(\*SubscriptBox[\(s\), \(i\)]\)\>\""}], "\n", 
+  "\t"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -346,14 +346,22 @@ Input:\n\tnPar_ is the number of parameters \!\(\*SubscriptBox[\(s\), \
    3.7346935612392035`*^9, 3.734693563592074*^9}, {3.734693668028736*^9, 
    3.7346936692907267`*^9}, {3.7381628210196123`*^9, 3.738162834618005*^9}, {
    3.7381628890169764`*^9, 3.7381629163693676`*^9}, {3.738163425811951*^9, 
-   3.7381634325289764`*^9}}],
+   3.7381634325289764`*^9}, {3.7381671071854296`*^9, 3.738167113595454*^9}, {
+   3.7381673723594785`*^9, 3.738167381250078*^9}}],
 
 Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"SplitByModes", "::", "usage"}], " ", "=", " ", 
-   "\"\<SplitByModes[list_] Useful for processing results of COMSOL \
-parametric sweep.\>\""}], "\n"}], "\n", 
+   "\"\<SplitByModes[list_] \n\tSplit list {\!\(\*SubscriptBox[\(s\), \
+\(i\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \(i\)]\)} into \
+{{{\!\(\*SubscriptBox[\(s\), \(1\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \
+\(1\)]\)},{\!\(\*SubscriptBox[\(s\), \(2\)]\),\!\(\*SubscriptBox[\(\[Nu]\), \
+\(1\)]\)},...},...,{{\!\(\*SubscriptBox[\(s\), \(1\)]\),\!\(\*SubscriptBox[\(\
+\[Nu]\), \(n\)]\)},{\!\(\*SubscriptBox[\(s\), \(2\)]\),\!\(\*SubscriptBox[\(\
+\[Nu]\), \(n\)]\)},...}}, where s is parameter and \[Nu] is the eigenmode \
+frequency. Useful for processing results of COMSOL parametric sweep.\>\""}], 
+  "\n"}], "\n", 
  RowBox[{
   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
@@ -396,7 +404,8 @@ parametric sweep.\>\""}], "\n"}], "\n",
   3.734692705538597*^9}, {3.734692742616498*^9, 3.734692775968977*^9}, {
   3.734692818387144*^9, 3.7346928197547607`*^9}, {3.734692891430286*^9, 
   3.7346928934831004`*^9}, {3.738162953227497*^9, 3.738162958054628*^9}, {
-  3.738163436194084*^9, 3.738163443776328*^9}}]
+  3.738163436194084*^9, 3.738163443776328*^9}, {3.738167789464235*^9, 
+  3.7381679796846247`*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -897,14 +906,14 @@ Cell[1953, 60, 907, 23, 107, "Input"],
 Cell[CellGroupData[{
 Cell[2885, 87, 109, 1, 70, "Section"],
 Cell[2997, 90, 5749, 145, 754, "Code"],
-Cell[8749, 237, 4904, 111, 519, "Code"],
-Cell[13656, 350, 2115, 48, 231, "Code"]
+Cell[8749, 237, 4998, 112, 519, "Code"],
+Cell[13750, 351, 2659, 56, 249, "Code"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15808, 403, 187, 4, 70, "Section"],
-Cell[15998, 409, 22441, 385, 620, "Code",
+Cell[16446, 412, 187, 4, 70, "Section"],
+Cell[16636, 418, 22441, 385, 620, "Code",
  CellID->3975420],
-Cell[38442, 796, 3638, 76, 465, "Code",
+Cell[39080, 805, 3638, 76, 465, "Code",
  CellID->37021619]
 }, Open  ]]
 }
