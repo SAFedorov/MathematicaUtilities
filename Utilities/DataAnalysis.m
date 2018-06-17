@@ -369,7 +369,7 @@ Output:
 
 Options:
 	Those of standard FindPeaks plus
-	PeakSign\[Rule]1, determining if look for peaks (1) or valleys (-1)"
+	PeakSign\[Rule]1, switches between looking for peaks (1) or valleys (-1)"
 
 Options[FindPeaksXY]=Join[Options[FindPeaks],{PeakSign->1}]
 
@@ -388,36 +388,39 @@ Module[{peakIndexList,peakValList,xInterp,peakSign},
 End[]
 
 
-FindPeakCenter::usage="FindPeakCenter[xylist_]
-	find x-position of the center of mass of xylist using linear data interpolation over x"
+FindPeakCenter::usage="FindPeakCenter[list_]
+	find x-position of the center of mass of xylist using linear data interpolation over x
+
+Input:
+	list_ is xylist or xylistd2
+
+Options:
+	PeakSign\[Rule]1, switches between looking for peak (1) or valley (-1)"
+
+Options[FindPeakCenter]={PeakSign->1}
 
 Begin["`Private`"]
 
-FindPeakCenter[XYData_,OptionsPattern[PeakSign-> 1]]:=Module[{YIntegralList,YIntegralInterpol,iCOM,offset,dim},
-dim=Depth[XYData];
-Which[
-dim==3 (*single XY trace*),
-offset=If[Sign[OptionValue[PeakSign]]>=0,Min[XYData[[;;,2]]],Max[XYData[[;;,2]]]];
-YIntegralList=Accumulate[XYData[[;;,2]]-offset];
-YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
-
-(*fractional index of the Center of Mass*)
-(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
-1/(Ceiling[iCOM]-Floor[iCOM]) (XYData[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+XYData[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
-
-,
-dim==4 (*list of XY traces*),
-Table[
-offset=If[Sign[OptionValue[PeakSign]]>=0,Min[y[[;;,2]]],Max[y[[;;,2]]]];
-YIntegralList=Accumulate[y[[;;,2]]-offset];
-YIntegralInterpol=Interpolation[YIntegralList/YIntegralList[[-1]],InterpolationOrder->1];
-
-(*fractional index of the Center of Mass*)
-(iCOM=0.5+(x/.FindRoot[YIntegralInterpol[x]==0.5,{x,Length[YIntegralList]/2}]))//Quiet;
-1/(Ceiling[iCOM]-Floor[iCOM]) (y[[Floor[iCOM],1]](Ceiling[iCOM]-iCOM)+y[[Ceiling[iCOM],1]](iCOM-Floor[iCOM]))
-,{y,XYData}]
+FindPeakCenter[xylist_?XYListQ,opts:OptionsPattern[]]:=Module[{offset,yAccList,yInterpIntegral,indCOM},
+	(*offset is subtracted for more robust peak search*)
+	offset=If[OptionValue[PeakSign]>=0, Min[xylist[[;;,2]]], Max[xylist[[;;,2]]]];	
+	yAccList=Accumulate[xylist[[;;,2]]-offset];	
+	yInterpIntegral=Interpolation[yAccList/yAccList[[-1]]];	
+	
+	(*initial approximation is chosen to be in the interval center, 
+	but it should not play role if the peak is single in the supplied xylist*)	
+	(*indCOM - index, non necessarily integer, of the center of mass. It is better to find the peak position in dimensionless 
+	units first not to suffer from numerical errors at small absolute values of x*)
+	(*0.5 is added to indCOM explicitly in order to remove bias, introduced by Accumulate*)
+	(*Also use Quiet for the numerical routine not to complain about slow convergence, there is little can be done about it*)
+	(indCOM=0.5+(x/.FindRoot[yInterpIntegral[x]==0.5,{x,Length[yAccList]/2}]))//Quiet;
+	
+	(*Convert indCOM to x using linear interpolation*)
+	(xylist[[Floor[indCOM],1]](Ceiling[indCOM]-indCOM)+xylist[[Ceiling[indCOM],1]](indCOM-Floor[indCOM]))/(Ceiling[indCOM]-Floor[indCOM])
 ]
-]
+
+(*Thread over first argument*)
+FindPeakCenter[xylistd2_?(XYListQ[#,2]&),opts:OptionsPattern[]]:=Table[FindPeakCenter[xylist,opts],{xylist,xylistd2}]
 
 End[]
 
