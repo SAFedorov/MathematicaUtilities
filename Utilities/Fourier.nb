@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     20196,        522]
-NotebookOptionsPosition[     19744,        503]
-NotebookOutlinePosition[     20120,        519]
-CellTagsIndexPosition[     20077,        516]
+NotebookDataLength[     21701,        547]
+NotebookOptionsPosition[     20973,        528]
+NotebookOutlinePosition[     21349,        544]
+CellTagsIndexPosition[     21306,        541]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -33,7 +33,7 @@ Cell[BoxData[
  CellChangeTimes->{{3.663777636459733*^9, 3.663777712128561*^9}, {
   3.733914406837203*^9, 3.7339144075478926`*^9}, {3.733914733952835*^9, 
   3.7339147356576366`*^9}},
- CellID->484687852],
+ CellID->484687852,ExpressionUUID->"68cc02ab-e2ba-4fe2-b92e-ebc43c532dea"],
 
 Cell[BoxData[
  RowBox[{
@@ -56,13 +56,13 @@ Cell[BoxData[
   RowBox[{
    RowBox[{"System`Dump`fixmessagestring", "[", "System`Dump`s_", "]"}], ":=", 
    RowBox[{"ToString", "@", 
-    RowBox[{"InputForm", "@", "System`Dump`s"}]}]}]}]], "Code"],
+    RowBox[{"InputForm", "@", "System`Dump`s"}]}]}]}]], "Code",ExpressionUUID-\
+>"776623e4-b166-41cb-a589-6a629bae80a0"],
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{
-   RowBox[{"\[Nu]FourierXY", "::", "usage"}], " ", "=", " ", 
-   "\"\<\[Nu]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\n\t\
+  RowBox[{"\[Nu]FourierXY", "::", "usage"}], " ", "=", " ", 
+  "\"\<\[Nu]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\n\t\
 Compute numerical approximation of Fourier transform in linear units \
 y[\[Nu]]=\!\(\*FractionBox[\(1\), SqrtBox[\(L\)]]\)\!\(\*SubsuperscriptBox[\(\
 \[Integral]\), SubscriptBox[\(x\), \(0\)], \(\*SubscriptBox[\(x\), \(0\)] + L\
@@ -78,7 +78,9 @@ to a function of one variable f[x_] on the interval \
 [\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)], \
 the function is disretized first with the step \
 dx\[TildeTilde]\!\(\*FractionBox[\(2\), SubscriptBox[\(\[Nu]\), \(max\)]]\)\>\
-\""}], "\n"}], "\n", 
+\""}], "\n", 
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{"\[Nu]FourierXY", "[", 
@@ -233,18 +235,24 @@ dx\[TildeTilde]\!\(\*FractionBox[\(2\), SubscriptBox[\(\[Nu]\), \(max\)]]\)\>\
       RowBox[{"\[Nu]FourierXY", "[", "xylist", "]"}]}]}], "\n", "]"}]}], 
   "\n"}], "\n", 
  RowBox[{
+  RowBox[{"End", "[", "]"}], "\n", "\n"}], "\n", 
+ RowBox[{
   RowBox[{
    RowBox[{"\[Omega]FourierXY", "::", "usage"}], " ", "=", " ", 
    "\"\<\[Omega]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]\n\
 \tAnalog of \[Nu]FourierXY that returns result with the x-axis in angular \
 frequency units \[Omega]=2\[Pi]\[Times]\[Nu]\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"\[Omega]FourierXY", "[", "args__", "]"}], ":=", 
-  RowBox[{"ScaleY", "[", 
-   RowBox[{
-    RowBox[{"\[Nu]FourierXY", "[", "args", "]"}], ",", 
-    RowBox[{"ScaleX", "\[Rule]", 
-     RowBox[{"2", "\[Pi]"}]}]}], "]"}]}]}], "Code",
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Omega]FourierXY", "[", "args__", "]"}], ":=", 
+   RowBox[{"ScaleY", "[", 
+    RowBox[{
+     RowBox[{"\[Nu]FourierXY", "[", "args", "]"}], ",", 
+     RowBox[{"ScaleX", "\[Rule]", 
+      RowBox[{"2", "\[Pi]"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.733913592978373*^9, 3.7339136833471007`*^9}, {
    3.7339139030908623`*^9, 3.733913936961627*^9}, 3.733914384355116*^9, 
    3.7339145811340647`*^9, {3.7339147060282125`*^9, 3.7339147088832264`*^9}, {
@@ -254,7 +262,10 @@ frequency units \[Omega]=2\[Pi]\[Times]\[Nu]\>\""}], "\n"}], "\n",
    3.7339150531464453`*^9}, 3.733915193037817*^9, {3.7339170428570504`*^9, 
    3.7339172557098246`*^9}, {3.733917302151745*^9, 3.7339173353175926`*^9}, {
    3.7345946969766192`*^9, 3.734594724396997*^9}, {3.7345949060633564`*^9, 
-   3.7345949103406177`*^9}}],
+   3.7345949103406177`*^9}, {3.751375634055105*^9, 3.7513756490701127`*^9}, {
+   3.7513757055366507`*^9, 3.751375725859078*^9}, 
+   3.7513757570088787`*^9},ExpressionUUID->"632fe842-991e-4f21-b055-\
+83de79414c11"],
 
 Cell[BoxData[{
  RowBox[{
@@ -277,92 +288,99 @@ Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\
 number, characterizing the acceptable deviation from zero frequency\>\""}], 
   "\n"}], "\n", 
  RowBox[{
-  RowBox[{"OneFromTwoSidedSpectrum", "[", 
-   RowBox[{"sp_", ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"\[Epsilon]Zero", "->", 
-      RowBox[{"10", "^", 
-       RowBox[{"-", "5"}]}]}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{
-     "d\[Nu]", ",", "\[Nu]0", ",", "\[Epsilon]", ",", "tmpSp", ",", 
-      "zero\[Nu]Element"}], "}"}], ",", "\n", "\t", 
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"OneFromTwoSidedSpectrum", "[", 
+    RowBox[{"sp_", ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"\[Epsilon]Zero", "->", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "5"}]}]}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
     RowBox[{
-     RowBox[{"\[Epsilon]", "=", 
-      RowBox[{"OptionValue", "[", "\[Epsilon]Zero", "]"}]}], ";", 
-     RowBox[{"(*", 
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"small", " ", "number"}], ",", " ", 
+      "d\[Nu]", ",", "\[Nu]0", ",", "\[Epsilon]", ",", "tmpSp", ",", 
+       "zero\[Nu]Element"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"\[Epsilon]", "=", 
+       RowBox[{"OptionValue", "[", "\[Epsilon]Zero", "]"}]}], ";", 
+      RowBox[{"(*", 
        RowBox[{
-       "characterizing", " ", "the", " ", "acceptable", " ", "deviation", " ",
-         "from", " ", "zero", " ", "frequency"}]}], "*)"}], "\n", "\t", 
-     RowBox[{"d\[Nu]", "=", 
-      RowBox[{
-       RowBox[{"sp", "[", 
-        RowBox[{"[", 
-         RowBox[{"2", ",", "1"}], "]"}], "]"}], "-", 
-       RowBox[{"sp", "[", 
-        RowBox[{"[", 
-         RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ";", 
-     RowBox[{"(*", 
-      RowBox[{"frequency", " ", "step"}], "*)"}], "\n", "\t", 
-     RowBox[{"zero\[Nu]Element", "=", 
-      RowBox[{"Select", "[", 
-       RowBox[{"sp", ",", 
+        RowBox[{"small", " ", "number"}], ",", " ", 
         RowBox[{
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{"Abs", "[", 
-            RowBox[{"#", "[", 
-             RowBox[{"[", "1", "]"}], "]"}], "]"}], "<", 
-           RowBox[{"\[Epsilon]", " ", "d\[Nu]"}]}], ")"}], "&"}]}], "]"}]}], 
-     ";", "\n", "\t", 
-     RowBox[{"If", "[", 
-      RowBox[{
+        "characterizing", " ", "the", " ", "acceptable", " ", "deviation", 
+         " ", "from", " ", "zero", " ", "frequency"}]}], "*)"}], "\n", "\t", 
+      RowBox[{"d\[Nu]", "=", 
        RowBox[{
-        RowBox[{"Length", "[", "zero\[Nu]Element", "]"}], "!=", "1"}], ",", 
-       "\n", "\t\t", 
-       RowBox[{
-        RowBox[{
-        "Print", "[", 
-         "\"\<Multiple or no zero-frequency elements are found\>\"", "]"}], 
-        ";", 
-        RowBox[{"Return", "[", 
-         RowBox[{"{", "}"}], "]"}]}], ",", "\n", "\t\t", 
-       RowBox[{"zero\[Nu]Element", "=", 
-        RowBox[{"zero\[Nu]Element", "[", 
-         RowBox[{"[", "1", "]"}], "]"}]}]}], "\n", "\t", "]"}], ";", "\n", 
-     "\t", 
-     RowBox[{"tmpSp", "=", 
-      RowBox[{"Select", "[", 
-       RowBox[{"sp", ",", 
-        RowBox[{
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{"#", "[", 
-            RowBox[{"[", "1", "]"}], "]"}], ">", "0"}], ")"}], "&"}]}], 
-       "]"}]}], ";", "\n", "\t", 
-     RowBox[{"Join", "[", 
-      RowBox[{
-       RowBox[{"{", "zero\[Nu]Element", "}"}], ",", 
-       RowBox[{"Transpose", "[", 
-        RowBox[{"{", 
+        RowBox[{"sp", "[", 
+         RowBox[{"[", 
+          RowBox[{"2", ",", "1"}], "]"}], "]"}], "-", 
+        RowBox[{"sp", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ";", 
+      RowBox[{"(*", 
+       RowBox[{"frequency", " ", "step"}], "*)"}], "\n", "\t", 
+      RowBox[{"zero\[Nu]Element", "=", 
+       RowBox[{"Select", "[", 
+        RowBox[{"sp", ",", 
          RowBox[{
-          RowBox[{"tmpSp", "[", 
-           RowBox[{"[", 
-            RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
-          RowBox[{"2", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"Abs", "[", 
+             RowBox[{"#", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "]"}], "<", 
+            RowBox[{"\[Epsilon]", " ", "d\[Nu]"}]}], ")"}], "&"}]}], "]"}]}], 
+      ";", "\n", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "zero\[Nu]Element", "]"}], "!=", "1"}], ",", 
+        "\n", "\t\t", 
+        RowBox[{
+         RowBox[{
+         "Print", "[", 
+          "\"\<Multiple or no zero-frequency elements are found\>\"", "]"}], 
+         ";", 
+         RowBox[{"Return", "[", 
+          RowBox[{"{", "}"}], "]"}]}], ",", "\n", "\t\t", 
+        RowBox[{"zero\[Nu]Element", "=", 
+         RowBox[{"zero\[Nu]Element", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}]}], "\n", "\t", "]"}], ";", "\n", 
+      "\t", 
+      RowBox[{"tmpSp", "=", 
+       RowBox[{"Select", "[", 
+        RowBox[{"sp", ",", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"#", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], ">", "0"}], ")"}], "&"}]}], 
+        "]"}]}], ";", "\n", "\t", 
+      RowBox[{"Join", "[", 
+       RowBox[{
+        RowBox[{"{", "zero\[Nu]Element", "}"}], ",", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{
            RowBox[{"tmpSp", "[", 
             RowBox[{"[", 
-             RowBox[{";;", ",", "2"}], "]"}], "]"}]}]}], "}"}], "]"}]}], 
-      "]"}]}]}], "\n", "]"}]}]}], "Code",
+             RowBox[{";;", ",", "1"}], "]"}], "]"}], ",", 
+           RowBox[{"2", 
+            RowBox[{"tmpSp", "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "2"}], "]"}], "]"}]}]}], "}"}], "]"}]}], 
+       "]"}]}]}], "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.733913553886815*^9, 3.7339135607635455`*^9}, {
    3.733913719352153*^9, 3.7339137898289366`*^9}, {3.7339138997675548`*^9, 
    3.733913943354235*^9}, 3.733914381338974*^9, {3.733914551988661*^9, 
    3.733914552915612*^9}, 3.733914671422436*^9, {3.7339151671405983`*^9, 
-   3.7339151826998844`*^9}, {3.7339174019425135`*^9, 3.733917449710492*^9}}],
+   3.7339151826998844`*^9}, {3.7339174019425135`*^9, 3.733917449710492*^9}, {
+   3.751375768398533*^9, 
+   3.751375776934914*^9}},ExpressionUUID->"404fb0e8-eccd-4e0c-b4a7-\
+cb627bb89ed4"],
 
 Cell[BoxData[{
  RowBox[{
@@ -387,124 +405,131 @@ only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\[Nu]\), \
 \(-5\)]\) \[Dash] small number, characterizing the acceptable deviation from \
 zero frequency\>\""}], "\n"}], "\n", 
  RowBox[{
-  RowBox[{"SymmetrizeSpectrum", "[", 
-   RowBox[{"sp_", ",", 
-    RowBox[{"OptionsPattern", "[", 
-     RowBox[{"\[Epsilon]Zero", "->", 
-      RowBox[{"10", "^", 
-       RowBox[{"-", "5"}]}]}], "]"}]}], "]"}], ":=", 
-  RowBox[{"Module", "[", 
-   RowBox[{
-    RowBox[{"{", 
-     RowBox[{
-     "d\[Nu]", ",", "\[Epsilon]", ",", "zero\[Nu]ElementI", ",", "l", ",", 
-      "ret", ",", "\[Nu]List"}], "}"}], ",", "\n", "\t", 
+  RowBox[{"Begin", "[", "\"\<`Privite`\>\"", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SymmetrizeSpectrum", "[", 
+    RowBox[{"sp_", ",", 
+     RowBox[{"OptionsPattern", "[", 
+      RowBox[{"\[Epsilon]Zero", "->", 
+       RowBox[{"10", "^", 
+        RowBox[{"-", "5"}]}]}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
     RowBox[{
-     RowBox[{"\[Epsilon]", "=", 
-      RowBox[{"OptionValue", "[", "\[Epsilon]Zero", "]"}]}], ";", 
-     RowBox[{"(*", 
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"small", " ", "number"}], ",", " ", 
+      "d\[Nu]", ",", "\[Epsilon]", ",", "zero\[Nu]ElementI", ",", "l", ",", 
+       "ret", ",", "\[Nu]List"}], "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"\[Epsilon]", "=", 
+       RowBox[{"OptionValue", "[", "\[Epsilon]Zero", "]"}]}], ";", 
+      RowBox[{"(*", 
        RowBox[{
-       "characterizing", " ", "the", " ", "acceptable", " ", "deviation", " ",
-         "from", " ", "zero", " ", "frequency"}]}], "*)"}], "\n", "\t", 
-     RowBox[{"d\[Nu]", "=", 
-      RowBox[{
-       RowBox[{"sp", "[", 
-        RowBox[{"[", 
-         RowBox[{"2", ",", "1"}], "]"}], "]"}], "-", 
-       RowBox[{"sp", "[", 
-        RowBox[{"[", 
-         RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ";", 
-     RowBox[{"(*", 
-      RowBox[{"frequency", " ", "step"}], "*)"}], "\n", "\n", "\t", 
-     RowBox[{"zero\[Nu]ElementI", "=", 
-      RowBox[{"Position", "[", 
-       RowBox[{"sp", ",", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"_", "?", 
-           RowBox[{"(", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"Abs", "[", "#", "]"}], "<", "\[Epsilon]"}], "&"}], 
-            ")"}]}], ",", "_"}], "}"}]}], "]"}]}], ";", "\n", "\t", 
-     RowBox[{"If", "[", 
-      RowBox[{
+        RowBox[{"small", " ", "number"}], ",", " ", 
+        RowBox[{
+        "characterizing", " ", "the", " ", "acceptable", " ", "deviation", 
+         " ", "from", " ", "zero", " ", "frequency"}]}], "*)"}], "\n", "\t", 
+      RowBox[{"d\[Nu]", "=", 
        RowBox[{
-        RowBox[{"Length", "[", "zero\[Nu]ElementI", "]"}], "!=", "1"}], ",", 
-       RowBox[{
-        RowBox[{"Print", "[", 
-         RowBox[{
-         "zero\[Nu]ElementI", ",", 
-          "\"\<Multiple or no zero-frequency elements are found\>\""}], "]"}],
-         ";", 
-        RowBox[{"Return", "[", 
-         RowBox[{"{", "}"}], "]"}]}], ",", 
-       RowBox[{"zero\[Nu]ElementI", "=", 
-        RowBox[{"zero\[Nu]ElementI", "[", 
+        RowBox[{"sp", "[", 
          RowBox[{"[", 
-          RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], "]"}], ";", "\n", "\t", 
-     RowBox[{"l", "=", 
-      RowBox[{"Min", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"Length", "[", "sp", "]"}], "-", "zero\[Nu]ElementI"}], ",", 
-        RowBox[{"zero\[Nu]ElementI", "-", "1"}]}], "]"}]}], ";", "\n", "\t", 
-     RowBox[{"\[Nu]List", "=", 
-      RowBox[{"Table", "[", 
-       RowBox[{
-        RowBox[{"k", " ", "d\[Nu]"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"k", ",", 
-          RowBox[{"-", "l"}], ",", "l", ",", "1"}], "}"}]}], "]"}]}], ";", 
-     "\n", "\t", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"number", " ", "of", " ", "frequency", " ", "components"}], 
-       ",", " ", 
-       RowBox[{
-        RowBox[{"for", " ", "which", " ", "an", " ", "opposite"}], "-", 
-        RowBox[{"frequency", " ", "countepart", " ", "exists"}]}]}], "*)"}], 
-     "\n", "\t", 
-     RowBox[{"ret", "=", 
-      RowBox[{"Table", "[", 
-       RowBox[{
-        RowBox[{
-         RowBox[{"(", 
+          RowBox[{"2", ",", "1"}], "]"}], "]"}], "-", 
+        RowBox[{"sp", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], ";", 
+      RowBox[{"(*", 
+       RowBox[{"frequency", " ", "step"}], "*)"}], "\n", "\n", "\t", 
+      RowBox[{"zero\[Nu]ElementI", "=", 
+       RowBox[{"Position", "[", 
+        RowBox[{"sp", ",", 
+         RowBox[{"{", 
           RowBox[{
-           RowBox[{"sp", "[", 
-            RowBox[{"[", 
+           RowBox[{"_", "?", 
+            RowBox[{"(", 
              RowBox[{
-              RowBox[{"zero\[Nu]ElementI", "+", "i"}], ",", "2"}], "]"}], 
-            "]"}], "+", 
-           RowBox[{"sp", "[", 
-            RowBox[{"[", 
-             RowBox[{
-              RowBox[{"zero\[Nu]ElementI", "-", "i"}], ",", "2"}], "]"}], 
-            "]"}]}], ")"}], "/", "2"}], ",", 
-        RowBox[{"{", 
-         RowBox[{"i", ",", "0", ",", "l"}], "}"}]}], "]"}]}], ";", "\n", "\t", 
-     RowBox[{"Transpose", "[", 
-      RowBox[{"{", 
-       RowBox[{"\[Nu]List", ",", 
-        RowBox[{"Join", "[", 
+              RowBox[{
+               RowBox[{"Abs", "[", "#", "]"}], "<", "\[Epsilon]"}], "&"}], 
+             ")"}]}], ",", "_"}], "}"}]}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "zero\[Nu]ElementI", "]"}], "!=", "1"}], ",", 
+        RowBox[{
+         RowBox[{"Print", "[", 
+          RowBox[{
+          "zero\[Nu]ElementI", ",", 
+           "\"\<Multiple or no zero-frequency elements are found\>\""}], 
+          "]"}], ";", 
+         RowBox[{"Return", "[", 
+          RowBox[{"{", "}"}], "]"}]}], ",", 
+        RowBox[{"zero\[Nu]ElementI", "=", 
+         RowBox[{"zero\[Nu]ElementI", "[", 
+          RowBox[{"[", 
+           RowBox[{"1", ",", "1"}], "]"}], "]"}]}]}], "]"}], ";", "\n", "\t", 
+      RowBox[{"l", "=", 
+       RowBox[{"Min", "[", 
+        RowBox[{
          RowBox[{
-          RowBox[{"Reverse", "[", 
-           RowBox[{"ret", "[", 
-            RowBox[{"[", 
-             RowBox[{"2", ";;"}], "]"}], "]"}], "]"}], ",", "ret"}], "]"}]}], 
-       "}"}], "]"}]}]}], "\n", "]"}]}]}], "Code",
+          RowBox[{"Length", "[", "sp", "]"}], "-", "zero\[Nu]ElementI"}], ",", 
+         RowBox[{"zero\[Nu]ElementI", "-", "1"}]}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{"\[Nu]List", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"k", " ", "d\[Nu]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"k", ",", 
+           RowBox[{"-", "l"}], ",", "l", ",", "1"}], "}"}]}], "]"}]}], ";", 
+      "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"number", " ", "of", " ", "frequency", " ", "components"}], 
+        ",", " ", 
+        RowBox[{
+         RowBox[{"for", " ", "which", " ", "an", " ", "opposite"}], "-", 
+         RowBox[{"frequency", " ", "countepart", " ", "exists"}]}]}], "*)"}], 
+      "\n", "\t", 
+      RowBox[{"ret", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"sp", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"zero\[Nu]ElementI", "+", "i"}], ",", "2"}], "]"}], 
+             "]"}], "+", 
+            RowBox[{"sp", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"zero\[Nu]ElementI", "-", "i"}], ",", "2"}], "]"}], 
+             "]"}]}], ")"}], "/", "2"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "0", ",", "l"}], "}"}]}], "]"}]}], ";", "\n", 
+      "\t", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"\[Nu]List", ",", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"Reverse", "[", 
+            RowBox[{"ret", "[", 
+             RowBox[{"[", 
+              RowBox[{"2", ";;"}], "]"}], "]"}], "]"}], ",", "ret"}], "]"}]}],
+         "}"}], "]"}]}]}], "\n", "]"}]}], "\n"}], "\n", 
+ RowBox[{"End", "[", "]"}]}], "Code",
  CellChangeTimes->{{3.7339135084590797`*^9, 3.733913510836813*^9}, {
    3.7339135720229387`*^9, 3.7339135744622993`*^9}, {3.7339138115648518`*^9, 
    3.73391384159404*^9}, {3.7339138977721395`*^9, 3.7339139505469384`*^9}, 
    3.733914378523381*^9, {3.7339145145654554`*^9, 3.733914523032524*^9}, {
-   3.733917468855554*^9, 3.7339174782080326`*^9}}]
+   3.733917468855554*^9, 3.7339174782080326`*^9}, {3.751375783506466*^9, 
+   3.7513757920394583`*^9}},ExpressionUUID->"596afb49-69a0-4000-9452-\
+ccfba884eb54"]
 },
 AutoGeneratedPackage->Automatic,
 WindowSize->{1282, 657},
-WindowMargins->{{18, Automatic}, {44, Automatic}},
-FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (July 28, 2016)",
+WindowMargins->{{Automatic, 15}, {Automatic, 43}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -518,12 +543,12 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 618, 15, 50, "Input",
+Cell[558, 20, 673, 15, 48, "Input",ExpressionUUID->"68cc02ab-e2ba-4fe2-b92e-ebc43c532dea",
  CellID->484687852],
-Cell[1179, 37, 771, 21, 69, "Code"],
-Cell[1953, 60, 7985, 196, 679, "Code"],
-Cell[9941, 258, 4262, 106, 358, "Code"],
-Cell[14206, 366, 5534, 135, 395, "Code"]
+Cell[1234, 37, 828, 22, 69, "Code",ExpressionUUID->"776623e4-b166-41cb-a589-6a629bae80a0"],
+Cell[2065, 61, 8423, 206, 823, "Code",ExpressionUUID->"632fe842-991e-4f21-b055-83de79414c11"],
+Cell[10491, 269, 4585, 113, 430, "Code",ExpressionUUID->"404fb0e8-eccd-4e0c-b4a7-cb627bb89ed4"],
+Cell[15079, 384, 5890, 142, 467, "Code",ExpressionUUID->"596afb49-69a0-4000-9452-ccfba884eb54"]
 }
 ]
 *)

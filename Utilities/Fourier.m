@@ -30,6 +30,7 @@ System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 	in the case of even n there is n/2 positive frequency components and n/2-1 negative frequency components
 
 	If applied to a function of one variable f[x_] on the interval [\!\(\*SubscriptBox[\(x\), \(min\)]\), \!\(\*SubscriptBox[\(x\), \(max\)]\)], the function is disretized first with the step dx\[TildeTilde]\!\(\*FractionBox[\(2\), SubscriptBox[\(\[Nu]\), \(max\)]]\)"
+Begin["`Privite`"]
 
 \[Nu]FourierXY[xylist_?XYListQ]:=Module[{L,dx,n,nOS,\[Nu]List,ftyList},
 	L=xylist[[-1,1]]-xylist[[1,1]](*interval length in x dimension*);
@@ -52,10 +53,17 @@ System`Dump`fixmessagestring[System`Dump`s_]:=ToString@InputForm@System`Dump`s
 	\[Nu]FourierXY[xylist]
 ]
 
+End[]
+
+
 \[Omega]FourierXY::usage = "\[Omega]FourierXY[xylist_], \[Nu]FourierXY[f_,xmin_,xmax_,\[Nu]max_]
 	Analog of \[Nu]FourierXY that returns result with the x-axis in angular frequency units \[Omega]=2\[Pi]\[Times]\[Nu]"
 
+Begin["`Privite`"]
+
 \[Omega]FourierXY[args__]:=ScaleY[\[Nu]FourierXY[args],ScaleX->2\[Pi]]
+
+End[]
 
 
 OneFromTwoSidedSpectrum::usage = "OneFromTwoSidedSpectrum[sp_]
@@ -64,6 +72,8 @@ OneFromTwoSidedSpectrum::usage = "OneFromTwoSidedSpectrum[sp_]
 
 Options:
 	\[Epsilon]Zero\[Rule]\!\(\*SuperscriptBox[\(10\), \(-5\)]\) \[Dash] small number, characterizing the acceptable deviation from zero frequency"
+
+Begin["`Privite`"]
 
 OneFromTwoSidedSpectrum[sp_,OptionsPattern[\[Epsilon]Zero->10^-5]]:=Module[{d\[Nu],\[Nu]0,\[Epsilon],tmpSp,zero\[Nu]Element},
 	\[Epsilon]=OptionValue[\[Epsilon]Zero];(*small number, characterizing the acceptable deviation from zero frequency*)
@@ -77,12 +87,16 @@ OneFromTwoSidedSpectrum[sp_,OptionsPattern[\[Epsilon]Zero->10^-5]]:=Module[{d\[N
 	Join[{zero\[Nu]Element},Transpose[{tmpSp[[;;,1]],2tmpSp[[;;,2]]}]]
 ]
 
+End[]
+
 
 SymmetrizeSpectrum::usage = "SymmetrizeSpectrum[sp_]
 	Convert a two-sided spectrum at the input {{-\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\),\!\(\*SubscriptBox[\(f\), \(-n\)]\)},{-\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\)+d\[Nu],\!\(\*SubscriptBox[\(f\), \(-n\)]\)},...,{\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\),\!\(\*SubscriptBox[\(f\), \(n\)]\)}}\[IndentingNewLine]	to two-sided symmetrized spectrum {{-\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\),\!\(\*SubsuperscriptBox[\(f\), \(-n\), \('\)]\)},{-\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\)+d\[Nu],\!\(\*SubsuperscriptBox[\(f\), \(-n\), \('\)]\)},...,{\!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\),\!\(\*SubscriptBox[SuperscriptBox[\(f\), \('\)], \(n\)]\)}}, where \!\(\*SubscriptBox[\(f\), \(0\)]\)'=\!\(\*SubscriptBox[\(f\), \(0\)]\), \!\(\*SubscriptBox[\(f\), \(n\)]\)'=(\!\(\*SubscriptBox[\(f\), \(n\)]\)+\!\(\*SubscriptBox[\(f\), \(-n\)]\))/2\[IndentingNewLine]	Works only with uniformly-spaced frequency components \!\(\*SubscriptBox[\(\[Nu]\), \(n\)]\)
 
 Options:
 	\[Epsilon]Zero\[Rule]\!\(\*SuperscriptBox[\(10\), \(-5\)]\) \[Dash] small number, characterizing the acceptable deviation from zero frequency"
+
+Begin["`Privite`"]
 
 SymmetrizeSpectrum[sp_,OptionsPattern[\[Epsilon]Zero->10^-5]]:=Module[{d\[Nu],\[Epsilon],zero\[Nu]ElementI,l,ret,\[Nu]List},
 	\[Epsilon]=OptionValue[\[Epsilon]Zero];(*small number, characterizing the acceptable deviation from zero frequency*)
@@ -96,3 +110,5 @@ SymmetrizeSpectrum[sp_,OptionsPattern[\[Epsilon]Zero->10^-5]]:=Module[{d\[Nu],\[
 	ret=Table[(sp[[zero\[Nu]ElementI+i,2]]+sp[[zero\[Nu]ElementI-i,2]])/2,{i,0,l}];
 	Transpose[{\[Nu]List,Join[Reverse[ret[[2;;]]],ret]}]
 ]
+
+End[]
