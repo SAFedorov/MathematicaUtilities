@@ -106,16 +106,27 @@ compilationOptionsC=Sequence[
 
 
 FunctionQ::usage="FunctionQ[expr_] tests if expression is a Function, CompiledFunction or InterpolatingFunction."
-	
+
+Begin["`Privite`"]
+
 (*Adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
 FunctionQ[_Function|_InterpolatingFunction|_CompiledFunction]=True
 FunctionQ[f_Symbol]:=Or[DownValues[f]=!={},MemberQ[Attributes[f],NumericFunction]]
 FunctionQ[_]=False
 
+End[]
+
 
 (*Tests if the argument is a vector or array of numbers*)
+NumericVectorQ::usage="NumericVectorQ[expr_] tests if expr is a vertor with all numeric elements"
+NumericArrayQ::usage="NumericArrayQ[expr_] tests if expr is an array with all numeric elements"
+
+Begin["`Privite`"]
+
 NumericVectorQ[expr_]:=VectorQ[expr,NumericQ]
 NumericArrayQ[expr_]:=ArrayQ[expr,_,NumericQ]
+
+End[]
 
 
 notOptPatt::usage="Except[_?OptionQ]
@@ -132,17 +143,25 @@ notOptPatt=Except[_?OptionQ]
 (*differentiate between 2D and 3D datasets*)
 XYListQ::usage="XYListQ[list_], XYListQ[list_,d_]
 	Test if list is a xylist of dimension d, d=1 if omitted."
-	
+
+Begin["`Privite`"]
+
 XYListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==2)
 XYListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYListQ,d-1]
+
+End[]
 
 
 (* ::Code::Initialization:: *)
 XYZListQ::usage="XYZListQ[list_], XYZListQ[list_,d_]
 	Test if list is and xyzlist of the dimension d, d=1 if omitted."
-	
+
+Begin["`Privite`"]
+
 XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3)
 XYZListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYZListQ,d-1]
+
+End[]
 
 
 InRangeQ::usage="InRangeQ[x_, range_, IncludeBoundary\[Rule]True]
@@ -178,19 +197,24 @@ The function names are self-explanatory, the two instances are different in the 
 
 
 MapX::usage="MapX[f_,list_] applies function f to X elements in xy- or xyz- list"
+MapY::usage="MapY[f_,list_] applies function f to Y elements in xy- or xyz- list"
+MapXY::usage="MapX[fx_,fy_,list_] applies functions fx and fy correspondingly to X and Y elements in xy- or xyz- list"
+MapZ::usage="MapZ[f_,list_] applies function f to Z elements in xyzlist"
+
+Begin["`Private`"]
+
 MapX[f_,list_?XYListQ]:=Map[{f[#[[1]]],#[[2]]}&,list]
 MapX[f_,list_?XYZListQ]:=Map[{f[#[[1]]],#[[2]],#[[3]]}&,list]
 
-MapY::usage="MapY[f_,list_] applies function f to Y elements in xy- or xyz- list"
 MapY[f_,list_?XYListQ]:=Map[{#[[1]],f[#[[2]]]}&,list]
 MapY[f_,list_?XYZListQ]:=Map[{#[[1]],f[#[[2]]],#[[2]]}&,list]
 
-MapXY::usage="MapX[fx_,fy_,list_] applies functions fx and fy correspondingly to X and Y elements in xy- or xyz- list"
 MapXY[fx_,fy_,list_?XYListQ]:=Map[{fx[#[[1]]],fy[#[[2]]]}&,list]
 MapXY[fx_,fy_,list_?XYZListQ]:=Map[{fx[#[[1]]],fy[#[[2]]],#[[3]]}&,list]
 
-MapZ::usage="MapZ[f_,list_] applies function f to Z elements in xyzlist"
 MapZ[f_,xyzlist_]:=Map[{#[[1]],#[[2]],f[#[[3]]]}&,xyzlist]
+
+End[]
 
 
 ScaleY::usage="ScaleX[list_,a_], ScaleY[list_,a_], ShiftX[list_,a_], ShiftY[list_,a_]
@@ -469,16 +493,26 @@ End[]
 
 IntervalInverse::usage="IntervalInverse[a_] returns complement (\[Minus]\[Infinity],\[Infinity])/a"
 
+Begin["`Privite`"]
+
 IntervalInverse[Interval[int___]]:=Interval@@Partition[
 	Flatten@{int}/.{{-\[Infinity],mid___,\[Infinity]}:>{mid},{-\[Infinity],mid__}:>{mid,\[Infinity]},{mid__,\[Infinity]}:>{-\[Infinity],mid},{mid___}:>{-\[Infinity],mid,\[Infinity]}},2]
+	
+End[]
 
 
 IntervalComplement::usage="IntervalComplement[a_,b_,c_,..] returnes a\[Backslash](b\:222ac\:222a\[Ellipsis])"
 
+Begin["`Privite`"]
+
 IntervalComplement[a_Interval,b__Interval]:=IntervalIntersection[a,IntervalInverse@IntervalUnion[b]]
+
+End[]
 
 
 FindLogFit::usage="FindLogFit[data_, expr_, rest__]. The function is equivalent to FindFit, but minimizes error on log Y scale."
+
+Begin["`Private`"]
 
 FindLogFit[data_,expr_,rest__]:=Module[{logData},
 (*The function is equivalent to FindFit, but works in log Y scale*)
@@ -489,6 +523,8 @@ FindLogFit[data_,expr_,rest__]:=Module[{logData},
 	];
 	FindFit[logData,Log[expr],rest]
 ]
+
+End[]
 
 
 FitRangeSelector::usage="FitRangeSelector[fitRanges_, traceList_]

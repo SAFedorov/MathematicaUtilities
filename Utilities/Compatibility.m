@@ -35,6 +35,8 @@ XScale::usage=""
 XShift::usage=""
 YShift::usage=""
 
+Begin["`Privite`"]
+
 YScale[list_,a:Except[_?OptionQ]:1,OptionsPattern[{XScale->1,XShift->0,YShift->0}]]:=Module[{dimL, dimA,xSc,xSh,ySh},
 (* 
 list is either an array of XY data of the format "{{Subscript[x, i],Subscript[y, i]}, ...}" (single list input);
@@ -109,10 +111,13 @@ Print["Error: no case found. dimL=",dimL,", dimA=",dimA];
 ]
 ]
 
+End[]
+
 
 \[Nu]FourierD::usage="\[Nu]FourierD[f_] computes the discrete Fourier transform of the function f, given as a list values {{Subscript[t, 0],Subscript[f, 0]},{Subscript[t, 0]+dt, Subscript[f, 1]},{Subscript[t, 0]+2dt,Subscript[f, 2]},...,{Subscript[t, 0]+n dt, Subscript[f, n]}}
 	The returned value is a list {-n\[CapitalDelta]\[Nu],{Overscript[f, ~](-n\[CapitalDelta]\[Nu])},...,{0, Overscript[f, ~](0)},...,{n \[CapitalDelta]\[Nu], Overscript[f, ~](n\[CapitalDelta]\[Nu])}}, where \[CapitalDelta]\[Nu]=\!\(\*FractionBox[\(1\), \(dt \((n - 1)\)/2\)]\) and n is rounded to the nearest smaller odd number.
 "
+Begin["`Privite`"]
 
 \[Nu]FourierD2[f_]:=Module[{\[Nu]Tmp, yTmp,l,dt},
 	l=Length[f];
@@ -131,9 +136,12 @@ Print["Error: no case found. dimL=",dimL,", dimA=",dimA];
 	\[Nu]FourierD2[Transpose[{f[[;;,1]]-t0,f[[;;,2]]}][[;;len2]]]
 ];
 (*\:0444\:0443\:043d\:043a\:0446\:0438\:044f \:043f\:0440\:0438\:043d\:0438\:043c\:0430\:0435\:0442 \:0441\:043f\:0438\:0441\:043e\:043a \:0437\:043d\:0430\:0447\:0435\:043d\:0438\:0439 f \:043d\:0430 \:0438\:043d\:0442\:0435\:0440\:0432\:0430\:043b\:0435 \:043f\:043e t \:0441 \:0448\:0430\:0433\:043e\:043c dt{{Subscript[f, 0],0},{Subscript[f, 1], dt},{Subscript[f, 2], 2dt},...,{Subscript[f, n], ndt}}, \:0432\:043e\:0437\:0432\:0440\:0430\:0449\:0430\:0435\:0442 \:0435\:0433\:043e \:0434\:0438\:0441\:043a\:0440\:0435\:0442\:043d\:043e\:0435 \:043f\:0440\:0435\:043e\:0431\:0440\:0430\:0437\:043e\:0432\:0430\:043d\:0438\:0435 \:0424\:0443\:0440\:044c\:0435 {{Overscript[f, ~](-n\[CapitalDelta]\[Omega]), -n\[CapitalDelta]\[Omega]},...,{Overscript[f, ~](-\[CapitalDelta]\[Omega]), -n\[CapitalDelta]\[Omega]},{Overscript[f, ~](0),0},{Overscript[f, ~](\[CapitalDelta]\[Omega]), n\[CapitalDelta]\[Omega]},...,{Overscript[f, ~](n\[CapitalDelta]\[Omega]), n\[CapitalDelta]\[Omega]}}*)
+End[]
 
 
 XYArea::usage=""
+
+Begin["`Privite`"]
 
 XYArea[XYData_,intRange_]:=Module[{tmpData},
 	(*Function integrates data over the int Range using sum over elements*)
@@ -141,15 +149,24 @@ XYArea[XYData_,intRange_]:=Module[{tmpData},
 	tmpData[[;;-2,2]].Differences[tmpData[[;;,1]]]
 ]
 
+End[]
+
 
 (*reflects XYData about x0 in x-direction*)
 XReflect::usage=""
 
+Begin["`Privite`"]
+
 XReflect[XYData_,x0_]:=Transpose[ {2x0-XYData[[;;,1]],XYData[[;;,2]]}]
+
+End[]
 
 
 YNormalize::usage="YNormalize[xylist_]
 	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to be within [0,1]"
+
+Begin["`Privite`"]
+
 YNormalize[list_]:=
 	Module[{ymin,ymax},
 	ymin=Min[list[[;;,2]]];
@@ -157,8 +174,12 @@ YNormalize[list_]:=
 	Transpose[{list[[;;,1]],(list[[;;,2]]-(ymax+ymin)/2) 2/(ymax-ymin)}]
 ];
 
+End[]
+
 
 XYFindPeaks::usage="XYFindPeaks[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]"
+
+Begin["`Privite`"]
 
 XYFindPeaks[XYData_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[{FindPeaks,sign-> 1}]]:=
 Module[{peakIndexList,peakValList,xInterp},
@@ -168,11 +189,17 @@ Module[{peakIndexList,peakValList,xInterp},
 	Transpose[{Thread[xInterp[peakIndexList]],peakValList}]
 ];
 
+End[]
 
 
 ListOfXYListsQ::usage="ListOfXYListsQ[list_]
 	Obsolete equivalent of XYListQ[list,2]. Use XYListQ latter instead"
+
+Begin["`Privite`"]
+
 ListOfXYListsQ[list_]:=ListQ[list]&& AllTrue[list,XYListQ]
+
+End[]
 
 
 FindFitSeries::usage="Obsolete name of ThreadFindFit"
