@@ -261,7 +261,7 @@ SSXY[list_?(XYListQ[#,2]&),xSc_,ySc_,xSh_,ySh_]:=Module[{xScListQ,yScListQ,xShLi
 		SSXY[list[[i]],xScTmp,yScTmp,xShTmp,yShTmp]
 		,
 		{i,Length[list]}
-	];
+	]
 ]
 		
 ScaleY[list_, a:Except[_?OptionQ]:1, OptionsPattern[{ScaleX->1,ShiftX->0,ShiftY->0}]]:=Module[{xSc,ySc,xSh,ySh},
