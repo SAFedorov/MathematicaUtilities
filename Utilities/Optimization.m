@@ -33,7 +33,7 @@ Input:
 Output:
 	{\!\(\*SubscriptBox[\(f\), \(max\)]\), {.., \!\(\*SubscriptBox[\(x\), \(i\)]\)\[Rule]\!\(\*SubscriptBox[\(x\), \(i . max . val\)]\), ...}}"
 	
-Begin["`Privite`"]
+Begin["`Private`"]
 
 RSMaximize[f_,varIntervalList_,nIterations_]:=Module[{tmpVarRuleList,tmpFOM,bestSol,exitNowQ},
 	(*the temporary maximim value of f and the set of parameters at which it is achieved*)

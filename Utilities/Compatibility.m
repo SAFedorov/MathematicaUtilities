@@ -35,7 +35,7 @@ XScale::usage=""
 XShift::usage=""
 YShift::usage=""
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 YScale[list_,a:Except[_?OptionQ]:1,OptionsPattern[{XScale->1,XShift->0,YShift->0}]]:=Module[{dimL, dimA,xSc,xSh,ySh},
 (* 
@@ -117,7 +117,7 @@ End[]
 \[Nu]FourierD::usage="\[Nu]FourierD[f_] computes the discrete Fourier transform of the function f, given as a list values {{Subscript[t, 0],Subscript[f, 0]},{Subscript[t, 0]+dt, Subscript[f, 1]},{Subscript[t, 0]+2dt,Subscript[f, 2]},...,{Subscript[t, 0]+n dt, Subscript[f, n]}}
 	The returned value is a list {-n\[CapitalDelta]\[Nu],{Overscript[f, ~](-n\[CapitalDelta]\[Nu])},...,{0, Overscript[f, ~](0)},...,{n \[CapitalDelta]\[Nu], Overscript[f, ~](n\[CapitalDelta]\[Nu])}}, where \[CapitalDelta]\[Nu]=\!\(\*FractionBox[\(1\), \(dt \((n - 1)\)/2\)]\) and n is rounded to the nearest smaller odd number.
 "
-Begin["`Privite`"]
+Begin["`Private`"]
 
 \[Nu]FourierD2[f_]:=Module[{\[Nu]Tmp, yTmp,l,dt},
 	l=Length[f];
@@ -141,7 +141,7 @@ End[]
 
 XYArea::usage=""
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 XYArea[XYData_,intRange_]:=Module[{tmpData},
 	(*Function integrates data over the int Range using sum over elements*)
@@ -155,7 +155,7 @@ End[]
 (*reflects XYData about x0 in x-direction*)
 XReflect::usage=""
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 XReflect[XYData_,x0_]:=Transpose[ {2x0-XYData[[;;,1]],XYData[[;;,2]]}]
 
@@ -165,7 +165,7 @@ End[]
 YNormalize::usage="YNormalize[xylist_]
 	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to be within [0,1]"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 YNormalize[list_]:=
 	Module[{ymin,ymax},
@@ -179,7 +179,7 @@ End[]
 
 XYFindPeaks::usage="XYFindPeaks[xylist_, \[Sigma]_:0, s_:0, t_:-\[Infinity]]"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 XYFindPeaks[XYData_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[{FindPeaks,sign-> 1}]]:=
 Module[{peakIndexList,peakValList,xInterp},
@@ -195,7 +195,7 @@ End[]
 ListOfXYListsQ::usage="ListOfXYListsQ[list_]
 	Obsolete equivalent of XYListQ[list,2]. Use XYListQ latter instead"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 ListOfXYListsQ[list_]:=ListQ[list]&& AllTrue[list,XYListQ]
 

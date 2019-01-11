@@ -32,7 +32,7 @@ SetRamRestriction::usage = "SetRamRestriction[maxMemAllowedGB_:2,intervalBetween
 Output:
 	ScheduledTaskObject which can be used stop the memory monitoring by RemoveScheduledTask[]"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 SetRamRestriction[maxMemAllowedGB_:2,intervalBetweenTests_:5]:=(
 	ramBelowThresholdSignal=0;
@@ -46,7 +46,7 @@ End[]
 PrintDefaultHeader::usage = "PrintDefaultHeader[]
 	Print sequence of typical commands used in the beginning of notebook"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 PrintDefaultHeader[]:=NotebookWrite[InputNotebook[],{
 Cell[CellGroupData[{
@@ -107,7 +107,7 @@ compilationOptionsC=Sequence[
 
 FunctionQ::usage="FunctionQ[expr_] tests if expression is a Function, CompiledFunction or InterpolatingFunction."
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 (*Adopted from http://stackoverflow.com/questions/3736942/test-if-an-expression-is-a-function*)
 FunctionQ[_Function|_InterpolatingFunction|_CompiledFunction]=True
@@ -121,7 +121,7 @@ End[]
 NumericVectorQ::usage="NumericVectorQ[expr_] tests if expr is a vertor with all numeric elements"
 NumericArrayQ::usage="NumericArrayQ[expr_] tests if expr is an array with all numeric elements"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 NumericVectorQ[expr_]:=VectorQ[expr,NumericQ]
 NumericArrayQ[expr_]:=ArrayQ[expr,_,NumericQ]
@@ -144,7 +144,7 @@ notOptPatt=Except[_?OptionQ]
 XYListQ::usage="XYListQ[list_], XYListQ[list_,d_]
 	Test if list is a xylist of dimension d, d=1 if omitted."
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 XYListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==2)
 XYListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYListQ,d-1]
@@ -156,7 +156,7 @@ End[]
 XYZListQ::usage="XYZListQ[list_], XYZListQ[list_,d_]
 	Test if list is and xyzlist of the dimension d, d=1 if omitted."
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 XYZListQ[list_]:=ArrayQ[list,2]&&(Dimensions[list][[2]]==3)
 XYZListQ[list_,d_]:=ListQ[list]&& AllTrue[list,XYZListQ,d-1]
@@ -173,7 +173,7 @@ Options:
 
 Options[InRangeQ]={IncludeBoundary->True}
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 InRangeQ[x_,range_,OptionsPattern[{InRangeQ}]]:=Module[{upCompFunc,lowCompFunc,ibOpt},
 	ibOpt=OptionValue[IncludeBoundary];
@@ -299,7 +299,7 @@ End[]
 NormalizeY::usage="NormalizeY[xylist_]
 	Function accepts 2D array of data (xylist) and rescales it along Y coordinate to within [0,1]"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 NormalizeY[list_]:=
 	Module[{ymin,ymax},
@@ -397,7 +397,7 @@ Options:
 
 Options[FindPeaksXY]=Join[Options[FindPeaks],{PeakSign->1}]
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 FindPeaksXY[xylist_,\[Sigma]:Except[_?OptionQ]:0,s:Except[_?OptionQ]:0,t:Except[_?OptionQ]:-\[Infinity],opts:OptionsPattern[]]:=
 Module[{peakIndexList,peakValList,xInterp,peakSign},
@@ -462,7 +462,7 @@ Options:
 
 Options[IntegrateXY]=Options[Interpolation]
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 (*Integration range specified as {Subscript[x, min], Subscript[x, max]}*)
 IntegrateXY[xylist_?XYListQ, intRange:{_?NumericQ,_?NumericQ}, opts:OptionsPattern[]]:=Module[{interpData,interpOpts},
@@ -483,7 +483,7 @@ End[]
 
 ReflectX::usage = "ReflectX[xylist_,x0_] reflects the x values of xylist with respect to x0"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 ReflectX[xylist_,x0_]:=Transpose[ {2x0-xylist[[;;,1]],xylist[[;;,2]]}]
 End[]
 
@@ -493,7 +493,7 @@ End[]
 
 IntervalInverse::usage="IntervalInverse[a_] returns complement (\[Minus]\[Infinity],\[Infinity])/a"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 IntervalInverse[Interval[int___]]:=Interval@@Partition[
 	Flatten@{int}/.{{-\[Infinity],mid___,\[Infinity]}:>{mid},{-\[Infinity],mid__}:>{mid,\[Infinity]},{mid__,\[Infinity]}:>{-\[Infinity],mid},{mid___}:>{-\[Infinity],mid,\[Infinity]}},2]
@@ -503,7 +503,7 @@ End[]
 
 IntervalComplement::usage="IntervalComplement[a_,b_,c_,..] returnes a\[Backslash](b\:222ac\:222a\[Ellipsis])"
 
-Begin["`Privite`"]
+Begin["`Private`"]
 
 IntervalComplement[a_Interval,b__Interval]:=IntervalIntersection[a,IntervalInverse@IntervalUnion[b]]
 
