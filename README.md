@@ -47,7 +47,7 @@ The plotting package includes the definitions of a few gradient color sets (e.g.
  
 Other parts are slightly more specialized. `CellReuse` package implements copy-pasting of scripts with replacing certain labels in the variable names, which is convenient at the stage when one has a script that analyzes one set of data and then needs to apply it to a different dataset while keeping the previous data still in the Mathematica workspace. The usage of this package is illustrated in the manual.  
  
--`FemTools` include a couple of function for importing and processing data saved from COMSOL (like parametric sweeps), and also efficient integration routines on 2D and 3D triangular meshes.
+`FemTools` includes a couple of function for importing and processing data saved from COMSOL (like parametric sweeps), and also efficient integration routines on 2D and 3D triangular meshes.
  
 
 ## Implementation remarks
