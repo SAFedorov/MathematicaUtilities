@@ -1,6 +1,6 @@
 # MathematicaUtilities
 
-This package contains useful function for common tasks arising in data processing and calculations using Mathematica. 
+This package contains useful function for common tasks arising during data processing and numerical calculations using Mathematica. 
 The content is split into a few sub-packages, each of which can be loaded independently and only relies on the functions 
 from the DataAnalysis package.   
 	Components:
