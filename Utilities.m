@@ -10,6 +10,7 @@ Get[FileNameJoin[{"Utilities","Fourier.m"}]]
 Get[FileNameJoin[{"Utilities","Compatibility.m"}]]
 Get[FileNameJoin[{"Utilities","FemTools.m"}]]
 Get[FileNameJoin[{"Utilities","Optimization.m"}]]
+Get[FileNameJoin[{"Utilities","CellReuse.m"}]]
 
 utilitiesStyleGuide="
 Variables are named camelCase 

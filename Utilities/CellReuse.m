@@ -1,11 +1,8 @@
 (* ::Package:: *)
-(* ::Section::Closed:: *)
-(*Begin package*)
-BeginPackage["Utilities`CellReuse`"]
-
 
 (* ::Section:: *)
 (*Description*)
+
 
 (*Functions for reuse of the cell content*)
 
@@ -20,6 +17,8 @@ GetCellIDButton::usage="GetCellIDButton[cellIDList]"
 
 (* ::Section:: *)
 (*Body*)
+
+
 Begin["`Private`"]
 
 
@@ -109,7 +108,10 @@ Module[{cellList,cellListTransf,nb},
 	]
 ]
 
-(* ::Section::Closed:: *)
+
+
+(* ::Section:: *)
 (*End*)
+
+
 End[]
-EndPackage[]
