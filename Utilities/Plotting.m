@@ -28,7 +28,7 @@ GenerateGridLines::"usage"="GenerateGridLines[xMin_,xMax_,step_,OptionsPattern[]
 SweepListLogPlot::usage="SweepListLogPlot[plotData_,opts]"
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Definitions*)
 
 
@@ -57,6 +57,12 @@ greenColors::usage="Table[Blend[{ColorData[38,\"ColorList\"][[3]],CMYKColor[1,0,
 yellowColors::usage="Table[
 	Blend[{ColorData[50,\"ColorList\"][[6]],ColorData[50,\"ColorList\"][[2]],ColorData[50,\"ColorList\"][[8]]},x],
 	{x,0,1,0.2}]"
+	
+BlueColors::usage="BlueColors[n_] gives a list of blue color shades of the length n_"
+
+RedColors::usage="RedColors[n_] gives a list of red color shades of the length n_"
+
+GreenColors::usage="GreenColors[n_] gives a list of green color shades of the length n_"
 
 
 (* ::Section:: *)
@@ -66,7 +72,7 @@ yellowColors::usage="Table[
 Begin["`Private`"]
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Definitions*)
 
 
@@ -80,6 +86,10 @@ defaultPlotFrameOptions=Sequence[
 defaultPlotGridOptions=Sequence[GridLines->Automatic,
 	GridLinesStyle->Directive[LightGray,AbsoluteThickness[1]]
 ];
+
+
+(* ::Subsection:: *)
+(*Sets of colors*)
 
 
 (*97-standard colors list*)
@@ -102,6 +112,20 @@ greenColors=Table[
 yellowColors=Table[
 	Blend[{ColorData[50,"ColorList"][[6]],ColorData[50,"ColorList"][[2]],ColorData[50,"ColorList"][[8]]},x],
 {x,0,1,0.2}];
+
+
+(*Lists of colors with variable numbers of elements*)
+RedColors[n_]:=Table[
+	Blend[{ColorData[2,"ColorList"][[3]],ColorData[2,"ColorList"][[1]],ColorData[5,"ColorList"][[1]]},x],
+{x,0,1,1/(n-1)}];
+
+BlueColors[n_]:=Table[
+	Blend[{CMYKColor[1,0,0,.25],CMYKColor[1,0.7,0,.25]},x],
+{x,0,1,1/(n-1)}];
+
+GreenColors[n_]:=Table[
+	Blend[{ColorData[38,"ColorList"][[3]],CMYKColor[1,0,1,.5]},x],
+{x,0,1,1/(n-1)}];
 
 
 (* ::Subsection::Closed:: *)
