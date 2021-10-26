@@ -117,15 +117,11 @@ FunctionQ[_]=False
 End[]
 
 
-(*Tests if the argument is a vector or array of numbers*)
+(*Tests if the argument is a vector of numbers*)
 NumericVectorQ::usage="NumericVectorQ[expr_] tests if expr is a vertor with all numeric elements"
-NumericArrayQ::usage="NumericArrayQ[expr_] tests if expr is an array with all numeric elements"
 
 Begin["`Private`"]
-
 NumericVectorQ[expr_]:=VectorQ[expr,NumericQ]
-NumericArrayQ[expr_]:=ArrayQ[expr,_,NumericQ]
-
 End[]
 
 
