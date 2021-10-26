@@ -1,5 +1,7 @@
 (* ::Package:: *)
 
+(*Author: Sergey Fedorov (SAFedorov)*)
+
 (*Main file that loads all the package components, which can be also loaded separately*)
 BeginPackage["Utilities`"]
 

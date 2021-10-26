@@ -6,7 +6,7 @@
 
 (*Functions for reuse of the cell content*)
 
-CellReuseSequencePrint::usage="CellReuseSequencePrint[] prints a sequence of commands for re evaluation of cells with tag replacement rules"
+PrintCellReuseSection::usage="PrintCellReuseSection[] prints a sequence of commands for re evaluation of cells with tag replacement rules"
 
 CreateCellIDs::usage="CreateCellIDs[]"
 
@@ -22,7 +22,7 @@ GetCellIDButton::usage="GetCellIDButton[cellIDList]"
 Begin["`Private`"]
 
 
-CellReuseSequencePrint[]:=CellPrint[
+PrintCellReuseSection[]:=CellPrint[
 	Cell[
 		CellGroupData[{
 			Cell["New", "Section"],
