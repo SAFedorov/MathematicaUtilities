@@ -1,36 +1,76 @@
 # MathematicaUtilities
 
-An experimental physicist's aid in common data analysis routines.
-This package contains a set of functions useful in processing data acquired from laboratory instruments and in numerical calculations using Mathematica. Since the majority of experimental data comes in the form of xy lists (`{{x1, y1}, {x2, y2}, ...}`), the core of the package is dedicated to handling and analysis of data in this format. 
+An experimental physicist's aid in data analysis using Mathematica.
 
-The content is split into a few sub-packages, each of which only relies on functions within itself and DataAnalysis sub-package. 
-
-The components:
-	
-	DataAnalysis - Functions for manipulations with lists of {x, y} and {x, y, z} data, useful patterns, 
-		fitting routines, batch data analysis etc.
-	CellReuse - A set of functions for copying Mathematica cells with replacing name tags. Doing so allows 
-		to rerun once-written code for diffrent input data in one notebook while keeping all variables 
-		global.
-	Plotting - Definitions of custom color lists, plotting options and a few plotting functions 
-		beyond the Mathematica standard catalog. Also has an interactive plot browser. 
-	Fourier - High-level routines for performing Discrete Fourier Transform on sets of {x, y} data. 
-	Compatibility - A repository of outdated and superseded functions kept for backward compatibility.
-
-Among others, the packages is used in [Euler-Bernoulli beam](https://zenodo.org/record/1296925#.YVon7ZqxVPY).
+The core of the package is dedicated to operations on lists of the form `{{x1, y1}, {x2, y2}, ...}` (named `XYLists`), a natural format for many kinds of experimental and numerical simulation data.
 
 Tested with Mathematica 11.0
 
+## Installation
+
+To use this package, the "utilities.m" file and the "Utilities" folder of this repo should be reachable from the Mathematica `$Path`. One way to arrange this is to download the repo content into a local folder, e.g. "C:\\...\\MathematicaUtilities", and add the following command to the Mathematica initialization file `$UserBaseDirectory`\Kernel\init.m:
+```Mathematica
+Module[{dirname},
+	dirname="C:\\...\\MathematicaUtilities";
+	If[!MemberQ[$Path,dirname],PrependTo[$Path,dirname]]
+]
+```
+This will automatically make the package reachable on every startup.
+
+Alternatively, a simpler solution is just to keep the "Utilities" folder in the same folder as the Mathematica notebook that uses it.
+
 ## Getting started
 
-The package is loaded as usual by adding its root directory on the Mathematica path and executing `<< "Utilities.m"`. Doing this loads all sub-packages.
+Suppose that there is a data table - an oscilloscope trace in this example - that is saved in a txt file like this
+```
+# Time (s) Voltage (V)
+-0.010000000 4.396614e-05
+-0.009997395 4.396614e-05
+...
+```
+Below there are a few illustrations of what can be done with it using the functions in the package. Loading the package and the trace is done as
+
+```Mathematica
+SetDirectory[NotebookDirectory[]];
+<< Utilities.m
+
+xylist = Import[".\\Example data\\1. cavity transmission 1.txt", 
+    "Table"][[2 ;;]];
+```
+
+Plotting the data over a certain range of x values
+```Mathematica
+ListPlot[SelectRange[data, {-0.004, 0.004}], defaultPlotFrameOptions, 
+ PlotRange -> Full, Axes -> False, Joined -> True]
+```
+![SelectRange](Img/SelectRange.png)
+
+Rescaling the data along the x axis and subtracting an offset along the y axis
+```Mathematica
+ScaleX[ShiftY[data, -0.1], 10^4]
+```
+(both the scale and the offset can also be `XYList`s, in which case the functions apply their y values, while their x values are assumed to be the same those of `data`).
+
+Peak finding
+```Mathematica
+FindPeaksXY[xylist, 1, 0, 0.06]
+{{0.00029427, 0.11662688377599999}}
+```
+
+Area integration under both small peaks
+```Mathematica
+IntegrateXY[data, {{-0.002, -0.0018}, {0.002, 0.0025}}]
+7.14425*10^-7
+```
 
 To see help for a function, use `??` command, such as
-```
+```Mathematica
 ?? ScaleX
 ```
 
-The most commonly useful functions in my experience are those from `DataAnalysis`, especially those that work with lists of `{x,y}` values - the predominant format of instrument traces. They include
+## General overview
+
+The most commonly useful functions in my experience are 
 
 - `ScaleY`, `ScaleX`, `ShiftY` and `ShiftX` can rescale a list of xy data in X and Y directions and shift the origin in a single command. 
  
@@ -43,16 +83,30 @@ The most commonly useful functions in my experience are those from `DataAnalysis
 - `LoadDataSeries` – loads files that have parameters in their name (say "spectrum_power_x_mW.txt") and returns data vs parameter
 - Test patterns can be also useful, for example see `FunctionQ` or `XYListQ`.
 
-Note that these functions are typically automatically threaded over lists of xy traces.
+These functions are typically automatically threaded over lists of xy traces.
  
 The plotting package includes the definitions of a few gradient color sets (e.g. `redColors` and `blueColors`). These gradients are handy for quickly beautifying plots. Also there are:
 - `ListPlotJ` – a family of functions that plot discrete data points and lines that join them at the same time. This is a surprisingly annoying thing to implement in Mathematica. 
-- `PlotExplorer`  - a function that makes Mathematica plots interactive and adds interactive zoom capabilities. Beware that it can be slow with large datasets. 
+- `PlotExplorer`  - a function that makes Mathematica plots interactive by adding zoom capabilities. Can be slow for large datasets. 
+
+## Sub-packages
+
+* `DataAnalysis` - Functions operating with lists of `{x, y}` and `{x, y, z}` data, data matching patterns, fitting routines, batch data analysis etc.
+* `CellReuse` - Functions for copying Mathematica cells with replacing name tags. Enables reusing once-written code for diffrent input data while keeping all variables simultaneously in the global scope.
+* `Plotting` - Color lists, plotting options and a few plotting functions beyond the Mathematica standard catalog. 
+* `Fourier` - High-level routines for performing Discrete Fourier Transform on `XYList`s. 
+* `FemTools` - Function for importing and processing data generated by COMSOL (such as tables with results of parametric sweeps), and efficient integration routines for functions defined on 2D triangular and 3D tetrahedral meshes.
  
-Other sub-packages are slightly more specialized. `CellReuse` package implements copy-pasting of scripts with replacing certain labels in the variable names, which is convenient at the stage when one has a script that analyzes one set of data and then needs to apply it to a different dataset while keeping the previous data still in the Mathematica workspace.   
- 
-`FemTools` includes a couple of function for importing and processing data saved from COMSOL (such as parametric sweeps), and also efficient integration routines on 2D and 3D triangular (tetrahedral) meshes.
- 
+ ## Applications
+
+For application examples one is invited to have a look at the repos with the data and data processing notebooks for our manuscripts
+
+* [Quantum Correlations of Light from a Room-Temperature Mechanical Oscillator](https://zenodo.org/records/854557)
+* [Elastic strain engineering for ultralow mechanical dissipation](https://zenodo.org/records/10927399)
+* [Thermal intermodulation noise in cavity-based measurements](https://zenodo.org/records/3747301)
+* [Squeezed light from an oscillator measured at the rate of oscillation](https://zenodo.org/records/10927399)
+
+MathematicaUtilities are also used in [Euler-Bernoulli beam](https://zenodo.org/record/1296925#.YVon7ZqxVPY).
 
 ## Implementation remarks
 
@@ -66,6 +120,5 @@ Those .m files that do not have associated .nb files with the same name can be e
 
 ## Acknowledgements
 
-The family of functions MapX.. is adopted with revision from the V. Sudhir's He3Analysis package.
-Also a few functions are based on or completely borrowed from the discussions at mathematica.stackexchange.com and
-stackoverflow.com, with appropriate references in such case. 
+The family of functions MapX.. is adopted from the [Vivishek Sudhir](https://github.com/vivisheksudhir)'s He3Analysis package.
+Also a few functions are based on discussions at mathematica.stackexchange.com and stackoverflow.com, with appropriate references in those cases. 
