@@ -2,26 +2,28 @@
 
 An experimental physicist's aid in data analysis using Mathematica.
 
-The core of the package is dedicated to operations on lists of the form `{{x1, y1}, {x2, y2}, ...}` (named `XYLists`), a natural format for many kinds of experimental and numerical simulation data.
+The core of the package is dedicated to operations on lists of x and y values stored as `{{x1, y1}, {x2, y2}, ...}` – a natural format in which many kinds of experimental and numerical data come to be processed. Such lists are unsurprisingly called `XYLists` throughout the package.
 
 Tested with Mathematica 11.0
 
 ## Installation
 
-To use this package, the "utilities.m" file and the "Utilities" folder of this repo should be reachable from the Mathematica `$Path`. One way to arrange this is to download the repo content into a local folder, e.g. "C:\\...\\MathematicaUtilities", and add the following command to the Mathematica initialization file `$UserBaseDirectory`\Kernel\init.m:
+To use this package, the "utilities.m" file and the "Utilities" folder of this repo should be reachable from the Mathematica `$Path`. 
+
+The simplest way to achieve this is to copy the "Utilities" folder from this repository to the folder with the Mathematica notebook that you would like to use the package from.
+
+Alternatively, to have the package always available right after the Mathematica startup, download the repo locally, e.g. to "C:\\...\\MathematicaUtilities", and add the following command to the initialization file `$UserBaseDirectory`\Kernel\init.m:
 ```Mathematica
 Module[{dirname},
 	dirname="C:\\...\\MathematicaUtilities";
 	If[!MemberQ[$Path,dirname],PrependTo[$Path,dirname]]
 ]
 ```
-This will automatically make the package reachable on every startup.
 
-Alternatively, a simpler solution is just to keep the "Utilities" folder in the same folder as the Mathematica notebook that uses it.
 
 ## Getting started
 
-Suppose that there is a data table - an oscilloscope trace in this example - that is saved in a txt file like this
+Suppose that there is a data table – an oscilloscope trace in this example – that is saved in a txt file like this
 ```
 # Time (s) Voltage (V)
 -0.010000000 4.396614e-05
@@ -68,34 +70,35 @@ To see help for a function, use `??` command, such as
 ?? ScaleX
 ```
 
-## General overview
+## Overview
 
-The most commonly useful functions in my experience are 
+The functions that I presonally used most are 
 
 - `ScaleY`, `ScaleX`, `ShiftY` and `ShiftX` can rescale a list of xy data in X and Y directions and shift the origin in a single command. 
  
 - `SelectRange` – pick data points which x values belong to a certain range. Also the lower-level function `InRangeQ` that it uses is useful per se.
-- `IntegrateXY` – a routine that efficiently integrates y(x) represented as a xy list and nicely handles arbitrary x boundaries and disjoined intervals (say, x ranging from 1 to 1.5 *and*  2 to 2.5)
-- `Average` – performs a running average of an xy list with subsequent downsampling. It takes care so that the averaging region is always centered around the corresponding downsampled x values.
+- `IntegrateXY` – a routine that efficiently integrates y(x) represented as a xy list and nicely handles arbitrary x boundaries and disjoined intervals (say, of x ranging from 1 to 1.5 *and*  2 to 2.5, which is handy for outlier exclusion).
+- `Average` – performs a running average of an xy list over x with subsequent downsampling. It takes care to properly center the averaged y value around the downsampled x values.
 
-- `FindLogFit` – Fitting on log scale. Can be used to make fitting more robust when the magnitude of data in one trace spans several different scales.
-- `ThreadFindFit` – threads a fitting function over a list of xylists, possibly restricting to the x values within a certain interval.
+- `FindLogFit` – the same as `FindFit`, but with the error defined on log scale. Can be used to make fitting more robust.
+- `ThreadFindFit` – applies a fitting function over a list of xylists, possibly restricting to the x values within a certain interval.
 - `LoadDataSeries` – loads files that have parameters in their name (say "spectrum_power_x_mW.txt") and returns data vs parameter
 - Test patterns can be also useful, for example see `FunctionQ` or `XYListQ`.
 
 These functions are typically automatically threaded over lists of xy traces.
  
-The plotting package includes the definitions of a few gradient color sets (e.g. `redColors` and `blueColors`). These gradients are handy for quickly beautifying plots. Also there are:
-- `ListPlotJ` – a family of functions that plot discrete data points and lines that join them at the same time. This is a surprisingly annoying thing to implement in Mathematica. 
-- `PlotExplorer`  - a function that makes Mathematica plots interactive by adding zoom capabilities. Can be slow for large datasets. 
+The plotting package includes:
+* definitions of gradient color sets (e.g. `redColors` and `blueColors`) for quickly beautifying plots.
+- `ListPlotJ` – a family of functions that plot discrete data points and continuous lines joining them. This is surprisingly annoying to implement using built-in Mathematica functions. 
+
 
 ## Sub-packages
 
 * `DataAnalysis` - Functions operating with lists of `{x, y}` and `{x, y, z}` data, data matching patterns, fitting routines, batch data analysis etc.
 * `CellReuse` - Functions for copying Mathematica cells with replacing name tags. Enables reusing once-written code for diffrent input data while keeping all variables simultaneously in the global scope.
 * `Plotting` - Color lists, plotting options and a few plotting functions beyond the Mathematica standard catalog. 
-* `Fourier` - High-level routines for performing Discrete Fourier Transform on `XYList`s. 
-* `FemTools` - Function for importing and processing data generated by COMSOL (such as tables with results of parametric sweeps), and efficient integration routines for functions defined on 2D triangular and 3D tetrahedral meshes.
+* `Fourier` - High-level routines for Discrete Fourier Transforms on `XYList`s. 
+* `FemTools` - Function for importing and processing data generated by COMSOL (such as tables with results of parametric sweeps), and integration of data defined over 2D triangular and 3D tetrahedral meshes using interpolation.
  
  ## Applications
 
